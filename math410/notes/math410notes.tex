@@ -90,6 +90,66 @@
 \tableofcontents
 \newpage
 
+\section{Set Theory Preliminaries}
+
+This section covers the foundation of analysis, which is just the set of real numbers. 
+It covers basic definitions such as $\in, \notin, \emptyset, \subseteq, =, \cap, \cup, \backslash$, so for example
+
+\begin{definition}
+  \vocab{Intersection} of $A$ and $B$ is $C= A \cap B = \{x \ | \ x \in A \text{ and } x \in B\}$
+\end{definition}
+
+Some quantifiers include $\forall, \exists, \exists!$ and some number sets include $\RR, \NN, \ZZ, \QQ, \QQ^C$. 
+
+\begin{definition}
+  The real numbers \vocab{$\RR$} satisfies 3 groups of axioms: Refer to the notes on Canvas for the Consequences of all of the following axioms.
+  \begin{enumerate}
+    \item Field (+, $*$) 
+    \begin{itemize}
+      \item Commutativity of Addition
+      \item Associativity
+      \item Additive Identity
+      \item Additive Inverse
+      \item Commutativty of Multiplcation
+      \item Associativity of Multiplication
+      \item Multiplicative Identity
+      \item Multiplicative Inverse
+      \item Distributive Property
+    \end{itemize}
+  The set of integers $\ZZ$ is not a field because it fails under the multiplicative inverse.
+    \item Positivity
+    
+    There is a subset of $\RR$ denoted by $\mathcal{P}$, called the set of positive numbers for which: 
+    \begin{itemize}
+      \item If $x$ and $y$ are positive, then $x + y$ and $xy$ are both positive.
+      \item For each $x \in \RR$, eaxctly one of the following 3 alternatives is true: $x \in \mathcal{P}$, $-x \in \mathcal{P}$, or $x = 0$
+    \end{itemize}
+
+    \item Completeness
+  \end{enumerate}
+\end{definition}
+
+\begin{definition}
+  \vocab{Absolute value} is defined as 
+  \[|x| = \begin{cases}
+    x \text{ if } x \geq 0\\
+    -x \text{ if } x < 0 
+  \end{cases}\]
+
+\end{definition}
+
+\begin{definition}
+  \vocab{Triangle Inequality} is $\forall \ a, b \in \RR, |a + b| \leq |a| + |b|$
+\end{definition}
+
+\begin{proof}
+  Assume without loss of generality, $a \geq b$. We will proceed with proof by cases.
+
+  Case 1: Assume $a \geq b \geq 0$. Then $|a + b| = a + b$ by the definition of absolute value since 
+  $a \geq 0, b \geq 0 \implies |a + b| = a + b = |a| + |b|$.
+
+  Case 2: 
+\end{proof}
 
 \end{document}
 
