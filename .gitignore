@@ -12,6 +12,7 @@
 *.cb2
 .*.lb
 notes.tex
+notes.pdf
 
 ## Intermediate documents:
 *.dvi
