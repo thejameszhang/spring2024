@@ -148,8 +148,80 @@ Some quantifiers include $\forall, \exists, \exists!$ and some number sets inclu
   Case 1: Assume $a \geq b \geq 0$. Then $|a + b| = a + b$ by the definition of absolute value since 
   $a \geq 0, b \geq 0 \implies |a + b| = a + b = |a| + |b|$.
 
-  Case 2: 
+  Case 2: Now assume $a \geq 0 \geq b$ and $a + b \geq 0$. Note since $b \leq 0$ then 
+  $b \leq |b|$. Then 
+  \[|a + b| = a + b \leq |a| + |b|\]
+  by the definition of absolute value and our above note.
+
+  Case 3: Now consider $a \geq 0 \geq b$ and $a + b < 0$. So 
+  \[|a + b| = -(a + b) = -a - b \leq |a| + |b|\]
+
+  Case 4: Now consider $0 \geq a \geq b$ so $a + b < 0$.
+  Therefore, 
+  \[|a + b| = -(a + b) = -a + - b = |a| + |b|\]
+
 \end{proof}
+
+\section{The Completeness Axiom}
+
+\begin{definition}
+  A subset S of $\RR$ is said to be \vocab{bounded above} if $\exists \ r\in\RR$ such that
+  $s \leq r \ \forall \ s \in S$
+
+  The definition of \vocab{bounded below} is similar.
+\end{definition}
+
+\begin{definition}
+  The least upper bound, if it exists, is called the \vocab{supremum} of $S$. 
+  We denote it as the "sup" of $S$. Similarly, the largest lower bound is called
+  the \vocab{infemum} and is denoted as the "inf" of $S$.
+\end{definition}
+
+\begin{definition}
+  Let $S \subseteq R$ where $S\ \neq \ \emptyset$. If $S$ hs a largest (smallest), 
+  the element is a max (min).
+\end{definition}
+
+
+\begin{example}
+  Find the sup of $(0, 1)$ and prove it. 
+  \begin{proof}
+
+    Let us prove that the $sup(0, 1) = 1$. First, let us show that we have 
+    an upperbound. If $x \in (0, 1)$, then $x \leq 1$. By definition of upperbound,
+    1 is an upper bound. Note that we can find many other upper bounds. 
+    
+    On the contrary, assume $x < 1$ is an upper bound. Now consider the average
+    $\frac{1 + x}{2}$. 
+    \[\frac{x + 1}{2} < \frac{1 + 1}{2} = 1\]
+    Therefore, we have showed that $0 < \frac{x + 1}{2} < 1 \implies \frac{x + 1}{2} (0, 1)$. 
+    But, $\frac{1 + x}{2} > \frac{x + x}{2} \implies \frac{1 + x}{2} > x$. This is a contradiction. Since 
+    $x$ is an upper bound, and we found $\frac{1 + x}{2} \in (0, 1)$ where $\frac{1 + x}{2} > x$, 
+    so $x$ is not a supremum.
+
+  \end{proof}
+\end{example}
+
+\begin{theorem}
+  Suppose $S \in \RR, S \neq \emptyset$ that is bounded above. Then a 
+  supremum exists. Every nonsempty subset $S$ of $\RR$ that is bounded below has a
+  lower bound.
+\end{theorem}
+
+\begin{note}
+  Let $c$ be a positive number. $\exists !$
+\end{note}
+
+\begin{definition}
+  The \vocab{Archimedian Property} is a result of the completeness axiom. Suppose there 
+  is a small $\epsilon > 0$ and $c$ is an arbitrary large number. 
+  \begin{enumerate}
+    \item $\exists \ n \in \NN$ such that $c < n$, which just means that you can always find a 
+  natural number than any large number
+    \item $\exists \ m \in \NN$ such that $\frac{1}{m} < \epsilon$, which just means you can always
+  find smaller rational numbers.
+  \end{enumerate}
+\end{definition}
 
 \end{document}
 
