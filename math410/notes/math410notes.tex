@@ -178,7 +178,7 @@ Some quantifiers include $\forall, \exists, \exists!$ and some number sets inclu
 \end{definition}
 
 \begin{definition}
-  Let $S \subseteq R$ where $S\ \neq \ \emptyset$. If $S$ hs a largest (smallest), 
+  Let $S \subseteq R$ where $S\ \neq \ \emptyset$. If $S$ has a largest (smallest), 
   the element is a max (min).
 \end{definition}
 
@@ -209,8 +209,12 @@ Some quantifiers include $\forall, \exists, \exists!$ and some number sets inclu
 \end{theorem}
 
 \begin{note}
-  Let $c$ be a positive number. $\exists !$
+  Let $c$ be a positive number then $\exists !$ a positive number whose
+  square is $c$. $x^2 = c, x > 0$ has a unique solution and this gives us 
+  the notion of square root. 
 \end{note}
+
+\subsection{Archimedian Property}
 
 \begin{definition}
   The \vocab{Archimedian Property} is a result of the completeness axiom. Suppose there 
@@ -222,6 +226,64 @@ Some quantifiers include $\forall, \exists, \exists!$ and some number sets inclu
   find smaller rational numbers.
   \end{enumerate}
 \end{definition}
+
+\begin{proof}
+  
+  We will proceed by contradiction. Assume that $\exists$ an upper bound $c$ for the 
+  $\NN$. So there is no $n \in \NN$ s.t. $c < n$. Since $\NN$ is bounded above, and 
+  the $\NN$ is nonempty, the supremum exists (Completeness Axiom). 
+  Let $s = \sup \NN$. Consider $s - 1$ and $s - 1 < s = \sup \NN$, which is the least
+  upper bound, so $s - 1$ is not an upper bound. So $\exists n \in \NN$ such that $s - 1 < n \implies 
+  s < n + 1$. But $s = \sup \NN$, the least upper bound, this is a contradiction since it 
+  is less than $(n + 1) \in \NN$. 
+  
+  For part $b$, use $c = \frac{1}{\epsilon}$ and use part $a$. 
+\end{proof}
+
+\begin{note}
+  Some of the following are results from the Archimedian Property. 
+
+  \begin{theorem}
+    For all $n \in \ZZ$, there is no integer in $(n, n + 1)$ (an open interval).
+  \end{theorem}
+
+  \begin{theorem}
+    If $S$ is a nonempty subset of $\ZZ$ that is bounded above, then it has a max. 
+  \end{theorem}
+
+  \begin{theorem}
+    $*$ For every $c \in \RR, \ \exists ! \ n \in \ZZ \text{ in } [c, c + 1)$
+  \end{theorem}
+
+\end{note}
+
+\begin{definition}
+  A subset $S \subseteq \RR$ is said to be \vocab{dense} in $\RR$ if for every $a, b \in \RR$
+  with $a < b$, then there is a $s \in S$ s.t. $s \in (a, b)$.
+\end{definition}
+
+\begin{theorem}
+  $\QQ$ is dense in $\RR$. Reminder that $\QQ = \{\frac{m}{n} \ | \ m, n \in \ZZ, n \neq 0\}$
+
+  \begin{proof}
+    Suppose we have arbitrary $a, b \in \RR$ and $a < b$. We want to find $\frac{m}{n} \in (a, b)$. 
+    By multiplcation, we can say we want $na < m < nb$. We want an integer $m$ between
+    $na$ and $nb$. We can write this as 
+    \[nb - na > 1 \implies n(b-a) > 1 \implies n > \frac{1}{b-a}\]
+    By part $a$ of the Archimedian Property, let $c = \frac{1}{b-a}$, and we know that 
+    there exists some $n \in \NN$ such that $n > c$. Since $a < b$, and $b - a > 0$, 
+    multiply
+    \[n > \frac{1}{b-a}\]
+    \[n(b-a) > 1\]
+    \[nb - na > 1\]
+    \[nb - 1 > na \implies na < nb - 1\]
+    By previous $(*), \ \exists \ m \in \ZZ$ s.t. $m \in [nb-1, nb)$. Therefore, 
+    $nb - 1 \leq m < nb$. Therefore, 
+    \[na \leq nb - 1 \leq m < nb \implies na < m < nb \implies a < \frac{m}{n} < b\]
+    and so we have found that there exists $m \in \ZZ, n \in \NN$ such that $\frac{m}{n} \in (a, b)$ 
+    for all $a, b \in \RR$ and $a < b$. Therefore, the rational numbers are dense in the real numbers. 
+  \end{proof}
+\end{theorem}
 
 \end{document}
 
