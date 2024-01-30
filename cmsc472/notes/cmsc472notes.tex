@@ -89,6 +89,61 @@
 \tableofcontents
 \newpage
 
+\section{Introduction to Statistical Learning I}
+
+The main idea of statistical learning is to just make sense of data. 
+
+\begin{definition}
+  \vocab{Supervised learning}: given inputs (data-label pairs), learn a model to predict output.
+  In mathematical terms, we want to learn a prediction function $f$. 
+\end{definition}
+
+\begin{definition}
+  \vocab{Training (or learning)}: given a training set of labeled examples $\{(x_1, y_1), 
+  \cdots, (x_N, y_N)\}$, instantiate a predictor$f$. $y = f(x) \in \mathcal{H}$, this is known as the \vocab{hypothesis space}.
+\end{definition}
+
+\begin{definition}
+  \vocab{Testing (or inference)}: apply $f$ to a new test example and return the output $f(x)$. Note that we measure correctness
+  using loss functions.
+\end{definition}
+
+\begin{note}
+  Training and testing data should be i.i.d.\ (independent and identically distributed) samples from the same distribution $D$.
+\end{note}
+
+\subsection{Simple Models: Classification and Regression}
+
+\begin{definition}
+  A \vocab{nearest neighbor classifer} returns $f(x) = $ the label of the training example nearest to $x$. 
+  All we need is a distance function. Note that this model requires no training. 
+
+  \hfill
+
+  Similarly, a \vocab{K-Nearest Neighbor} finds $k$ nearest points and $f(x) = $ vote for class labels
+  with labels of the $k$ nearest points. Note that kNN is more robust to outliers.
+\end{definition}
+
+\begin{itemize}
+  \item kNN pros: Simple to implement, decision boundaries not necessary linear, 
+works for any number of classes, nonparametric method
+  \item kNN cons: need good distance function, slow at test time
+\end{itemize}
+
+\begin{definition}
+  A \vocab{linear classifier} is a linear function that separates the classes such that 
+  $f(x) = \text{sgn}(\textbf{w} \cdot \textbf{x} + b)$.
+\end{definition}
+
+\begin{note}
+  Perceptrons cannot do nonlinearly separated data. 
+\end{note}
+
+\begin{itemize}
+  \item Linear pros: low-dimensional parametric representation, easy to learn, very fast at test time
+  \item Linear cons: works for two classes(?), how to train the linear function, data is not linearly separable
+\end{itemize}
+
 
 \end{document}
 
