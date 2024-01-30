@@ -105,5 +105,87 @@ In this class, we will also explore the data lifecyle which includes stages such
 data collection, data processing, exploratory data analysis, data visualization, analysis, hypothesis testing, 
 machine learing, and insight and policy discussion.
 
+\section{Experimental Design}
+
+\begin{definition}
+  \vocab{Experimental design} is process of planning, carrying out, and analyzing experiments 
+  to test a hypothesis.
+  Experimental design is a crucial aspect of data science that focuses on 
+  planning and conducting experiments to gather meaningful data.
+\end{definition}
+
+There are some rough experimental design steps in a research project
+
+\begin{enumerate}
+  \item Define the problem or research question the problem aims to address
+  \begin{itemize}
+    \item When it comes to predicting the future, choose option that maximizes your optimization criteria
+  \end{itemize} 
+\end{enumerate}
+
+\begin{example}
+  Online retail: you want to test whether the color of the button changes the click through rate. 
+  \begin{itemize}
+    \item \vocab{Problem definition}: which version of the button maximizes CTR
+    \item \vocab{Optimization crtiera}: maximizng CTR
+  \end{itemize}
+
+  When it comes to setting up a dataset for this, the sample is the number of website visitors. 
+  \begin{itemize}
+    \item \vocab{Control group}: group with existing button color, no changes
+    \item \vocab{Experimental group}: group that experiences the change that you want to test
+    \item \vocab{Dependent variable}: CTR
+    \item \vocab{Independent variable}: the color of the button
+  \end{itemize}
+\end{example}
+
+Definitions of variable, population, sample, independent variable, dependent variable
+
+\begin{definition}
+  \vocab{Confounder variable} are extraneous variables that may affect the 
+  relationships between dependent and independent variables. An additional factor 
+  that is not controlled for but could potentially influence the outcomes.
+\end{definition}
+
+\begin{definition}
+  \vocab{Randomization} minimize systematic confounding, reduce the risk of bias 
+  in either group being enriched for confounders, and help distribute confounding 
+  variables equally
+\end{definition}
+
+\begin{definition}
+  \vocab{Replication} ensures certainty and suggests that confounders are less likely
+  to be influencing the outcomes.
+\end{definition}
+
+Methods for collecting data
+\begin{itemize}
+  \item Observational
+
+  \begin{definition}
+  \vocab{Cross sectional studies}: Collects data from many different individuals 
+  at one specific single point of time
+\end{definition}
+
+\begin{definition}
+  \vocab{Retrospective}: look back at case studies
+\end{definition}
+
+\begin{definition}
+  \vocab{Prospective}: following a cohort over a periods of time and observing changes
+\end{definition}
+
+  \item Surveys: be careful of wording to not be biased
+  \item Experiments
+  
+\begin{definition}
+  \vocab{Placebo effect}: A person believes psychologically that a certain 
+  treatment is positively affecting them, even though no treatment was given at all.
+\end{definition}
+
+  \item Artificial Simulations
+\end{itemize}
+
+
 \end{document}
 
