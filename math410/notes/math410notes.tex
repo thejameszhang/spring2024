@@ -285,5 +285,78 @@ Some quantifiers include $\forall, \exists, \exists!$ and some number sets inclu
   \end{proof}
 \end{theorem}
 
+\section{Sequences}
+
+\begin{definition}
+  A \vocab{sequence} of $\RR$ is a real-valued function whose domain is $\NN$. 
+  $f: \NN \rightarrow \RR$ (a list of numbers indiced by $\NN$)
+\end{definition}
+
+\begin{example}
+  A sequence of odd integers could be $a_1 = 1, a_2 = 3, a_3 = 5, \ldots, a_n = 2n-1$
+  which can be 
+  \[\{1, 3, 5, \cdots\} = \{a_n \}_{n=1}^\infty = \{2n-1\}_{n=1}^\infty\]
+\end{example}
+
+\begin{example}
+  \[\{\frac{1}{n}\} = \{\frac{1}{n}\}_{n=1}^\infty \implies \{1, \frac{1}{2}, \frac{1}{3}, \ldots\}\]
+\end{example}
+
+\begin{definition}
+  A sequence $\{a_n\}$ is said to \vocab{converge} to a number $L$ if 
+  $\forall \epsilon > 0, \ \exists$ an index $N$ s.t. $\forall $ indices $n \geq N$
+  we have 
+  \[|a_n - L| < \epsilon \implies \text{Notation: } \lim_{n\to\infty}a_n = L\]
+\end{definition}
+
+\begin{example}
+  Suppose we have the sequence $\{\frac{(-1)^n}{n}\}$ and we WTS 
+  \[\lim_{n\to\infty}\frac{(-1)^n}{n} = 0\]
+
+  Think of the problem as someone gives you a small $\epsilon \implies$ you have to find $N$, 
+  which we call the \vocab{threshold}, such that for every sequence value after the threshold 
+  is in the $\epsilon-$tube.
+
+  For example, $\epsilon = \frac{1}{2} \implies N = 3, \epsilon = \frac{1}{4} \implies N = 5$.
+
+  \hfill
+
+  Above $L = 0$, sketch: we want 
+  \[|a_n - L| < \epsilon \implies |\frac{(-1)^n}{n} - 0| < \epsilon \implies |\frac{1}{n}| < \epsilon \implies \frac{1}{\epsilon} < n\]
+  so choose $N = \frac{1}{\epsilon} < n$
+
+  \begin{proof}
+    Let $\epsilon > 0$ be given. By Archimedian Property, $\exists N \in \NN$ such that 
+    $\frac{1}{N} < \epsilon$. Then if $n \geq N$
+    \[|\frac{(-1)^n}{n} - 0| = |\frac{(-1)^n}{n}| = |\frac{1}{n}| = \frac{1}{n}\]
+    From here, we need to relate $n$ to $N$ and then we can relate $N$ to $\epsilon$. 
+    Note that $n \geq N \implies \frac{1}{N} \geq \frac{1}{n}$ by algebra. Therefore, 
+    \[\frac{1}{n} \leq \frac{1}{N} < \epsilon\]
+    by our choice of $N$. Therefore, 
+    \[\frac{1}{n} < \epsilon\] and 
+    so we are done since we have shown that 
+    \[|\frac{(-1)^n}{n} < 0| < \epsilon\]
+  \end{proof}
+\end{example}
+
+\begin{example}
+  Given $\{\frac{n^2 - 2n}{n^2 + 1}\}$, prove that this sequence $\underset{n\to\infty}{\lim}\frac{n^2 - 2n}{n^2 + 1} = 1$.
+
+  Some sketch work: we want to show that $|\frac{n^2 - 2n}{n^2 + 1} - 1| < \epsilon$
+  \[|\frac{n^2 - 2n}{n^2 + 1} - 1| = |\frac{n^2 - 2n}{n^2 + 1} - \frac{n^2 + 1}{n^2 + 1}| = |\frac{-2n - 1}{n^2 + 1}| = |\frac{2n + 1}{n^2 + 1}|\]
+  Note that both the numerator and denominator are both always positive, so we can consider. 
+  Now let us use the $\leq$ operator to simplify and have one singular `n`.
+  \[\frac{2n+1}{n^2+1} \leq \frac{2n + 1}{n^2} \leq \frac{2n+n}{n^2} = \frac{3n}{n^2} = \frac{3}{n}\]
+  Recall that $n \geq N \implies \frac{1}{N} \geq \frac{1}{n} \implies \frac{1}{n} \leq \frac{1}{N}$
+  So we'd choose $N$ to get rid of $3$ and introduce $\epsilon$. 
+  \begin{proof}
+    Let $\epsilon > 0$. By A.P., $\exists \ N \in \NN$ s.t. $\frac{1}{N} < \frac{\epsilon}{3}$. 
+    For $n \geq N$, then
+    \[|\frac{n^2-2n}{n^2 + 1} - 1| = \cdots = \frac{2n + 1}{n^2 + 1} < \cdots \leq \frac{3}{n} \leq \frac{3}{N} = 3 * \frac{1}{N} < 3 * \frac{\epsilon}{3} = \epsilon\]
+    Therefore, we have shown that
+    \[|a_n - L| < \epsilon \ \implies \ \lim_{n\to\infty}\frac{n^2-2n}{n^2 + 1} = 1\]
+  \end{proof}
+\end{example}
+
 \end{document}
 
