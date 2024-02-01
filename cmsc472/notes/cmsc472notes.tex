@@ -141,8 +141,117 @@ works for any number of classes, nonparametric method
 
 \begin{itemize}
   \item Linear pros: low-dimensional parametric representation, easy to learn, very fast at test time
-  \item Linear cons: works for two classes(?), how to train the linear function, data is not linearly separable
+  \item Linear cons: works for two classes (?), how to train the linear function, data is not linearly separable
 \end{itemize}
+
+\subsection*{Unsuprvised Learning}
+
+\begin{definition}
+  
+  Given just data as input (no labels), \vocab{unsupervised learning} models
+  learn some sort of underlying structure. 
+\end{definition}
+
+\begin{itemize}
+  \item Clustering
+  \item Quantization
+  \item Dimensionality reduction, also called manifold learning. 
+  \item Density estimation, which can be used for anomoly detection. This idea is also used
+  for training GANs.
+\end{itemize}
+
+\begin{definition}
+  \vocab{Weakly-Supervised Learning} is where all data needs to be labeled, but the labels
+  are noisy (incomplete or wrong). 
+\end{definition}
+
+\begin{definition}
+  \vocab{Semi-supervised learning} needs nice clean labels, but there's a small
+  portion of data that needs to labeled. If you know the underlying structure of the data,
+  then it's fine. 
+\end{definition}
+
+\begin{definition}
+  \vocab{Bootstrapping} is the process of improving labelling accuracy in a semi-supervised learning sense. 
+  Bootstrapping is often used in building ML datasets.
+\end{definition}
+
+\begin{definition}
+  In \vocab{active learning}, there's a human in the loop to ask questions and labels. 
+\end{definition}
+
+\begin{definition}
+  \vocab{Self-supervised learning / Predictive learning} uses proxy-tasks to turn
+  an unsupervised learning problem into a supervised learning problem. It is 
+  a machine learning process where the model trains itself to learn one part of the input 
+  from another part of the input. It is also known as predictive or pretext learning. 
+  This differs from unsupervised learning because self-supervised learning is more 
+  focused on the data than the model. 
+\end{definition}
+
+\begin{definition}
+  \vocab{Proxy-tasks}, such as image colorization, use supervision naturally arising from data.
+  No human provided labels. Completes a task whose labels will be useful for a supervised learning model. 
+\end{definition}
+
+\begin{definition}
+  \vocab{Reinforcement Learning} is the process of an agent learning in an interactive environment
+  by sequential trial and error using feedback/rewards from its own actions and experiences.
+\end{definition}
+
+\section{Introduction to Neural Networks I}
+
+\begin{definition}
+  A \vocab{neural network} is a 'differentiable' function composed out of multiple layers of computation.
+\end{definition}
+
+\begin{definition}
+  A \vocab{tensor} is a d-dimensional array.
+  \begin{itemize}
+    \item Vector: 1-d tensor
+    \item Matrix: 2-d tensor
+    \item Tensor: n-d tensor
+  \end{itemize}
+  Tensors are inputs and outputs of layers. 
+\end{definition}
+
+\begin{note}
+  A single neuron is, very simply, one linear regression task, $\hat{y} = \textbf{w}^T \textbf{x} + b$.
+  If $x$ is an n-dimensional vector, and $m$ is an m-dimensional vector, then 
+  $w$ is $n\times m$ matrix and $b$ is an m-dimensional vector, and this gives us one neuron.
+
+  \hfill
+
+  Now consider three neurons stacked on top of each other. This is a fully-connected layer. 
+  Take the previous layer of output, and use it as an input to the next layer.
+  For example,
+  \[\hat{y} = w_2^T(w_1^T x + b_1) + b_2 = w_2^T(w_1^T x) + w_2^T b_1 + b_2\]
+  You can just collapse this (distributive property).
+\end{note}
+
+\begin{note}
+  We need an $f$ to prevent collapsing
+  \[\hat{y} = w_2^T f(w_1^T x + b_1) + b_2\]
+  and these $f$'s give the neural networks nonlinearities. These $f$'s are 
+  \vocab{activation functions}.
+\end{note}
+
+\begin{definition}
+  \vocab{Sigmoid} is $f(x) = \sigma(x) = \frac{1}{1 + e^{-x}}$ This function squashes
+  everything between 0 and 1. 
+\end{definition}
+
+\begin{definition}
+
+  \vocab{Tanh} is $f(x) = \text{tanh}(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}$. This function
+  squashes everything between -0.5 and 0.5.
+\end{definition}
+
+\begin{definition}
+  \vocab{Relu} is $f(x) = \max(0, x)$ which is self-explanatory.
+\end{definition}
+
+
 
 
 \end{document}
