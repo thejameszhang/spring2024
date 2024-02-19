@@ -36,6 +36,7 @@
 \newcommand{\dint}{\displaystyle\int}
 \newcommand{\dt}{\ {\rm d }t}
 \newcommand{\PP}{\mathbb{P}}
+\newcommand{\Var}{\text{Var}}
 \newcommand{\horizontal}{\par\noindent\rule{\textwidth}{0.4pt}}
 \usepackage[top=3cm,left=3cm,right=3cm,bottom=3cm]{geometry}
 \newcommand{\mref}[3][red]{\hypersetup{linkcolor=#1}\cref{#2}{#3}\hypersetup{linkcolor=blue}}%<<<changed
@@ -112,8 +113,28 @@ derivative with respect to $w_1$ and setting this to zero.
 \[w_1\mu_1 + \mu_2-w_1\mu_2 - w_1^2\sigma_1^2 + (1-2w_1 + w_1^2)\sigma_2^2 + (2w_1-2w_1^2)\rho_{12}\sigma_1\sigma_2\]
 Taking partial derivative we get
 \[\mu_1 - \mu_2 - 2\sigma_1^2w_1 - 2\sigma_2^2 + 2w_1\sigma_2^2 + (2-4w_1)\rho_{12}\sigma_1\sigma_2 = 0\]
+\[\cdots\]
 
-
+\begin{example}
+  We want to maximize variance of two assets such that $X \sim N(\mu_x, 1), Y \sim N(\mu_y, 1), \rho > 0$. 
+  Maximize the variance given that $w_1^2 + w_1^2 = 1$. Note that maximizing this variance 
+  is the same thing as minimizing the negative value of this function.
+  \[\Var(R_p) = w_1^2 + w_2^2 + 2w_1w_2\rho\]
+  \[-\Var(R_p) = -w_1^2 -  w_2^2 - 2w_1w_2\rho\]
+  Rearranging the constraint yields 
+  \[1 - w_1^2 - w_1^2\]
+  \[\mathcal{L}(w_1, w_2, \lambda) = -w_1^2 -w_2^2 -2w_1w_2\rho + \lambda(1 - w_1^2 - w_2^2)\]
+  The first order conditions are therefore
+  \[\frac{\partial \mathcal{L}}{\partial w_1} = -2w_1 - 2w_2\rho -2\lambda w_1 = 0 \implies w_1 + w_2\rho + \lambda w_1 = 0\] 
+  \[\frac{\partial \mathcal{L}}{\partial w_2} = -2w_2  - 2w_1\rho - 2\lambda w_2 = 0 \implies w_2 + w_1\rho + \lambda w_2 = 0\]
+  We want to solve for $w_1, w_2$ in terms of $\lambda$. Recall that the constraint enforces 
+  $w_1^2 + w_2^2 = 1 \implies w_1 = \sqrt{1 - w_2^2}$ and $w_2 = \sqrt{1 - w_1^2}$.
+  Plugging these in yield
+  \[w_1 + \rho\sqrt{1-w_1^2} + \lambda w_1 = 0 \implies w_1^2 + \rho^2(1-w_1^2) + \lambda^2 w_1^2 = 0\]
+  \[w_1^2 - \rho^2 w_1^2 + \lambda^2 w_1^2 = -\rho^2\]
+  \[w_1^2(1 - \rho^2 + \lambda^2) = -\rho^2\]
+  \[w_1 = \pm \sqrt{\frac{-\rho^2}{1 - \rho^2 + \lambda^2}} = w_2\]
+\end{example}
 
 \end{document}
 
