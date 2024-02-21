@@ -126,7 +126,7 @@ $N_1$ is the index that satisfies the definition of convergence given any positi
     \[n^2 - 4n - 100 > n^2 - 15n - 100 = (n-20)(n+5)\]
     which also must be true since $n > 0$, and the equality came by factoring. Now note that 
     $N > \max(M, 20)$ and $n \geq N$. Therefore, 
-    \[(n-20)(n + 5) \geq (N-20)(N+5) > M\] 
+    \[(n-20)(n + 5) \geq (N-20)(N+5) > (M-20)(M + 5) > M\] 
     Thus, we have shown the definition of divergence because for any given $M > 0$, we can find a threshold $N$ such that
     \[n^3 - 4n^2 - 100n > M \ \forall \ n \geq N\]
     which implies that
@@ -134,11 +134,11 @@ $N_1$ is the index that satisfies the definition of convergence given any positi
   \end{proof}
 
   \item Sketch: we WTS to show that for $M > 0$, then $a_n > M \ \forall \ n \geq N, N \in \NN$.
-  \[\sqrt{n} - \frac{1}{n^2} + 4 > \sqrt{n} - \frac{1}{n^2} \geq \sqrt{n} - \frac{1}{n} > M\]
-  Choose $N > M^2 + 2$.
+  \[\sqrt{n} - \frac{1}{n^2} + 4 > \sqrt{n} - \frac{1}{n^2} \geq \sqrt{n} - \frac{1}{n} = (n^{\frac{1}{4}} + \frac{1}{\sqrt{n}})(n^{\frac{1}{4}} - \frac{1}{\sqrt{n}})\]
+  Choose $N > \max(M^4$, 1).
 
   \begin{proof}
-    Let $M > 0$ be given. By A.P., $\exists \ N \in \NN$ such that $N > M^2 + 2$.
+    Let $M > 0$ be given. By A.P., $\exists \ N \in \NN$ such that $N > \max(M^4, 1)$.
     Note that
     \[\sqrt{n} - \frac{1}{n^2} + 4 > \sqrt{n} - \frac{1}{n^2} \ \forall \ n\]
     Furthermore, note that $\frac{1}{n^2} \leq \frac{1}{n} \ \forall n$. Therefore, 
@@ -146,10 +146,13 @@ $N_1$ is the index that satisfies the definition of convergence given any positi
     and subsequently reversing the direction of the inequality. Thus, 
     \[\sqrt{n} - \frac{1}{n^2} \geq \sqrt{n} - \frac{1}{n}\]
     Recall that $n \geq N$ and so 
-    \[\sqrt{n} - \frac{1}{n} \geq \sqrt{N} - \frac{1}{N} > \sqrt{M^2 + 2} - \frac{1}{M^2 + 2} > M\]
-    for all $n \geq N$. Therefore, for any given $M > 0$, we can find a threshold $N > M^2 + 2$
-    such that 
-    \[\sqrt{n} - \frac{1}{n^2} + 4 > M \ \forall \ n \geq N \implies \lim_{n\to\infty}\left[\sqrt{n} - \frac{1}{n^2} + 4 \right] = \infty\]
+    \[\sqrt{n} - \frac{1}{n} \geq \sqrt{N} - \frac{1}{N} = (N^{\frac{1}{4}} + \frac{1}{\sqrt{N}})(N^{\frac{1}{4}} - \frac{1}{\sqrt{N}})\]
+    \[> (M + \frac{1}{M^2})(M - \frac{1}{M^2}) > M\]
+    Note that this last inequality is always true, since we choose $N > \max(M^4, 1)$. Therefore, 
+    the second term $(M - \frac{1}{M^2}) > 1$ for all of our choices of $n \geq N$. Thus, we've shown that 
+    for any given $M > 0$, we can find a threshold $N$ such that 
+    \[\sqrt{n} - \frac{1}{n^2} + 4 > M \ \forall \ n \implies \lim_{n\to\infty}\sqrt{n} - \frac{1}{n^2} + 4 = \infty\]
+  
   \end{proof}
 
 \end{enumerate}
@@ -203,14 +206,14 @@ as desired.
   
 \item False. Not every bounded sequence converges. For example, the sequence $\{(-1)^{n}\}$
 is bounded above by $1$ and bounded below by $-1$, but it never converges.
-\item False. Consider the sequence $\{\frac{1}{n}\}$ which converges to $0$, which is neither 
-positive or negative.
-\item False. 
+\item False. Consider the sequence $\{\frac{1}{n}\}$ which converges to $0$, which is not positive. $0 \not> 0$.
+\item False. Let $M > 0$. By A.P, $\exists \ N \in \NN$ such that $N > \sqrt{M}$. Note that $n \geq N$. Therefore, 
+$n^2 + 1 \geq N^2 + 1 > M + 1 > M \implies \{n^2 + 1\}$ diverges. 
 \item False. Consider a sequence such that begins as $\{3, 3.1, 3.14, 3.141, 3.14159, \cdots \}$
 such that each term adds on the next digit of $\pi$. Clearly, all of these numbers are rational, as they can 
 be expressed in decimal, and thus fraction, form, but the limit is $\pi \neq \QQ$. 
 \item False. Consider the sequence $\{\frac{1}{n + 1}\} \ \forall \ n$. Note that $a_n \in (0, 1) \ \forall \ n$, 
-yet $\underset{n\to\infty}{\lim}\frac{1}{n} = 0$, and $0 \notin (0, 1)$, so this statement is false. 
+yet $\underset{n\to\infty}{\lim}\frac{1}{n + 1} = 0$, and $0 \notin (0, 1)$, so this statement is false. 
 
 \end{enumerate}
 
@@ -252,17 +255,40 @@ which means the sequence $\{a_n\}$ is bounded, as desired.
 
 \hfill
 
-$\Longleftarrow$ Suppose the sequence $\{a_n\}$ is monotone and assume that $\{a_n\}$ converges. By
-the definition of convergence, for any given $\epsilon > 0, \ \exists \ N \in \NN$ such that 
-$|a_n - l| < \epsilon \ \forall \ n \geq N$. Without loss of generality (WLOG), let us say that 
-$\{a_n\}$ is monotone increasing. The proof for if $\{a_n\}$ is monotone decreasing is similar. 
-By the definition of 
+$\Longleftarrow$ Suppose the sequence $\{a_n\}$ converges. This direction is trivial because we can simply use the
+Product Property. Let us denote that $\{a_n\}$ converges to $a \implies \underset{n\to\infty}{\lim}a_n = a$. 
+Then by the Product Property, 
+\[\lim_{n\to\infty} a_n a_n = \lim_{n\to\infty}a_n^2 = a * a = a^2 \] 
+Therefore, $\{a_n^2\}$ converges to $a^2$, and so generally, it does converge, as desired.
 
 \hfill
 
-$\Longrightarrow$ 
+$\Longrightarrow$ The reverse direction is more challenging, and requires that knowledge sequence 
+$\{a_n\}$ is monotone. As a counterexample without the monotonicity example, consider the sequence $\{(-1)^{2n}\}$ which converges to $1$. However, the 
+square root of that sequence, $\{(-1)^n\}$ does not converge as it oscillates between $-1$ and $1$. 
+
+\hfill
+
+Now suppose that $\{a_n^2\}$ converges and we're given that $\{a_n\}$ is monotone.
+We want to show that $\{a_n\}$ converges. Note that by a theorem, every convergent sequence 
+is bounded. Therefore, $\{a_n^2\}$ is bounded. By the definition of bounded, $\exists \ M \in \RR$ 
+such that 
+\[|a_n^2| \leq M \ \forall \ n\]
+We want to show that $\{a_n\}$ is bounded, and then we can use the Monotone Convergence Theorem to prove that the monotone sequence 
+$\{a_n\}$ converges to either the $\sup, \inf$ depending on whether it is monotonically increasing
+or monotonically decreasing, respectively. 
+\[\sqrt{|a_n^2|} \leq \sqrt{M} \ \forall \ n\]
+Note that the square operator implies that $a_n^2 \geq 0$, and so we can remove the absolute value. 
+\[\sqrt{a_n^2} \leq \sqrt{M} \ \forall n\]
+Now note that the square root ensures that the left hand side is greater than or equal to $0$, meaning wrapping it 
+in absolute value signs will not change the result. 
+\[|\sqrt{a_n^2}| \leq \sqrt{M} \ \forall n\]
+\[|a_n| \leq \sqrt{M} \ \forall \ n\]
+Thus, $\{a_n\}$ is bounded by $\sqrt{M} \in \RR$. Therefore, by the Monotone Convergence Theorem, 
+$\{a_n\}$ converges, as desired. 
   
 \end{proof}
+
 
 
 \end{document}

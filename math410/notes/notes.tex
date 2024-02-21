@@ -1,0 +1,975 @@
+\documentclass[12pt]{scrartcl}
+\usepackage[sexy]{james}
+\usepackage[noend]{algpseudocode}
+\setlength{\marginparwidth}{2cm}
+\usepackage{answers}
+\usepackage{array}
+\usepackage{tikz}
+\newenvironment{allintypewriter}{\ttfamily}{\par}
+\usepackage{listings}
+\usepackage{xcolor}
+\usetikzlibrary{arrows.meta}
+\usepackage{color}
+\usepackage{mathtools}
+\newcommand{\U}{\mathcal{U}}
+\newcommand{\E}{\mathbb{E}}
+\usetikzlibrary{arrows}
+\Newassociation{hint}{hintitem}{all-hints}
+\renewcommand{\solutionextension}{out}
+\renewenvironment{hintitem}[1]{\item[\bfseries #1.]}{}
+\renewcommand{\O}{\mathcal{O}}
+\declaretheorem[style=thmbluebox,name={Chinese Remainder Theorem}]{CRT}
+\renewcommand{\theCRT}{\Alph{CRT}}
+\setlength\parindent{0pt}
+\usepackage{sansmath}
+\usepackage{pgfplots}
+
+\usetikzlibrary{automata}
+\usetikzlibrary{positioning}  %                 ...positioning nodes
+\usetikzlibrary{arrows}       %                 ...customizing arrows
+\newcommand{\eqdef}{=\vcentcolon}
+\newcommand{\tr}{{\rm tr\ }}
+\newcommand{\im}{{\rm Im\ }}
+\newcommand{\spann}{{\rm span\ }}
+\newcommand{\Col}{{\rm Col\ }}
+\newcommand{\Row}{{\rm Row\ }}
+\newcommand{\dint}{\displaystyle\int}
+\newcommand{\dt}{\ {\rm d }t}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\horizontal}{\par\noindent\rule{\textwidth}{0.4pt}}
+\usepackage[top=3cm,left=3cm,right=3cm,bottom=3cm]{geometry}
+\newcommand{\mref}[3][red]{\hypersetup{linkcolor=#1}\cref{#2}{#3}\hypersetup{linkcolor=blue}}%<<<changed
+
+\tikzset{node distance=4.5cm, % Minimum distance between two nodes. Change if necessary.
+         every state/.style={ % Sets the properties for each state
+           semithick,
+           fill=cyan!40},
+         initial text={},     % No label on start arrow
+         double distance=4pt, % Adjust appearance of accept states
+         every edge/.style={  % Sets the properties for each transition
+         draw,
+           ->,>=stealth',     % Makes edges directed with bold arrowheads
+           auto,
+           semithick}}
+
+
+% Start of document.
+\newcommand{\sep}{\hspace*{.5em}}
+
+\pgfplotsset{compat=1.18}
+\begin{document}
+\title{MATH410: Advanced Calculus I}
+\author{James Zhang\thanks{Email: \mailto{jzhang72@terpmail.umd.edu}}}
+\date{\today}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+\maketitle
+    These are my notes for UMD's MATH410: Advanced Calculus I. 
+    These notes are taken live in class (``live-\TeX``-ed).
+    This course is taught by Lecturer Anna Szczekutowicz. 
+\tableofcontents
+\newpage
+
+\section{Set Theory Preliminaries}
+
+This section covers the foundation of analysis, which is just the set of real numbers. 
+It covers basic definitions such as $\in, \notin, \emptyset, \subseteq, =, \cap, \cup, \backslash$, so for example
+
+\begin{definition}
+  \vocab{Intersection} of $A$ and $B$ is $C= A \cap B = \{x \ | \ x \in A \text{ and } x \in B\}$
+\end{definition}
+
+Some quantifiers include $\forall, \exists, \exists!$ and some number sets include $\RR, \NN, \ZZ, \QQ, \QQ^C$. 
+
+\begin{definition}
+  The real numbers \vocab{$\RR$} satisfies 3 groups of axioms: Refer to the notes on Canvas for the Consequences of all of the following axioms.
+  \begin{enumerate}
+    \item Field (+, $*$) 
+    \begin{itemize}
+      \item Commutativity of Addition
+      \item Associativity
+      \item Additive Identity
+      \item Additive Inverse
+      \item Commutativty of Multiplcation
+      \item Associativity of Multiplication
+      \item Multiplicative Identity
+      \item Multiplicative Inverse
+      \item Distributive Property
+    \end{itemize}
+  The set of integers $\ZZ$ is not a field because it fails under the multiplicative inverse.
+    \item Positivity
+    
+    There is a subset of $\RR$ denoted by $\mathcal{P}$, called the set of positive numbers for which: 
+    \begin{itemize}
+      \item If $x$ and $y$ are positive, then $x + y$ and $xy$ are both positive.
+      \item For each $x \in \RR$, eaxctly one of the following 3 alternatives is true: $x \in \mathcal{P}$, $-x \in \mathcal{P}$, or $x = 0$
+    \end{itemize}
+
+    \item Completeness
+  \end{enumerate}
+\end{definition}
+
+\begin{definition}
+  \vocab{Absolute value} is defined as 
+  \[|x| = \begin{cases}
+    x \text{ if } x \geq 0\\
+    -x \text{ if } x < 0 
+  \end{cases}\]
+
+\end{definition}
+
+\begin{definition}
+  \vocab{Triangle Inequality} is $\forall \ a, b \in \RR, |a + b| \leq |a| + |b|$
+\end{definition}
+
+\begin{proof}
+  Assume without loss of generality, $a \geq b$. We will proceed with proof by cases.
+
+  Case 1: Assume $a \geq b \geq 0$. Then $|a + b| = a + b$ by the definition of absolute value since 
+  $a \geq 0, b \geq 0 \implies |a + b| = a + b = |a| + |b|$.
+
+  Case 2: Now assume $a \geq 0 \geq b$ and $a + b \geq 0$. Note since $b \leq 0$ then 
+  $b \leq |b|$. Then 
+  \[|a + b| = a + b \leq |a| + |b|\]
+  by the definition of absolute value and our above note.
+
+  Case 3: Now consider $a \geq 0 \geq b$ and $a + b < 0$. So 
+  \[|a + b| = -(a + b) = -a - b \leq |a| + |b|\]
+
+  Case 4: Now consider $0 \geq a \geq b$ so $a + b < 0$.
+  Therefore, 
+  \[|a + b| = -(a + b) = -a + - b = |a| + |b|\]
+
+\end{proof}
+
+\section{The Completeness Axiom}
+
+\begin{definition}
+  A subset S of $\RR$ is said to be \vocab{bounded above} if $\exists \ r\in\RR$ such that
+  $s \leq r \ \forall \ s \in S$
+
+  The definition of \vocab{bounded below} is similar.
+\end{definition}
+
+\begin{definition}
+  The least upper bound, if it exists, is called the \vocab{supremum} of $S$. 
+  We denote it as the "sup" of $S$. Similarly, the largest lower bound is called
+  the \vocab{infemum} and is denoted as the "inf" of $S$.
+\end{definition}
+
+\begin{definition}
+  Let $S \subseteq R$ where $S\ \neq \ \emptyset$. If $S$ has a largest (smallest), 
+  the element is a max (min).
+\end{definition}
+
+
+\begin{example}
+  Find the sup of $(0, 1)$ and prove it. 
+  \begin{proof}
+
+    Let us prove that the $sup(0, 1) = 1$. First, let us show that we have 
+    an upperbound. If $x \in (0, 1)$, then $x \leq 1$. By definition of upperbound,
+    1 is an upper bound. Note that we can find many other upper bounds. 
+    
+    On the contrary, assume $x < 1$ is an upper bound. Now consider the average
+    $\frac{1 + x}{2}$. 
+    \[\frac{x + 1}{2} < \frac{1 + 1}{2} = 1\]
+    Therefore, we have showed that $0 < \frac{x + 1}{2} < 1 \implies \frac{x + 1}{2} (0, 1)$. 
+    But, $\frac{1 + x}{2} > \frac{x + x}{2} \implies \frac{1 + x}{2} > x$. This is a contradiction. Since 
+    $x$ is an upper bound, and we found $\frac{1 + x}{2} \in (0, 1)$ where $\frac{1 + x}{2} > x$, 
+    so $x$ is not a supremum.
+
+  \end{proof}
+\end{example}
+
+\begin{theorem}
+  Suppose $S \in \RR, S \neq \emptyset$ that is bounded above. Then a 
+  supremum exists. Every nonsempty subset $S$ of $\RR$ that is bounded below has a
+  lower bound.
+\end{theorem}
+
+\begin{note}
+  Let $c$ be a positive number then $\exists !$ a positive number whose
+  square is $c$. $x^2 = c, x > 0$ has a unique solution and this gives us 
+  the notion of square root. 
+\end{note}
+
+\subsection{Archimedian Property}
+
+\begin{definition}
+  The \vocab{Archimedian Property} is a result of the completeness axiom. Suppose there 
+  is a small $\epsilon > 0$ and $c$ is an arbitrary large number. 
+  \begin{enumerate}
+    \item $\exists \ n \in \NN$ such that $c < n$, which just means that you can always find a 
+  natural number than any large number
+    \item $\exists \ m \in \NN$ such that $\frac{1}{m} < \epsilon$, which just means you can always
+  find smaller rational numbers.
+  \end{enumerate}
+\end{definition}
+
+\begin{proof}
+  
+  We will proceed by contradiction. Assume that $\exists$ an upper bound $c$ for the 
+  $\NN$. So there is no $n \in \NN$ s.t. $c < n$. Since $\NN$ is bounded above, and 
+  the $\NN$ is nonempty, the supremum exists (Completeness Axiom). 
+  Let $s = \sup \NN$. Consider $s - 1$ and $s - 1 < s = \sup \NN$, which is the least
+  upper bound, so $s - 1$ is not an upper bound. So $\exists n \in \NN$ such that $s - 1 < n \implies 
+  s < n + 1$. But $s = \sup \NN$, the least upper bound, this is a contradiction since it 
+  is less than $(n + 1) \in \NN$. 
+  
+  For part $b$, use $c = \frac{1}{\epsilon}$ and use part $a$. 
+\end{proof}
+
+\begin{note}
+  Some of the following are results from the Archimedian Property. 
+
+  \begin{theorem}
+    For all $n \in \ZZ$, there is no integer in $(n, n + 1)$ (an open interval).
+  \end{theorem}
+
+  \begin{theorem}
+    If $S$ is a nonempty subset of $\ZZ$ that is bounded above, then it has a max. 
+  \end{theorem}
+
+  \begin{theorem}
+    $*$ For every $c \in \RR, \ \exists ! \ n \in \ZZ \text{ in } [c, c + 1)$
+  \end{theorem}
+
+\end{note}
+
+\begin{definition}
+  A subset $S \subseteq \RR$ is said to be \vocab{dense} in $\RR$ if for every $a, b \in \RR$
+  with $a < b$, then there is a $s \in S$ s.t. $s \in (a, b)$.
+\end{definition}
+
+\begin{theorem}
+  $\QQ$ is dense in $\RR$. Reminder that $\QQ = \{\frac{m}{n} \ | \ m, n \in \ZZ, n \neq 0\}$
+
+  \begin{proof}
+    Suppose we have arbitrary $a, b \in \RR$ and $a < b$. We want to find $\frac{m}{n} \in (a, b)$. 
+    By multiplcation, we can say we want $na < m < nb$. We want an integer $m$ between
+    $na$ and $nb$. We can write this as 
+    \[nb - na > 1 \implies n(b-a) > 1 \implies n > \frac{1}{b-a}\]
+    By part $a$ of the Archimedian Property, let $c = \frac{1}{b-a}$, and we know that 
+    there exists some $n \in \NN$ such that $n > c$. Since $a < b$, and $b - a > 0$, 
+    multiply
+    \[n > \frac{1}{b-a}\]
+    \[n(b-a) > 1\]
+    \[nb - na > 1\]
+    \[nb - 1 > na \implies na < nb - 1\]
+    By previous $(*), \ \exists \ m \in \ZZ$ s.t. $m \in [nb-1, nb)$. Therefore, 
+    $nb - 1 \leq m < nb$. Therefore, 
+    \[na \leq nb - 1 \leq m < nb \implies na < m < nb \implies a < \frac{m}{n} < b\]
+    and so we have found that there exists $m \in \ZZ, n \in \NN$ such that $\frac{m}{n} \in (a, b)$ 
+    for all $a, b \in \RR$ and $a < b$. Therefore, the rational numbers are dense in the real numbers. 
+  \end{proof}
+\end{theorem}
+
+\section{Sequences}
+
+\begin{definition}
+  A \vocab{sequence} of $\RR$ is a real-valued function whose domain is $\NN$. 
+  $f: \NN \rightarrow \RR$ (a list of numbers indiced by $\NN$)
+\end{definition}
+
+\begin{example}
+  A sequence of odd integers could be $a_1 = 1, a_2 = 3, a_3 = 5, \ldots, a_n = 2n-1$
+  which can be 
+  \[\{1, 3, 5, \cdots\} = \{a_n \}_{n=1}^\infty = \{2n-1\}_{n=1}^\infty\]
+\end{example}
+
+\begin{example}
+  \[\{\frac{1}{n}\} = \{\frac{1}{n}\}_{n=1}^\infty \implies \{1, \frac{1}{2}, \frac{1}{3}, \ldots\}\]
+\end{example}
+
+\subsection{Convergence}
+
+\begin{definition}
+  A sequence $\{a_n\}$ is said to \vocab{converge} to a number $L$ if 
+  $\forall \epsilon > 0, \ \exists$ an index $N$ s.t. $\forall $ indices $n \geq N$
+  we have 
+  \[|a_n - L| < \epsilon \implies \text{Notation: } \lim_{n\to\infty}a_n = L\]
+\end{definition}
+
+\begin{example}
+  Suppose we have the sequence $\{\frac{(-1)^n}{n}\}$ and we WTS 
+  \[\lim_{n\to\infty}\frac{(-1)^n}{n} = 0\]
+
+  Think of the problem as someone gives you a small $\epsilon \implies$ you have to find $N$, 
+  which we call the \vocab{threshold}, such that for every sequence value after the threshold 
+  is in the $\epsilon-$tube.
+
+  For example, $\epsilon = \frac{1}{2} \implies N = 3, \epsilon = \frac{1}{4} \implies N = 5$.
+
+  \hfill
+
+  Above $L = 0$, sketch: we want 
+  \[|a_n - L| < \epsilon \implies |\frac{(-1)^n}{n} - 0| < \epsilon \implies |\frac{1}{n}| < \epsilon \implies \frac{1}{\epsilon} < n\]
+  so choose $N = \frac{1}{\epsilon} < n$
+
+  \begin{proof}
+    Let $\epsilon > 0$ be given. By Archimedian Property, $\exists N \in \NN$ such that 
+    $\frac{1}{N} < \epsilon$. Then if $n \geq N$
+    \[|\frac{(-1)^n}{n} - 0| = |\frac{(-1)^n}{n}| = |\frac{1}{n}| = \frac{1}{n}\]
+    From here, we need to relate $n$ to $N$ and then we can relate $N$ to $\epsilon$. 
+    Note that $n \geq N \implies \frac{1}{N} \geq \frac{1}{n}$ by algebra. Therefore, 
+    \[\frac{1}{n} \leq \frac{1}{N} < \epsilon\]
+    by our choice of $N$. Therefore, 
+    \[\frac{1}{n} < \epsilon\] and 
+    so we are done since we have shown that 
+    \[|\frac{(-1)^n}{n} < 0| < \epsilon\]
+  \end{proof}
+\end{example}
+
+\begin{example}
+  Given $\{\frac{n^2 - 2n}{n^2 + 1}\}$, prove that this sequence $\underset{n\to\infty}{\lim}\frac{n^2 - 2n}{n^2 + 1} = 1$.
+
+  Some sketch work: we want to show that $|\frac{n^2 - 2n}{n^2 + 1} - 1| < \epsilon$
+  \[|\frac{n^2 - 2n}{n^2 + 1} - 1| = |\frac{n^2 - 2n}{n^2 + 1} - \frac{n^2 + 1}{n^2 + 1}| = |\frac{-2n - 1}{n^2 + 1}| = |\frac{2n + 1}{n^2 + 1}|\]
+  Note that both the numerator and denominator are both always positive, so we can consider. 
+  Now let us use the $\leq$ operator to simplify and have one singular `n`.
+  \[\frac{2n+1}{n^2+1} \leq \frac{2n + 1}{n^2} \leq \frac{2n+n}{n^2} = \frac{3n}{n^2} = \frac{3}{n}\]
+  Recall that $n \geq N \implies \frac{1}{N} \geq \frac{1}{n} \implies \frac{1}{n} \leq \frac{1}{N}$
+  So we'd choose $N$ to get rid of $3$ and introduce $\epsilon$. 
+  \begin{proof}
+    Let $\epsilon > 0$. By A.P., $\exists \ N \in \NN$ s.t. $\frac{1}{N} < \frac{\epsilon}{3}$. 
+    For $n \geq N$, then
+    \[|\frac{n^2-2n}{n^2 + 1} - 1| = \cdots = \frac{2n + 1}{n^2 + 1} < \cdots \leq \frac{3}{n} \leq \frac{3}{N} = 3 * \frac{1}{N} < 3 * \frac{\epsilon}{3} = \epsilon\]
+    Therefore, we have shown that
+    \[|a_n - L| < \epsilon \ \implies \ \lim_{n\to\infty}\frac{n^2-2n}{n^2 + 1} = 1\]
+  \end{proof}
+\end{example}
+
+\begin{theorem}
+  \vocab{The Sum Property} states that if
+  \[\lim_{n\to\infty} a_n = a \text{ and } \lim_{n\to\infty}b_n = b\]
+  then 
+  \[\lim_{n\to\infty}(a_n + b_n) = \lim_{n\to\infty}a_n + \lim_{n\to\infty}b_n = a + b\]
+
+  Some sketch work before the proof:
+
+  We want to show that $|a_n + b_n - (a + b)| < \epsilon$. Note that we can group terms together
+  $|(a_n - a) + (b_n - b)| \leq |a_n - a| + |b_n - b|$ by the Triangle Inequality. 
+  It is known that these two terms converge. Therefore, we can choose $\epsilon$s such that 
+  \[|a_n - a| + |b_n - b| \leq \frac{\epsilon}{2} + \frac{\epsilon}{2}\]
+
+  \begin{proof}
+    
+    \hfill
+
+    Let $\epsilon > 0$. Since the sequences $\{a_n\}$ and $\{b_n\}$ converge to $a$ and $b$, 
+    respectively, by the Archimedian Principle, $\exists N_1, N_2 \in \NN$ such that 
+    $\frac{1}{N_1} < \frac{\epsilon}{2}$ and $\frac{1}{N_2} < \frac{\epsilon}{2}$. 
+    Choose $N = \max(N_1, N_2)$, which represents the numerically larger threshold.
+
+    For all $n \geq N$, we show 
+    \[|a_n + b_n - (a + b)| = |(a_n - a) + (b_n - b)| \leq |a_n - a| + |b_n - b|\]
+    \[< \frac{\epsilon}{2} + \frac{\epsilon}{2} = \epsilon\]
+    Therefore, we have shown that $\underset{n\to\infty}{\lim} (a_n + b_n) = a + b$
+  \end{proof}
+
+\end{theorem}
+
+\begin{lemma}
+  \vocab{The Comparison Lemma (C.L.)}
+  
+  \hfill
+
+  Let $\{a_n\}$ converge to $a$. Then $\{b_n\}$ converges to $b$ if $\ \exists \ c \in \RR^+$
+  and $N \in \NN$ such that
+  \[\forall \ n \geq N, \ |b_n - b| \leq c|a_n - a|\]
+  \begin{proof}
+    Let $\epsilon > 0$. Since $a_n$ converges to $a, \ \exists \ N_1 \in \NN$ such that 
+    $|a_n - a| < \frac{\epsilon}{c}, \ \ \forall \ n \geq N_1$. By the Archimedian Principle,
+    $\exists \ N_2 \in \NN$ such that $\frac{1}{N_2} < \epsilon$. Choose $N = \max(N_1, N_2)$
+    and if $n \geq N$, then 
+    \[|b_n - b| \leq c |a_n - a| < c * \frac{\epsilon}{c} = \epsilon\]
+    \[\implies |b_n - b| < \epsilon\]
+  \end{proof}
+\end{lemma}
+
+\begin{lemma}
+  Suppose the $\underset{n\to\infty}{\lim} a_n = a$, then for $c \in \RR$, 
+  \[\lim_{n\to\infty}ca_n = c\lim_{n\to\infty}a_n = ca\]
+
+  \begin{proof}
+    Use the Comparison Lemma (above). Note that $|ca_n - ca| = |c(a_n-a)| = |c||a_n - a|$ 
+    which satisfies $|b_n - b| \leq c|a_n - a| \implies \{b_n\} = \{ca_n\} \implies b = ca$.
+  \end{proof}
+\end{lemma}
+
+\begin{lemma}
+\begin{proof}
+  The following is a useful property (*)
+  \[\lim_{n\to\infty}a_n = a \underset{\leftrightarrow}{\text{ iff }} \lim_{n\to\infty}(a_n - a) = 0\]
+\end{proof}
+\end{lemma}
+
+\begin{lemma}
+  Suppose $\underset{n\to\infty}{\lim} a_n =0$ and $\underset{n\to\infty}{\lim}b_n = 0$ 
+  then $\underset{n\to\infty}{\lim}a_n b_n = 0$.
+  \begin{proof}
+    Since $\underset{n\to\infty}{\lim} a_n = 0$ and $\sqrt{\epsilon} > 0$ ,
+    \[\exists \ N_1 \in \NN \text{ s.t. } |a_n| < \sqrt{\epsilon} \ \forall \ n \geq N_1\]
+    Since $\underset{n\to\infty}{\lim}b_n = 0$ and $\sqrt{\epsilon} > 0$, 
+    \[\exists \ N_1 \in \NN \text{ s.t. } |b_n| < \sqrt{\epsilon} \ \forall \ n \geq N_2\]
+    Let $N = \max(N_1, N_2)$. Then if $n\geq N$,
+    \[|a_nb_n - 0| = |a_n b_n| = |a_n| * |b_n| < \sqrt{\epsilon} * \sqrt{\epsilon} = \epsilon\]
+  \end{proof}
+\end{lemma}
+
+\begin{theorem}
+  \vocab{The Product Property} states that if $\underset{n\to\infty}{\lim}a_n = a$ and $\underset{n\to\infty}{\lim}b_n = b$ then 
+  $\underset{n\to\infty}{\lim}a_n b_n = ab$
+  \begin{proof}
+    Define $\alpha_n = a_n - a$ and $\beta_n = b_n - b$. Using the * property above, 
+    since $\underset{n\to\infty}{\lim}a_n = a \implies \underset{n\to\infty}{\lim} (a_n - a) = \underset{n\to\infty}{\lim}\alpha_n = 0$
+    and then the same for $b$ such that $\underset{n\to\infty}{\lim}\beta_n = 0$.
+    
+    Note that 
+    \[a_nb_n - ab = (\alpha_n + a)(\beta_n + b) - ab\] and then by Distributive property we get
+    \[= \alpha_n\beta_n + \alpha_n b + a\beta_n + ab - ab = \alpha_n\beta_n + \alpha_n b + a\beta_n\]
+    So using the previous lemma, 
+    \[\lim_{n\to\infty}(a_n b_n - ab) = \lim_{n\to\infty}(\alpha_n \beta_n + b\alpha_n + a\beta_n) = \lim_{n\to\infty}(\alpha_n\beta_n) + b\lim_{n\to\infty}\alpha_n + a\lim_{n\to\infty}\beta_n\]
+    From above, the last two terms are 0 and by the previous lemma, the first term is 0. 
+    Therefore, 
+    \[\lim_{n\to\infty}(a_nb_n - ab) \underset{\leftrightarrow}{\text{ iff }} \lim_{n\to\infty}(a_n b_n) = ab\]
+  \end{proof}
+\end{theorem}
+
+\begin{definition}
+  A sequence \vocab{diverges} to $\infty, (-\infty)$ if 
+  \[\forall \ M > (<) 0, \exists \ N \in \NN \text{ s.t. } \forall n \in \NN, n \geq N \text{ then } a_n > (<) M\]
+\end{definition}
+
+\begin{example}
+  Prove that $\underset{n\to\infty}{\lim}(n^2 - 4n) = \infty$
+
+  Sketch: we want $a_n > M \implies n^2 - 4n > M \implies n(n-4) > M$
+  
+\begin{proof}
+
+  Let $M > 0$ be given. By A.P., $\exists \ N \in \NN$ s.t. $N > \max(M, 4)$.
+  If $n \geq N$, then $n^2 - 4n = n(n-4) \geq N(N - 4) > M$
+
+  Thus, 
+  \[n^2 - 4n \to \infty \text{ as } n \to \infty\]
+\end{proof}
+
+\end{example}
+
+\begin{example}
+  Prove that $(-1)^n$ does not converge. 
+
+  \begin{proof}
+    On the contrary, suppose $(-1)^n$ converges to $a$. Let $\epsilon = 1$. In the definition of 
+    convergence, then $\exists \ N \in \NN$ if $n \geq N$ then 
+    \[|(-1)^n - a| < 1\]
+    For $n = 2N$, meaning some even number, we get $|(-1)^n - a| = |1 - a| < 1$
+
+    Now for $n = 2N + 1$, we get $|(-1)^{2N+ 1} -a| = |1 + a| < 1$
+
+    Note that $|1 - a| < 1$ and $|1 + a| < 1$ so therefore
+    \[|1 - a| + |1 + a| < 2\]
+    But note, using the Triangle Inequality in the reverse direction, 
+    note that $2 = |1 - a + 1 + a| \leq |1 - a| + |1 + a| < 1 + 1 = 2$. Therefore, we've shown 
+    that $2 < 2$ which is a contradiction and therefore, $(-1)^n$ does not converge. 
+  \end{proof}
+\end{example}
+
+\begin{lemma}
+  Suppose the sequence $\{b_n\}$ of nonzero numbers converges to $b \neq 0$. Then 
+  $\{\frac{1}{b_n}\}$ converges to $\frac{1}{b}$.
+    
+    Sketch: Use the Comparison Lemma to find $c \in\RR^+$ and $N_1 \in \NN$ such that 
+    \[|\frac{1}{b_n} - \frac{1}{b}| < c|b_n - b|\]
+    We just have to find $c$ and $N_1$. 
+
+  \begin{proof}
+    Note that 
+    \[|\frac{1}{b_n} - \frac{1}{b}| = |\frac{b - b_n}{bb_n} = \frac{1}{|b||b_n|}|b_n - b|\]
+
+    We want $\frac{1}{|b||b_n|}$ to be $c$, but this must be a single constant and not dependent on $n$. 
+    We want to find index $N_1$ such that \[|b_n| > \frac{|b|}{2} \ \forall \ n \geq N_1\]
+    \[\frac{1}{|b_n|} < \frac{2}{|b|}\]
+    If we can find $N_1$ then $|\frac{1}{b_n} - \frac{1}{b}| \leq \frac{2}{|b|^2}|b_n - b|$ and the term
+    $\frac{2}{|b|^2}$ becomes our $c$ and we can apply the Comparison Lemma, so we need $N_1$ to make the 
+    above true.
+
+    Let $\epsilon = \frac{b}{2}$. By definition of $\{b_n\}$ converging to $b$, we can choose $N_1$
+    such that $|b_n - b| < \epsilon \ \forall \ n \geq N_1$.
+    \[|b_n - b| < \frac{|b|}{2}\]
+    \[-\epsilon < b_n - b < \epsilon\]
+    \[b - \epsilon < b_n < b + \epsilon\]
+    Check $b > 0, b < 0$ since $\epsilon = \frac{|b|}{2}$. When $b> 0, \epsilon = \frac{b}{2}$ so 
+    \[b_n \in (b- \frac{b}{2}, b + \frac{b}{2}) = (\frac{b}{2}, \frac{3b}{2}  )\]
+    so $b_n > \frac{b}{2}$. When $b < 0$ \dots
+    So $|b_n| > \frac{|b|}{2}$ and this $N_1$ works and apply the Comparison Lemma.
+  \end{proof}
+\end{lemma}
+
+\begin{theorem}
+  Let $\underset{n\to\infty}{\lim}a_n = a, \underset{n\to\infty}{\lim}b_n = b$, and $b_n \neq 0 \forall \ n$ and 
+  $b \neq 0$ then 
+  \[\underset{n\to\infty}{\frac{a_n}{b_n}} = \frac{a}{b}\]
+  \begin{proof}
+    \[\lim_{n\to\infty}\frac{a_n}{b_n} = \lim_{n\to\infty}a_n * \frac{1}{b_n} = \lim_{n\to\infty}a_n * \lim_{n\to\infty}\frac{1}{b_n} = \frac{a}{b}\]
+  \end{proof}
+\end{theorem}
+
+\subsection{Boundedness}
+
+\begin{definition}
+  A sequence $\{a_n\}$ is \vocab{bounded} if $\ \exists \ M \in \RR$ such that $|a_n| \leq M \ \forall \ n$.  
+\end{definition}
+
+\begin{theorem}
+  Every convergent sequence is bounded. 
+  \begin{itemize}
+    \item If convergent $\implies$ bounded.
+    \item If it is unbounded, then it diverges. 
+  \end{itemize}
+  
+  \begin{proof}
+      Let $\underset{n\to\infty}{\lim}a_n = a$ and take $\epsilon = 1$. Using the definition of 
+      convergence, $\ \exists \ N \in \NN$ s.t. 
+      \[|a_n - a| > 1 \ \forall \ n \geq N\]
+      then $|a_n| = |a_n - a + a| \leq |a_n - a| + |a| \leq 1 + |a| \ \forall \ n \geq N$ by the 
+      Triangle Inequality and then the definition of the converging sequence. However, we need
+      to show that this is true (bounded by a constant) for all $n$, not just for all $n \geq N$. 
+
+      \hfill
+
+      Define $M = \max(1 + |a|, |a_1|, \ldots, |a_{N-1}|)$. Note that there the $N-1$ terms are finite 
+      and so a $\max$ exists. Then 
+      \[|a_n| \leq M \ \forall \ n\]
+      and so $\{a_n\}$ is bounded.
+  \end{proof}
+\end{theorem}
+
+\begin{remark}
+  Recall that a set $S \subset \RR$ is dense in $\RR$ if every open set $(a, b) \in \RR$ contains a 
+  point $s \in S$.
+\end{remark}
+
+\begin{definition}
+  A set of numbers $\{x_n\}$ is in a set $S$ provided that $x_n \in S \ \forall \ n$.
+\end{definition}
+
+\begin{lemma}
+  A set $S$ is \vocab{dense} in $\RR$ if and only if every $x \in \RR$ is a limit of a sequence of a 
+  sequence in $S$. 
+  
+  \begin{proof}
+    
+    \hfill
+
+    $\Longrightarrow$ Let $S \subset \RR$ be dense in $\RR$. Fix $x \in \RR$ and let $n$ be an index. 
+    Since $S$ is dense, there is an element in $S$ in $(x, x + \frac{1}{n})$. For each $n$, this 
+    defines $\{s_n\}$ with 
+    \[s \in (x, x + \frac{1}{n})\]
+    \[x < s < x + \frac{1}{n}\]
+    \[|s_n - x| < \frac{1}{n} \ \forall \ n\]
+    \[|s_n - x| < 1|\frac{1}{n} - 0|\]
+    Use the Comparison Lemma since $\{\frac{1}{n}\}$ converges to $0$. So, $\{s_n\}$ converges to $x$. 
+    
+    \hfill
+
+    $\Longleftarrow$ Let $S$ have the property that every number in $\RR$ is the limit of a sequence in 
+    $S$. We want to show that any open interval in $\RR$ contains a point $s \in S$. 
+    Consider an open interval $(a, b) \in \RR$. Consider $\frac{a + b}{2} = s \in \RR$. 
+    By assumption, $\ \exists \{s_n\}$ of points in $S$ s.t. $\underset{n\to\infty}{\lim}s_n = s$.
+    Define $\epsilon = \frac{b - a}{2} > 0$. 
+    By definition of convergence, $\ \exists \ N$ s.t. $|s_n - s| < \epsilon \ \forall \ n \in \NN$. 
+    \[-\epsilon < s_n - s < \epsilon\]
+    \[s - \epsilon < s_n < s + \epsilon\]
+    \[\frac{a+b}{2} - \frac{b-a}{2} < s_n < \frac{a+b}{2} + \frac{b-a}{2}\]
+    \[a < s_n < b\]
+    The point $s_N \in S$ and $s_n \in (a, b)$ so $S$ is dense in $\RR$. 
+
+  \end{proof}
+\end{lemma}
+
+\begin{definition}
+  The \vocab{sequential density of $\QQ$} states that every $\RR$ is the likmit of a sequence in 
+  $\QQ$. 
+\end{definition}
+
+\begin{theorem}
+  Let $\{c_n\} \in [a, b]$ and $\underset{n\to\infty}{\lim}c_n = c$ then $c \in [a, b]$ also. 
+\end{theorem}
+
+\begin{definition}
+  $S \subset \RR$ is said to be \vocab{closed} (set) if $\{a_n\}$ is a sequence in $S$ that converges to $a$, 
+  then $a \in S$ also.
+\end{definition}
+
+\begin{example}
+  $(0, 1]$ not closed since $\{\frac{1}{n} \in (0, 1]\}$ and $\underset{n\to\infty}{\lim}\frac{1}{n} = 0$ but $0 \notin (0, 1]$. 
+\end{example}
+
+\begin{example}
+  $\QQ$ is not closed since we can find $\{r_n\} \in \QQ$ that converge to $\pi$ but $\pi \notin \QQ$.  
+\end{example}
+
+\begin{definition}
+  A $\{a_n\}$ is said to be \vocab{monotonically increasing (decreasing)} if $a_{n+1} \geq (\leq) a_n \ \forall \ n$
+\end{definition}
+
+\begin{note}
+  If a sequence is monotone, then it is either monotonically increasing or decreasing.
+\end{note}
+
+\begin{theorem}
+  \vocab{Monotone Convergence Theorem (MCT)} states that a monotone sequence converges if and only if 
+  it is bounded. Moreover, the bounded monotone $\{a_n\}$ converges to the 
+  \begin{enumerate}
+    \item $\sup\{a_n \ | \ n \in \NN\}$ if monotone increasing
+    \item $\inf\{a_n \ | \ n \in \NN\}$ if monotone decreasing
+  \end{enumerate}
+
+  \begin{proof}
+    
+    \hfill
+
+    $\Longrightarrow$ Note that we already showed that convergent sequences are bounded. 
+
+    \hfill
+
+    $\Longleftarrow$ We want to show that our sequence 
+    converges to either the $\inf, \sup$ depending on if its either increasing or decreasing.
+    Now assume that our sequence is bounded. Define $S = \{a_n \ | \ n \in \NN\}$ and $S$ is bounded
+    by assumption. Since $S$ is nonempty and bounded above, $S$ has $\sup S = l$ by the Completeness Axiom.
+    Claim $\underset{n\to\infty}{\lim}a_n = l$. Let $\epsilon > 0$ be given, and we want to show the usual definition 
+    of convergence. 
+
+    Note that 
+    \[|a_n - l| < \epsilon\]
+    \[-\epsilon < a_n - l  < \epsilon\]
+    \[l - \epsilon< a_n < l + \epsilon \ \forall \ n \geq N\]
+    But $l$ is an upper bound for $S \implies a_n \leq l < l + \epsilon \ \forall \ n$. 
+    
+    On the other hand, since $l$ is the least upper bound for $S$, $l - \epsilon$ is not an upper bound for $S$. 
+    So, $\ \exists \ N$ such that $l - \epsilon < a_N$. 
+
+    Since $a_n$ is monotonically increasing. $l - \epsilon < a_N \leq a_n \ \forall n \geq N$. Thus, we have 
+    $N \in \NN$ such that $\forall n \geq N$ we have $|a_n - l| < \epsilon$, as desired.
+  \end{proof}
+\end{theorem}
+
+\begin{remark}
+  The formula for a finite geometric sum is
+  $S_n = \sum_{k=1}^n r^k$ where $r \neq 1, r < 1$.
+  \[S_n = \frac{r - r^{n+1}}{1 - r}\] 
+
+  \begin{example}
+    Consider $S_n = \sum_{k=1}^n \frac{1}{k} \cdot \frac{1}{2^k}$
+    \[k = 1 \implies s_1 = \frac{1}{2}\] 
+    \[k = 2 \implies s_2 = \frac{1}{2} + \frac{1}{2} \cdot \frac{1}{2^2} = \frac{5}{8}\]
+    \[k = 3 \implies \frac{1}{2} + \frac{1}{8} + \frac{1}{3} \cdot \frac{1}{2^3}\]
+    \[\vdots\]
+    so this sequence is monotonically increasing. Is it bounded 
+    \[S_n = \sum_{k=1}^{n}\frac{1}{k} \cdot \frac{1}{2^k} \leq \sum_{k=1}^n \frac{1}{2^k} = \frac{\frac{1}{2} - \frac{1}{2}^{n+1}}{1 - \frac{1}{2}} = 1\]
+  \end{example}
+\end{remark}
+
+\begin{theorem}
+  \vocab{The Nested Interval Theorem}. Suppose that $I_n = [a_n, b_n]$ is a sequence of intervals, 
+  for which $I_{n+1} \subset I_n \ \forall \ n$. Then the intersection of those intervals 
+  is a nonempty closed interval 
+  \[\cap_{i=1}^\infty I_n = [a, b]\] 
+  where $a = \sup a_n, b = \inf b_n$. 
+  Furthermore, if $\underset{n\to\infty}{\lim}a_n - b_n = 0$ then 
+  $\cap_{i=1}^\infty I_n$ contains a single point. 
+  \begin{proof}
+    
+    \hfill
+
+    $\Longleftarrow$ Let $X \in \cap_{i=1}^\infty I_n$. So for all $n \in \NN, x \in I_n$
+    by definition of intersection. Therefore, 
+    \[a_n \leq x \leq b_n \ \forall \ n\]
+    Note that $xx$ is an upper bound for $a_n$. So, by definition of $\sup$, $a = \sup a_n \leq x$. 
+    \[a \leq x \leq b \implies x \in [a, b]\]
+
+    \hfill
+
+    $\Longrightarrow$ The reverse direction is similar. 
+  \end{proof}
+\end{theorem}
+
+\subsection{Sequential Compactness}
+
+\begin{definition}
+  Consider a sequence $\{a_n\}$ and let $\{n_k\}$ be a sequence of $\NN$ that is strictly increasing.
+  Then the sequence $\{b_k\}$ defined by $b_k = a_{n_k} \ \forall \ k$
+  is a \vocab{subsequence}.
+\end{definition}
+
+\begin{note}
+  Note that a sequence may not converge, but it may be possible to find a subsequence that does.
+\end{note}
+
+\begin{theorem}
+  Let $\{a_n\}$ converges to $a$. Then every subsequence of $\{a_n\}$ also converges to the same limit $a$. 
+\end{theorem}
+
+\begin{theorem}
+  Every sequence (does not need to converge) has a monotone increasing or decreasing subsequence.
+  \begin{proof}
+    Consider $\{a_n\}$. We all an index a \vocab{peak index} for $\{a_n\}$ if 
+    \[a_n \leq a_m \ \forall \ n \geq m\]
+    You can have two cases: infinitely many peak indices, or a finite number of peak indices.
+
+    Suppose there are finite number of peak indices. Then we choose $N$ such that there are no 
+    more peak indices. Since $N$ is not a peak index, $\exists \ n_1 \in \NN$ such that 
+    $n_1 > N$ with $a_N \leq a_{n_1}$
+    \[\vdots\]
+    Continue for $n_k \implies \exists \ n_{k+1} \in \NN$ with $n_{k+1} \geq n_k$ with $a_{n_k} \leq a_{n_{k+1}}$
+    \[a_N \leq a_{n_1} \leq \cdots \leq a_{n_k} \leq a_{n_{k+1}}\]
+    which is a monotonically increasing subsequence. 
+
+    In the case of infinitely many peak indices, $m_1 < m_2 < m_3 < \cdots < $ peak indices. 
+    Since $m_1$ is a peak index. Then $m_1 < m_2 \implies a_{m_1} > a_{m_2}$.
+    \[\vdots\]
+    We'll get a monotonically decreasing subsequence.
+  \end{proof}
+\end{theorem}
+
+\begin{theorem}
+  Every bounded sequence has a convergent subsequence.
+
+  \begin{proof}
+    Let $\{a_n\}$ be bounded. By the previous theorem, $\{a_n\}$ has a monotone subsequence. 
+    Since $\{a_n\}$ is boundeed, $\{a_{n_k}\}$ is bounded also. By MCT, 
+    $\{a_{n_k}\}$ converges since it is monotone and bounded.
+  \end{proof}
+\end{theorem}
+
+\begin{definition}
+  A $S \subset \RR$ is said to be \vocab{compact (or sequentially compact)} if every sequence 
+  in $S$ has a convergent subsequence converging to a point in $S$. For a set to not be compact, 
+  we find a sequence in $S$ that has no convergence subsequence that converges to a point in $S$. 
+\end{definition}
+
+\begin{example}
+  $[1, \infty)$ is not compact. Consider $a_n = n, a_n \to\infty$ by Archimedian Principle. 
+  Then every subsequence of $n_k$ also diverges to $\infty$. Thus, $\{a_n\}$ has no subsequence 
+  that converges. 
+\end{example}
+
+\begin{example}
+  $(0, 1]$ is not compact. Let $a_n = \frac{1}{n}, a_n\to 0, n\to\infty$, so every subsequence 
+  converges to 0 also. But $0 \notin (0, 1]$ so it is not compact. 
+\end{example}
+
+\begin{theorem}
+  \vocab{The Sequentially Compactness Theorem (SCT)} states that every interval $[a, b]$ such
+  that $a, b \in \RR$ is sequentially compact. 
+
+  \begin{proof}
+    Let $\{a_n\}$ be in $[a, b]$. So, $a \leq a_n \leq b \ \forall \ n$. By a previous theorem, 
+    since $\{a_n\}$ is bounded, there exists a convergent subsequence $\{a_{n_k}\}$. Assume 
+    $\{a_{n_k}\} \to l$. Since $a \leq a_n \leq b \ \forall \ n$, then 
+    \[a \leq a_{n_k} \leq b \ \forall \ n\]
+    so $l \in [a, b]$ as desired. Therefore, $\{a_n\}$ has a convergent subsequence whose limit 
+    is in the interval $[a, b]$, so it is sequentially compact.
+  \end{proof}
+\end{theorem}
+
+\begin{theorem}
+  Bolzano Weirstrass Theorem: If $S \subset \RR$, the following are equivalent 
+  \[S \text{ is closed and bounded } \Longleftrightarrow S \text{ is compact }\]
+\end{theorem}
+
+\section{Continuous Functions}
+
+\subsection{Continuity Basics}
+
+\begin{note}
+  Before $f: \NN \to \RR$ but now $f: D \subset \RR \to \RR$. $f(x)$ is the value the function
+  assigns to $x$. 
+\end{note}
+
+\begin{definition}
+  A function $f: D \to\RR$ is said to be \vocab{continuous at a point $x_0$} if whenerver 
+  $\{x_n\}_{n=1}^\infty$ converges to $x_0 \in D$, the image sequence $\{f(x_n)\}_{n=1}^\infty$ 
+  converges to $f(x_0)$.
+\end{definition}
+
+\begin{definition}
+  A function $f: D \to \RR$ is \vocab{continuous} if $f$ is continuous at every point 
+  in $D$.
+\end{definition}
+
+\begin{example}
+  Consider $f(x) = x^2 + 7x - 3$. We want to show $f$ is continuous. Select 
+  $x_0 \in \RR$ and let $\{x_n\} \to x_0 \implies \underset{n\to\infty}{\lim}x_n = x_0$.
+  We want to show that 
+  \[\lim_{n\to\infty}f(x_n) = f(x_0)\] 
+  Note that 
+  \[\underset{n\to\infty}{\lim}f(x_n) = \underset{n\to\infty}{\lim}x_n^2 + 7x_n -3\]
+  by definition of $f$. 
+  \[ = \lim_{n\to\infty}x_n^2 + 7\lim_{n\to\infty}x_n + \lim_{n\to\infty}3\]
+  by properties of sequences. 
+  \[= x_0^2 + 7x_0 - 3 = f(x_0)\]
+  by the definition of $f$
+\end{example}
+
+\begin{remark}
+  Given $f: D \to \RR, g: D \to \RR$ are continuous, then \[f \pm g, fg, \frac{f}{g} (g \neq 0)\] are continuous
+  and this follows directly from convergent sequence properties from the previous chapter.
+  Thus, polynomials are continuous. 
+
+\end{remark}
+
+\begin{example}
+  Consider Dirichlet's function $f: \RR \to \RR$ such that 
+  \[f(x) = \begin{cases}
+    1 \text{ if x is rational }\\
+    0 \text{ if x is irrational }
+  \end{cases}\]
+
+  Note that $f$ is defined on $\RR$ but it is discontinuous at $x_0 \in \RR$.
+
+  \begin{proof}
+    Let $x_0 \in \RR$. By sequential density of the $\QQ$ and $\QQ^c$, we can find 
+    \[\{u_n\} \to x_0, u_n \in \QQ \ \forall n\]
+    \[\{v_n\} \to x_0 , v_n \in \QQ^c \ \forall \ n\]
+    Since $f(u_n) = 1 \ \forall \ n$ and $f(v_n) = 0 \ \forall \ n$, then 
+    \[\{f(u_n)\} \to 1 \text{ but } \{f(v_n)\} \to 0\]
+    Therefore, $\underset{n\to\infty}{\lim}f(u_n) = 1 \neq 0 = \underset{n\to\infty}{\lim}f(v_n)$
+    but $\{u_n\} \to x_0$ and $\{v_n\} \to x_0$ but we cannot have 2 function values for $x_0$.
+  \end{proof}
+\end{example}
+
+\begin{definition}
+  Suppose $f: D \to \RR$ and $g: U \to \RR$ such that $f(D) \subset U$ then we define 
+  \[(g \circ f)(x) = g(f(x)) \ \forall \ x\]
+\end{definition}
+
+\begin{theorem}
+  Let $f: D \to \RR, g : U \to\RR$  and $f(D) \subset U$. Let $f$ be continuous at $x_0$ and $g$ be continuous at $f(x_0)$. 
+  Then $(g \circ f): D \to \RR$ is continuous at $x_0$. 
+
+  \begin{proof}
+    Suppose $\{x_0\} \in D$ converges to $x_0$. Since $f$ is continuous, 
+    
+    then $\underset{n\to\infty}{\lim}f(x_n) = f(x_0)$. 
+    \[\{f(x_n)\} \underset{n\to\infty}{\to}f(x_0)\]
+
+    Since $g$ is continuous at $f(x_0)$, then $\underset{n\to\infty}{\lim}g(f(x_n)) = g(f(x_0))$.
+    Therefore, $(g \circ f)(x)$ is continuous at $x_0$ since 
+    \[\{g(f(x_n))\} \underset{n\to\infty}{\to} g(f(x_0))\]
+    $\Longrightarrow$ we can combine continuous functions and remain continuous
+  \end{proof}
+\end{theorem}
+
+\subsection{Extreme Value Theorem}
+
+\begin{definition}
+  $f: D \to \RR$ attains a \vocab{maximum (minimum)} value if there is
+  \[x_0 \in D \text{ s.t. } f(x_0) \geq (\leq) f(x) \ \forall x \in D\]
+\end{definition}
+
+\begin{remark}
+  Recall that a nonempty set has a maximum if it is bounded above and contains its supremum ie. the supremum is in the set.
+
+  \hfill
+
+  $\Longrightarrow$ Now $f: D \to \RR$ has a maximum when the image $f(D)$ is bounded above and 
+  the supremum of the image is a functional value. 
+\end{remark}
+
+\begin{example}
+  $f: (0, 1) \to \RR$ where $f(x) = 2x$. Note that the supremum of the image is 2, but 2 is not a functional value.
+  Therefore, this function does not have a max.
+\end{example}
+
+\begin{theorem}
+  The \vocab{Extreme Value Theorem} states that a continuous function on a closed and bounded interval $f: [a, b] \to \RR$ attains
+  both a maximum and a minimum. 
+
+  Sketch: Note that we want to show that $f(D)$ is bounded above. See lemma below. 
+  After that, we need to show that the supremum is a functional value.
+
+  \begin{lemma}
+    Assume on the contrary that given $f: [a, b] \to \RR$ is continuous, assume there is no
+    $M$ such that 
+    \[f(x) \leq M \ \forall \ x \in [a, b]\]
+    There is $x \in [a, b]$ at which $f(x) > n, \ \forall \ n$. For each $n$ this creates 
+    a sequence $\{x_n\}$ in $[a, b]$ with $f(x) > n \ \forall \ n$.  $\{x_n\}$ may or may not converge. 
+    By Sequential Compactness Theorem, choose $\{x_{n_k}\}$ subsequence that converges to $x_0 \in [a, b]$.
+    Since $f$ is continuous at $x_0, \{f(x_{n_k})\} \to f(x_0)$, but every convergent sequence 
+    is bounded by a theorem, so $\{f(x_{n_k})\}$ is bounded. Therefore, we have a contradiction 
+    since $f(x_{n_k}) > n_k \geq k \ \forall k \ \in \NN$. So $f: [a, b] \to \RR$ is bounded above.
+  \end{lemma}
+
+  \begin{proof}
+    Define $S = f([a, b])$, all of the image values. By the lemma above, $S$ is bounded. Note 
+    $S$ is nonempty and bounded, thus by the Completeness Axiom, $c := \sup(S)$ exists.
+    Note that we want to find $x_0 \in [a, b]$ such that $f(x_0) = c$, as this would show that 
+    the supremum is a functional value. Consider 
+    \[c - \frac{1}{n} < c \ \forall \ n\]
+    Note that $c - \frac{1}{n}$ is not an upper bound since $c$ is the least upper bound. So, 
+    we can find a point $x \in [a, b]$ such that 
+    \[c - \frac{1}{n} < f(x) < c\]
+    Label point $x_n$ to create a sequence $\{x_n\}$ 
+    \[c - \frac{1}{n} < f(x_n) < c \ \forall \ n\] 
+    Since $\{\frac{1}{n}\} \to 0$ as $n \to \infty$, then $\{f(x_n)\} \to c$ by the Squeeze Theorem, as desired.
+    Note by the Sequential Compactness Theorem, there exists a subsequence $\{x_{n_k}\}$ that converges to 
+    $x_0$. Since $f$ is continuous at $x_0$, then $\{f(x_{n_k})\} \to f(x_0)$. Recall that 
+    $\{f(x_{n_k})\}$ is a subsequence of $\{f(x_n)\}$ that converges to $c$, and any subsequence must 
+    also converge to the same value as the full sequence. Therefore, $f(x_0) = c$. 
+    Therefore, the supremum exists and is a functional value, so we attain a max at $x_0$. 
+  \end{proof}
+
+\end{theorem}
+
+\subsection{Intermediate Value Theorem}
+
+\begin{theorem}
+  \vocab{The Intermediate Value Theorem} state that suppose $f: [a, b] \to \RR$ is continuous, 
+  let $c \in \RR$ between $f(a)$ and $f(b)$.
+  Then there exists $x_0 \in (a, b)$ such that $f(x_0) = c$. 
+
+  \begin{proof}
+    Without loss of generality, suppose $f(a) < c < f(b)$. Recursively define a sequence of 
+    nested intervals starting at $[a, b]$ and converging to $x_0 \in (a, b)$ with $f(x) = c$.
+    We WTS $f(x_0) = c$ by letting $a_1 = a, b_1 = b \ \forall \ n$. 
+    
+    $\forall \ n$ define $[a_n, b_n]$ by considering the midpoint $m_n = \frac{a_n + b_n}{2}$. 
+    Let us consider some cases. 
+
+    $\Longrightarrow$ If $f(m_n) \leq c$, define $a_{n+1} = m_n$ and $b_{n+1} = b_n$. 
+
+    $\Longleftarrow$ If $f(m_n) > c$, define $a_{n+1} = a_n$ and $b_{n+1} = m_n$. 
+
+    Note that $a \leq a_n \leq a_{n+1} < b_{n+1} < b_n \leq b$ and $f(a_{n+1}) \leq c$ and $f(b_{n+1}) > c$ 
+    by definition. Now, we want to show that 
+    \[\lim_{n\to\infty}(b_n - a_n) = 0\]
+    in order to apply the Nested Interval Theorem.
+  \end{proof}
+\end{theorem}
+
+\end{document}
+
