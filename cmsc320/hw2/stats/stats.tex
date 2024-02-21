@@ -1,0 +1,170 @@
+\documentclass[12pt]{scrartcl}
+\usepackage[sexy]{james}
+\usepackage[noend]{algpseudocode}
+\setlength{\marginparwidth}{2cm}
+\usepackage{answers}
+\usepackage{array}
+\usepackage{tikz}
+\newenvironment{allintypewriter}{\ttfamily}{\par}
+\usepackage{listings}
+\usepackage{xcolor}
+\usetikzlibrary{arrows.meta}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{mathtools}
+\newcommand{\U}{\mathcal{U}}
+\newcommand{\E}{\mathbb{E}}
+\usetikzlibrary{arrows}
+\Newassociation{hint}{hintitem}{all-hints}
+\renewcommand{\solutionextension}{out}
+\renewenvironment{hintitem}[1]{\item[\bfseries #1.]}{}
+\renewcommand{\O}{\mathcal{O}}
+\declaretheorem[style=thmbluebox,name={Chinese Remainder Theorem}]{CRT}
+\renewcommand{\theCRT}{\Alph{CRT}}
+\setlength\parindent{0pt}
+\usepackage{sansmath}
+\usepackage{pgfplots}
+
+\usetikzlibrary{automata}
+\usetikzlibrary{positioning}  %                 ...positioning nodes
+\usetikzlibrary{arrows}       %                 ...customizing arrows
+\newcommand{\eqdef}{=\vcentcolon}
+\newcommand{\tr}{{\rm tr\ }}
+\newcommand{\im}{{\rm Im\ }}
+\newcommand{\spann}{{\rm span\ }}
+\newcommand{\Col}{{\rm Col\ }}
+\newcommand{\Row}{{\rm Row\ }}
+\newcommand{\dint}{\displaystyle\int}
+\newcommand{\dt}{\ {\rm d }t}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\horizontal}{\par\noindent\rule{\textwidth}{0.4pt}}
+\usepackage[top=3cm,left=3cm,right=3cm,bottom=3cm]{geometry}
+\newcommand{\mref}[3][red]{\hypersetup{linkcolor=#1}\cref{#2}{#3}\hypersetup{linkcolor=blue}}%<<<changed
+
+\tikzset{node distance=4.5cm, % Minimum distance between two nodes. Change if necessary.
+         every state/.style={ % Sets the properties for each state
+           semithick,
+           fill=cyan!40},
+         initial text={},     % No label on start arrow
+         double distance=4pt, % Adjust appearance of accept states
+         every edge/.style={  % Sets the properties for each transition
+         draw,
+           ->,>=stealth',     % Makes edges directed with bold arrowheads
+           auto,
+           semithick}}
+
+
+% Start of document.
+\newcommand{\sep}{\hspace*{.5em}}
+
+\pgfplotsset{compat=1.18}
+\begin{document}
+\title{CMSC320: Homework 2 (Statistics)}
+\author{James Zhang\thanks{Email: \mailto{jzhang72@terpmail.umd.edu}}}
+\date{\today}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+\maketitle
+
+\section{Set Theory and Bayes Theorem}
+
+\begin{enumerate}[A.]
+
+  \item Recall from the Inclusion-Exclusion Principle that we have 
+  \[A \cup B \cup C = A + B + C - A \cap B - A \cap C - B \cap C + A \cap B \cap C\]
+  Solving for $A \cap B \cap C$ yields
+  \[-(A \cap B \cap C) = A + B + C - A \cap B - A \cap C - B \cap C - A \cup B \cup C\]
+  \[-x = 4500 + 6000 + 5500 - 1800 - 2000 - 3000 - 10000\]
+  \[-x = 16000 - 10000 - 6800\]
+  \[x = 800 = A \cap B \cap C\]
+
+  \item Let us find the probability that a randomly selected shopper is also a reviewer.
+  We seek $\PP(R \ | \ S)$
+  \[\PP(R \ | \ S) = \frac{\PP(R \cap S)}{\PP(S)}\]
+  by Bayes Theorem. Note that $\PP(S) = \frac{3}{5}$ since there are 6000 shoppers out of 10000.
+  Further, $\PP(R \cap S) = \frac{3}{10}$ since there are 3000 people who are both shoppers and reviewers. 
+  Therefore, 
+  \[\PP(R | S) = \frac{3}{10} / \frac{3}{5} = \frac{1}{2}\]
+
+  \item Let us find the probability that someone is in exactly 2 categories but not all 3. 
+  Note that we were essentially given the number of people in exactly 2 categories $ = 2000 + 3000 + 1800 = 6800$.
+  \[\PP(\text{Exactly 2 but not all 3}) = \frac{6800}{10000} = \frac{17}{25}\]
+
+  \item This does not make sense logically because the intersection $A \cap B \cap C$ represents people 
+  who are shoppers, buyers, and reviewers. If we know that no shoppers are buyers and vice versa, then therefore 
+  then there cannot be someone who is a shopper, buyer, and reviewer. Essentially, 
+  \[A \cap B = \emptyset \implies A \cap B \cap C = \emptyset\]
+\end{enumerate}
+
+\newpage
+
+\section{Probability Distributions}
+
+\begin{enumerate}[A.]
+  \item The probability that he aces his opponent at least once in any of the games is 
+  \[1 - \PP(\text{No aces}) = 1 - 0.0081 = 0.9919\]
+
+  \item Given $\PP(Y > 119) = 0.02273 $ and $\PP(Y < 104) = 0.2335$. Taking Z-scores, we 
+  get
+  \[\PP(\frac{Y - \mu}{\sigma} > \frac{119 - \mu}{\sigma}) = 0.02273, \ \PP(\frac{Y - \mu}{\sigma} < \frac{104 - \mu}{\sigma}) = 0.2335\]
+  \[1 - \phi(\frac{119 - \mu}{\sigma}) = 0.02273 \implies \phi(\frac{119 - \mu}{\sigma}) = 0.97727, \phi(\frac{104 - \mu}{\sigma}) = 0.2335\]
+  \[\frac{119 - \mu}{\sigma} = 2.00037, \frac{104 - \mu}{\sigma} = -0.72737\]
+  Now solving this sytem of equations 
+  \[119 = 2.00037\sigma + \mu, 104 = -0.72737\sigma + \mu\]
+  \[15 = 2.00037\sigma + 0.72737\sigma \implies 15 = 2.72774\sigma \implies \sigma \approx 5.4991\]
+  \[\implies \sigma^2 \approx 30.2401\]
+  Plugging this back in solve for $\mu$, we get 
+  \[\mu \approx 107.9998 \implies Y \sim N(107.9998, 30.2401)\]
+
+  \item Using formulas for mean and variance of binomial distribution, we can get up another system of equations 
+  \[\E(X) = np = 107.9998 \text{ and } \Var(X) = np(1-p) = 30.2401\]
+  By direct substitution for $np$ into the variance formula, we get
+  \[1-p = \frac{30.2401}{107.9998} \implies p = 1 - \frac{30.2401}{107.9998} \implies p \approx 0.7200\]
+  \[n \approx \frac{107.9998}{0.7200} = 149.9997\]
+  \[X \sim \text{Binomial}(149.9997, 0.72)\]
+\end{enumerate}
+
+\newpage
+
+\section{Bayes Theorem}
+
+We seek $\PP(\text{Delay} \ | \ \text{Predict Delay})$. Using Bayes Theorem
+we can find this as 
+\[\dfrac{\PP(\text{Delay})\PP(\text{Predict Delay} | \text{Delay})}{\PP(\text{Delay})\PP(\text{Predict Delay} | \text{Delay}) + \PP(\text{No Delay})\PP(\text{Predict Delay} | \text{No Delay})}\]
+Plugging in known values, we get that 
+\[\PP(\text{Delay} | \text{Predict Delay}) = \dfrac{0.05(0.8)}{0.05(0.8) + 0.95(0.15)} = \frac{0.04}{0.04 + 0.1425} \approx 0.2192\]
+
+\newpage
+
+\section{Expected Value}
+
+\begin{enumerate}[I.]
+  \item Note that expectation follows linearity.
+  \[\E(X2) = 2\E(X) = 2(\sum_{i=1}^6 \frac{1}{6}i) = 2(3.5) = 7\]
+  \item Similarly
+  \[\E(X3) = 3\E(X) = 3(3.5) = 10.5\]
+\end{enumerate}
+
+\end{document}
+
