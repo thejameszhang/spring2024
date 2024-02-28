@@ -1078,9 +1078,68 @@ Some quantifiers include $\forall, \exists, \exists!$ and some number sets inclu
     \[n_2 \geq n_1 + 1 \cdots |f(u_{n_2}) - f(v_{n_2})| \geq \epsilon\]
     \[n_3 \geq n_2 + 1 \cdots |f(u_{n_3}) - f(v_{n_3})| \geq \epsilon\]
     So $\{f(u_{n_k}) - f(u_{n_k})\}$ is a subsequence with 
-    $\{f(u_{n_k}) - f(v_{n_k})\} \geq \epsilon \ \forall n_k$
+    $\{f(u_{n_k}) - f(v_{n_k})\} \geq \epsilon \ \forall n_k$. Because $\{u_n\}$ is a 
+    sequence in $[a, b]$, we can use Sequetial Compactness to find a subsequence 
+    $\{u_{m_k}\}$. Since $f$ is continuous, then $\Lim f(u_{m_k}) = f(x_0)$.
+    Since $\underset{k\to\infty}{\lim}(u_n - v_n) = 0 \implies \underset{k\to\infty}{\lim}(u_{m_k} - v_{m_k}) = 0$
+    by a theorem. Thus, 
+    \[\lim_{k\to\infty} v_{m_k} = \lim_{k\to\infty}u_{m_k} - \lim_{k\to\infty}(u_{m_k} - v_{m_k}) = x_0 - 0 \implies v_{m_k} \to x_0\]
+    Therefore, 
+    \[\lim_{k\to\infty}(f(u_{m_k}) - f(v_{m_k})) = f(x_0) - f(x_0) = 0\]
+    But this is a contradiction 
+    \[\ \forall \ n_k, \ |f(u_{n_k}) - f(v_{n_k})|\]
   \end{proof}
 \end{theorem}
+
+\begin{definition}
+  A function $f: D \to\RR$ is said to satisfy the \vocab{$\epsilon-\delta$ criterion} at $x_0 \in D$ 
+  if $\ \forall \ \epsilon > 0, \ \exists$ a $\delta > 0$ so that 
+  \[\forall \ x \in D \text{ and } |x-x_0| < \delta \implies |f(x) - f(x_0)| < \epsilon\]
+\end{definition}
+
+\begin{note}
+  $\delta$ depends on $\epsilon$ and maybe $x_0$. For uniform continuity, however, $\delta$ 
+  cannot depend on location, so $\delta$ will not depend on $x_0$ in the case of 
+  uniform continuity.
+\end{note}
+
+\begin{example}
+  $f: \RR \to \RR, f(x) = 3x$. Prove it satisfies $\epsilon-\delta$ criteria at 
+  $x_0 = 2$. 
+
+  \begin{proof}[Sketch.]
+    Given $|x - 2| < \delta$. How do we show that $|f(x) - f(2)| < \epsilon$. 
+    \[|3x-6| \implies |3(x-2)| < 3\delta\]
+    so we take $\delta = \frac{\epsilon}{3}$. 
+  \end{proof}
+
+  \begin{proof}
+    Let $\epsilon > 0$ be given. Let $x_0 = 2$ and let $\delta = \frac{\epsilon}{3}$. 
+    Then if $||x-2| < \delta$ then 
+    \[|f(x) - f(x_0)| = |3x-6| = 3|x-2| < 3\delta = 3 * \frac{\epsilon}{3} = \epsilon\]
+  \end{proof}
+\end{example}
+
+\begin{example}
+  $f: \RR\to\RR, f(x)= = x^2$ at any $x_0$. Show $\epsilon-\delta$ criterion.
+
+  \begin{proof}[Sketch]
+    $|x-x_0| < \delta \implies |f(x) - f(x_0)| < \epsilon$
+    \[|x^2 - x_0^2| = |x-x_0||x+x_0| \leq \delta |x + x_0|\]
+    Note the absolute value term is constant, but $x$ could be large, so we need to bound it. 
+    Let $\delta \leq 1$. What happens to $|x + x_0|$ in this case, let's try and relate it to 
+    $|x-x_0|$. 
+    \[|x + x_0| = |x - x_0 + x_0 + x_0| \leq |x-x_0| + |x_0 + x_0| = |x-x_0| + 2|x_0|\]
+    \[\leq \delta + 2|x_0| \leq 1 + 2|x_0|\]
+    which is a constant as desired. 
+  \end{proof}
+
+  \begin{proof}
+    Let $\epsilon > 0$ and $x_0\in\RR$. Let $\delta = \min(1, \frac{\epsilon}{1 + 2|x_0|})$. Note that 
+    $\epsilon > 0$ and $1 + 2|x_0| > 0$ and so we confirm $\delta > 0$. Thus, 
+    \[\delta \leq 1 \text{ and } \delta \leq \frac{\epsilon}{1 + 2|x_0}\]
+  \end{proof}
+\end{example}
 
 \end{document}
 
