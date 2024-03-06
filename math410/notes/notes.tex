@@ -1225,7 +1225,187 @@ Some quantifiers include $\forall, \exists, \exists!$ and some number sets inclu
     \[y_n^3 \to y_0^3, \ \exists \ N \text{ s.t. } \ \forall \ n \geq N, |y_n^3 - y_0^3| < \delta\]
     We know this is true for all $\epsilon$, so therefore we can let $\epsilon = \delta$. 
     \[-\delta < y_n^3 - y_0^3 < \delta \]
+    \[y_0^3 - \delta < y_n^3 < \delta + y_0^3\]
+    \[y_0^3 - (y_0^3 - (y_0 - \epsilon)^3) < y_n^3 < (y_0 + \epsilon)^3 - y_0^3 + y_0^3\]
+    \[(y_0 - \epsilon)^3  < y_n^3 < (y_0 + \epsilon)^3\]
+    \[y_0 - \epsilon < y_n < y_0 + \epsilon\]
+    \[|y_n - y_0| < \epsilon\]
+    and so $y_n \to y$ or $f^{-1}(x_n) \to f^{-1}(x_0)$ and so $f^{-1}(x)$ is continuous.
   \end{proof}
+\end{example}
+
+\begin{theorem}
+  Let $f: D \to \RR$ is monotone. If its image is an interval, then $f$ is continuous.
+  \begin{proof}
+    Let $x_0 \in D$ and $\{x_n\} \in D$ with $x_n \to x_0$. Suppose on the contrary that 
+    $f(x_n) \not\to f(x_0)$. Then $\ \exists \epsilon > 0$ and subsequence of $x_n$ such that 
+    \[|f(x_{n_k}) - f(x_0)| \geq \epsilon\]
+    Assume WLOG that $f$ is increasing. 
+
+    Case 1: If the absolute value is positive
+    \[f(x_{n_k}) - f(x_0) \geq \epsilon\]
+    \[f(x_{n_k}) \geq \epsilon + f(x_0)\]
+    \[f(x_{n_k}) \geq \epsilon + f(x_0) > \frac{\epsilon}{2} + f(x_0) > f(x_0)\]
+    Since the image of $f$ is an interval (all points in between). So $\exists \ c \in D$ such that 
+    \[f(c) = f(x_0) + \frac{\epsilon}{2}\]
+    \[f(x_{n_k}) > f(c) > f(x_0)\]
+    And since $f$ is strictly monotone increasing, so $x_{n_k} > c > x_0$
+    \[|x_{n_k} - x_0| > |c - x_0| > 0\]
+    Note that $c - x_0$ is a constant.
+
+    Case 2: If the absolute value is negative
+
+    \[f(x_0) - f(x_{n_k}) \geq \epsilon\]
+    \[f(x_0) - \epsilon \geq f(x_{n_k})\]
+    \[f(x_0) > f(x_0) - \frac{\epsilon}{2} > f(x_{n_k})\]
+    \[\vdots\]
+  \end{proof}
+\end{theorem}
+
+\begin{theorem}
+  Suppose $I$ is an interval and $f: I \to \RR$ is monotone. Then $f$ is continuous
+  if and only if its image is an interval.
+\end{theorem}
+
+\begin{theorem}
+  Let $f: I \to \RR$, I is an interval, be strictly monotone. Then its inverse 
+  $f^{-1}: f(I) \to \RR$ is continuous. Similar to the $x^3$ example above.
+\end{theorem}
+
+\begin{example}
+  $f: [0, \infty) \to \RR$ with $f(x) = x^n$ is strictly increasing, so inverse 
+  is continuous. Notation: negative integer $n$: $x^n = \frac{1}{x^{-n}}$
+  \begin{itemize}
+    \item $x^n * x^m = x^{n + m}$
+    \item $(x^n)^m) = x^{nm}$
+  \end{itemize}
+  $y^{\frac{1}{n}} = f^{-1}(y) \ \forall \ y \geq 0$.
+\end{example}
+
+\begin{definition}
+  For $x > 0$ and $r \in \QQ$ with $r = \frac{m}{n}, m \in \ZZ, n \in \NN$, we define 
+  \[x^r = (x^m)^{\frac{1}{n}}\]
+\end{definition}
+
+\begin{remark}
+  Let $r \in \QQ$ and define $f(x) = x^r \ \forall \ x \geq 0$. Then $f: [0, \infty) \to \RR$ is 
+  continuous. 
+\end{remark}
+
+\subsection{Limits}
+
+\begin{note}
+  Note that before $\Lim a_n = a$ for sequences but now $\underset{x\to a}{\lim}f(x) = L$
+\end{note}
+
+\begin{definition}
+  We say $x_0 \in \RR$ is a \vocab{limit point} of $D$ if $\exists \ \{x_n\} \in (D - \{x_0\})$
+\end{definition}
+
+\begin{example}
+  For $(0, 1)$, the numbers $0$ and $1$ are limit points.
+\end{example}
+
+\begin{definition}
+  Given $f: D \to \RR$ and limit point $x_0$, we write 
+  \[\lim_{x\to x_0} f(x) = l\]
+  if whenever $\{x_n\} \in (D - \{x_0\})$ with $x_n \to x_0$ has $\Lim f(x_n) = l$
+\end{definition}
+
+\begin{remark}
+  A function is continuous at $x_0$ if and only if $\underset{x\to x_0}{\lim}f(x) = f(x_0)$
+\end{remark}
+
+\begin{example}
+  $\underset{x \to 2}{\lim}\sqrt{\frac{3x + 3}{x^3 - 4}}$. Note that there are no 
+  denominator issues at $x = 2$. 
+
+  \begin{proof}[Solution]
+    Note that numerator and denominator are both continuous, and so the 
+    quotient continuous as well because the denominator is also not $0$. 
+    Further note htat $\sqrt{x}$ is continuous because it is the inverse 
+    of a strictly monotone function. Compositions of continuous functions 
+    are continuous at $x=2$. So 
+    \[\lim_{x\to2} = \sqrt{\frac{3x+3}{x^3-4}} = \sqrt{\frac{3(2) + 3}{2^3-4}} = \sqrt{\frac{9}{4}} = \frac{3}{2}\]
+  \end{proof}
+\end{example}
+
+\begin{example}
+  $\underset{x\to1}{\lim}\frac{x^2-1}{x-1}$. 
+
+  Note that we cannot use the quotient property like above. Let $\{x_n\} \to 1$ with 
+  $x_n \neq 1$. 
+  \[\frac{x_n^2 - 1}{x_n - 1} = \frac{(x_n-1)(x_n+1)}{x_n-1} = x_n + 1\]
+  So therefore
+  \[\lim_{n\to1} \frac{x^2-1}{x-1} = \lim_{n\to\infty}\frac{x_n^2-1}{x_n-1} = \lim_{n\to\infty}x_n + 1 = 1 + 1 = 2\]
+\end{example}
+
+\begin{theorem}
+  $f: D \to \RR$ and $g: D \to \RR, x_0 \in\RR$ is a limit point. 
+  Let $\underset{x\to x_0}{\lim}f(x) = A$ and $\underset{x\to x_0}{\lim}g(x) = B$
+  and $c \in \RR$. Then 
+  \begin{enumerate}[i.]
+    \item $\underset{x\to x_0}{\lim}(f(x) \pm g(x)) = A \pm B$
+    \item $\underset{x\to x_0}{\lim}(f(x)g(x)) = A \cdot B$
+    \item $\underset{x\to x_0}{\lim}\frac{f(x)}{g(x)} = \frac{A}{B}, g(x) \neq 0, B \neq 0$
+    \item $\underset{x\to x_0}{\lim}cf(x) = cA$
+  \end{enumerate}
+  These follow directly from properties of compositions. Similarly for compositions.
+  $f: D \to \RR, g: U \to \RR, x_0$ is a limit point with $\underset{x\to x_0}{\lim}f(x) = y_0$
+  and $\underset{x\to x_0}{g(y)} = l$ and $f(D - \{x_0\}) \subset U - \{y_0\}$. 
+  Then
+  \[\lim_{x\to x_0} (g \circ f)(x) = l\]
+  We will see limits later on in Differentiation.
+\end{theorem}
+
+\section{Differentiation}
+
+\begin{remark}
+  High level: to find the tangent line, take a sequence of secant lines closer and 
+  closer towards $x$
+  \[\lim_{x\to x_0}\frac{f(x) - f(x_0)}{x - x_0} = m_0 \ \ \ \text{(slope)}\]
+\end{remark}
+
+\begin{definition}
+  For $x_0 \in \RR$, the open interval $I = (a, b)$  that contains $x_0$ 
+  is called a \vocab{neighborhood} of $x_0$. 
+\end{definition}
+
+\begin{definition}
+  $f: I \to \RR$ is said to be \vocab{differentiable at $x_0$} if
+  \[\underset{x\to x_0}{\lim}\frac{f(x) - f(x_0)}{x - x_0} := f'(x_0)\] exists 
+  and we denote it by $f'(x_0)$, the \vocab{derivative} of $f$ at $x_0$.  
+\end{definition}
+
+\begin{remark}
+  If $f$ is differentiable at every point in $I$, $f$ is \vocab{differentiable} and 
+  $f': I \to \RR$ is called the \vocab{derivative}.
+\end{remark}
+
+\begin{example}
+  $f(x) = mx + b$. Find $f'$.
+  \[f'(x_0) = \lim_{x\to x_0}\frac{f(x) - f(x_0)}{x - x_0} = \lim_{x\to x_0}\frac{mx + b - mx_0 - b}{x - x_0} = m\]
+\end{example}
+
+\begin{example}
+  $f(x) = x^2$. Find $f'$.
+  \[f'(x_0) = \lim_{x\to x_0}\frac{f(x) - f(x_0)}{x - x_0} = \lim_{x\to x_0}\frac{x^2 - x_0^2}{x - x_0} = \lim_{x \to x_0} \frac{(x- x_0)(x+x_0)}{x-x_0} = 2x_0\]
+\end{example}
+
+\begin{note}
+  \[(x^2 - x_0^2) = (x-x_0)(x+x_0)\]
+  \[(x^3 - x_0^3) = (x-x_0)(x^2 + xx_0 + x_0^2)\]
+  \[(x^4 - x_0^4) = (x-x_0)(x^3 + x^2x_0 + xx_0^2 + x_0^3)\]
+  Notice the pattern. Binomial Expansion. Note that you can prove this general 
+  pattern using induction.
+\end{note}
+
+\begin{example}
+  $f(x) = x^n, n \in \NN$. Find $f'$. \vocab{Power Rule}.
+  \[f'(x_0) = \lim_{x\to x_0}\frac{x^n - x_0^n}{x - x_0} = \lim_{x\to x_0}\frac{(x-x_0)(\cdots)}{x - x_0}\]
+  where $x \neq x_0$. 
+  \[= x_0^{n-1} + x_0^{n-2}x_0 + x_0^{n-3}x_0^2 + \cdots + x_0^{n-1}\]
+  \[= n x_0^{n-1}\]
 \end{example}
 
 \end{document}
