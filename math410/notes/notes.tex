@@ -1049,7 +1049,7 @@ Some quantifiers include $\forall, \exists, \exists!$ and some number sets inclu
   \begin{proof}
     Suppose $\{u_n - v_n\} \to 0$ for $\{u_n\}$ and $\{v_n\}$ in $(2,3)$. 
     \[|f(u_n) - f(v_n)| = |\frac{1}{u_n} - \frac{1}{v_n}| = |\frac{u_n - v_n}{u_n v_n}|\]
-    We need to bound the product $u_nv_n$. Note htat $u_n > 2, v_n > 2 \implies \frac{1}{u_n} < \frac{1}{2}, \frac{1}{v_n} < \frac{1}{2}$, 
+    We need to bound the product $u_nv_n$. Note that $u_n > 2, v_n > 2 \implies \frac{1}{u_n} < \frac{1}{2}, \frac{1}{v_n} < \frac{1}{2}$, 
     so 
     \[< \frac{|u_n - v_n|}{2 * 2}\]
     so $|f(u_n) - f(v_n)| \leq \frac{1}{4}|u_n - v_n|$ and so by Comparison Lemma, $\{f(u_n) - f(v_n)\} \to 0$.
@@ -1065,27 +1065,34 @@ Some quantifiers include $\forall, \exists, \exists!$ and some number sets inclu
 
 \begin{theorem}
   Every continuous function on a closed bounded interval $f: [a,b] \to \RR$ is uniformly continuous.
+
+  \begin{remark}
+    For example, $f(x) = x^2$ on $[a, b]$ is uniformly continuous.
+  \end{remark}
+
   \begin{proof}
     Let $\{u_n\}, \{v_n\} \subset [a,b]$ with $\Lim (u_n - v_n)= 0$. We WTS that 
     $\Lim (f(u_n) - f(v_n)) = 0$. By contradiction, assume that $\{f(u_n) - f(v_n)\} \not \to 0$. 
     Therefore, 
-    \[\exists \ \epsilon > 0 \text{ s.t. } \ \forall \ N \in \NN, \exists n \geq N\] with 
+    \[\exists \ \epsilon > 0 \text{ s.t. } \ \forall \ N \in \NN, \text{ there is } n \geq N\] with 
     \[|f(u_n) - f(v_n)| \geq \epsilon\]
     Let us create a subsequence
     \[n_1 \geq N = 1 \text{ s.t. } |f(u_{n_1}) - f(v_{n_1})| \geq \epsilon\]
     \[n_2 \geq n_1 + 1 \cdots |f(u_{n_2}) - f(v_{n_2})| \geq \epsilon\]
     \[n_3 \geq n_2 + 1 \cdots |f(u_{n_3}) - f(v_{n_3})| \geq \epsilon\]
-    So $\{f(u_{n_k}) - f(u_{n_k})\}$ is a subsequence with 
+    So $\{f(u_{n_k}) - f(v_{n_k})\}$ is a subsequence with 
     $\{f(u_{n_k}) - f(v_{n_k})\} \geq \epsilon \ \forall n_k$. Because $\{u_n\}$ is a 
-    sequence in $[a, b]$, we can use Sequetial Compactness to find a subsequence 
-    $\{u_{m_k}\}$. Since $f$ is continuous, then $\Lim f(u_{m_k}) = f(x_0)$.
+    sequence in $[a, b]$, we can use Sequential Compactness to find a subsequence 
+    $\{u_{m_k}\}$ that converges to some $x_0 \in [a,b]$. 
+    Since $f$ is continuous, then $\underset{k\to\infty}{\lim} f(u_{m_k}) = f(x_0)$.
     Since $\underset{k\to\infty}{\lim}(u_n - v_n) = 0 \implies \underset{k\to\infty}{\lim}(u_{m_k} - v_{m_k}) = 0$
     by a theorem. Thus, 
-    \[\lim_{k\to\infty} v_{m_k} = \lim_{k\to\infty}u_{m_k} - \lim_{k\to\infty}(u_{m_k} - v_{m_k}) = x_0 - 0 \implies v_{m_k} \to x_0\]
+    \[\lim_{k\to\infty} v_{m_k} = \lim_{k\to\infty}u_{m_k} - \lim_{k\to\infty}(u_{m_k} - v_{m_k}) = x_0 - 0 \implies \{v_{m_k}\} \to x_0\]
     Therefore, 
     \[\lim_{k\to\infty}(f(u_{m_k}) - f(v_{m_k})) = f(x_0) - f(x_0) = 0\]
-    But this is a contradiction 
-    \[\ \forall \ n_k, \ |f(u_{n_k}) - f(v_{n_k})|\]
+    But this is a contradiction that
+    \[\ \forall \ n_k, \ |f(u_{n_k}) - f(v_{n_k})| \geq \epsilon\]
+    and so therefore, $\{f(u_n) - f(v_n) \to 0\}$ as desired.
   \end{proof}
 \end{theorem}
 
@@ -1093,7 +1100,7 @@ Some quantifiers include $\forall, \exists, \exists!$ and some number sets inclu
 
 \begin{definition}
   A function $f: D \to\RR$ is said to satisfy the \vocab{$\epsilon-\delta$ criterion} at $x_0 \in D$ 
-  if $\ \forall \ \epsilon > 0, \ \exists$ a $\delta > 0$ so that 
+  if $\ \forall \ \epsilon > 0, \ \exists \ \delta > 0$ so that 
   \[\forall \ x \in D \text{ and } |x-x_0| < \delta \implies |f(x) - f(x_0)| < \epsilon\]
 \end{definition}
 
@@ -1115,7 +1122,7 @@ Some quantifiers include $\forall, \exists, \exists!$ and some number sets inclu
 
   \begin{proof}
     Let $\epsilon > 0$ be given. Let $x_0 = 2$ and let $\delta = \frac{\epsilon}{3}$. 
-    Then if $||x-2| < \delta$ then 
+    Then if $|x-2| < \delta$ then 
     \[|f(x) - f(x_0)| = |3x-6| = 3|x-2| < 3\delta = 3 * \frac{\epsilon}{3} = \epsilon\]
   \end{proof}
 \end{example}
@@ -1138,7 +1145,7 @@ Some quantifiers include $\forall, \exists, \exists!$ and some number sets inclu
   \begin{proof}
     Let $\epsilon > 0$ and $x_0\in\RR$. Let $\delta = \min(1, \frac{\epsilon}{1 + 2|x_0|})$. Note that 
     $\epsilon > 0$ and $1 + 2|x_0| > 0$ and so we confirm $\delta > 0$. Thus, 
-    \[\delta \leq 1 \text{ and } \delta \leq \frac{\epsilon}{1 + 2|x_0}\]
+    \[\delta \leq 1 \text{ and } \delta \leq \frac{\epsilon}{1 + 2|x_0|}\]
     Then
     \[|x + x_0| = |x -x_0 + x_0 + x_0| \leq |x-x_0| + 2|x_0| \leq \delta + |2x_0| \leq 1 + 2|x_0|\]
     since $|x-x_0| < \delta$. Thus, 
@@ -1150,20 +1157,22 @@ Some quantifiers include $\forall, \exists, \exists!$ and some number sets inclu
 
 \begin{theorem}
   Given $f: D \to \RR, x_0 \in D$, $f$ is continuous at $x_0$ iff $f$ satisfies the 
-  $\epsilon-\delta$ criteria at $x_0$.
+  $\epsilon-\delta$ criteria at $x_0$. Note that here $\delta$ depends on 
+  $\epsilon$ and can depend on $x_0$ because we are talking about \vocab{continuity}.
 \end{theorem}
 
 \begin{definition}
-  We say $f: D \to \RR$ satisifes the $\epsilon-\delta$ criterion \vocab{on $D$} if 
+  We say $f: D \to \RR$ satisifes the \vocab{$\epsilon-\delta$ criterion on $D$} if 
   \[\forall \ \epsilon > 0 \ \exists \ \delta > 0 \text{ s.t. } \ \forall \ u, v \in D, \text{ if } |u-v| < \delta \implies |f(u) - f(v)| < \epsilon\]
 
-  Note here that $\delta$ can only depend on $\epsilon$. 
+  Note here that $\delta$ can only depend on $\epsilon$ and not $x_0$. 
 
 \end{definition}
 
 \begin{theorem}
   Given $f: D \to \RR$, $f$ is uniformly continuous on $D$ iff $f$ satisfies 
-  $\epsilon-\delta$ critera on $D$.
+  $\epsilon-\delta$ critera on $D$, and here, note that $\delta$ can only depend on 
+  $\epsilon$ because we are talking about \vocab{uniform continuity}.
 \end{theorem}
 
 \subsection{Images, Inverses, Monotone Functions}
@@ -1196,8 +1205,9 @@ Some quantifiers include $\forall, \exists, \exists!$ and some number sets inclu
   \begin{proof}
     WLOG, suppose $f$ is strictly increasing and $f(u) = f(v)$. To show $1-1$, we WTS 
     $u = v$ for $u, v \in D$. By contradiction, if $u < v$, since $f$ is strictly monotone 
-    increasing, then $f(u) < f(v)$. This contradicts $f(u) = f(v)$. The direction 
-    $u > v$ is very similar. 
+    increasing, then $f(u) < f(v)$. If $u > v \implies f(u) > f(v)$ by definition 
+    of strictly monotonically increasing function. Therefore, $u = v$, and so 
+    $f(u) = f(v) \implies u = v$ and so $f$ is 1-1.
   \end{proof}
 \end{theorem}
 
@@ -1213,11 +1223,11 @@ Some quantifiers include $\forall, \exists, \exists!$ and some number sets inclu
 
     \hfill
 
-    For notation: label $y_n = f^{-1}(x_n), y_0 = f^{-1}(x_0) \implies y_n \to y_0$. 
+    For notation: label $y_n = f^{-1}(x_n), y_0 = f^{-1}(x_0)$. 
     Therefore
     \[x_n = f(y_n) = y_n^3 \]
     \[x_0 = f(y_0) = y_0^3\]
-    Since $x_n \to x_0$, then $y_n^3 \to y_0^3$. We WTS $y_n^3 \to y_0^3$. Let $\epsilon > 0$. 
+    Since $x_n \to x_0$, then $y_n^3 \to y_0^3$. We WTS $y_n \to y_0$. Let $\epsilon > 0$. 
     Let $\delta = \min((y_0+\epsilon)^3 - (y_0)^3, y_0^3 - (y_0 - \epsilon)^3)$. Since $\epsilon > 0$, 
     it is easy to show that $\delta > 0$. 
 
@@ -1230,7 +1240,7 @@ Some quantifiers include $\forall, \exists, \exists!$ and some number sets inclu
     \[(y_0 - \epsilon)^3  < y_n^3 < (y_0 + \epsilon)^3\]
     \[y_0 - \epsilon < y_n < y_0 + \epsilon\]
     \[|y_n - y_0| < \epsilon\]
-    and so $y_n \to y$ or $f^{-1}(x_n) \to f^{-1}(x_0)$ and so $f^{-1}(x)$ is continuous.
+    and so $y_n \to y_0$ or $f^{-1}(x_n) \to f^{-1}(x_0)$ by definition of $y_n, y_0$ and so $f^{-1}(x)$ is continuous.
   \end{proof}
 \end{example}
 
@@ -1251,20 +1261,31 @@ Some quantifiers include $\forall, \exists, \exists!$ and some number sets inclu
     \[f(x_{n_k}) > f(c) > f(x_0)\]
     And since $f$ is strictly monotone increasing, so $x_{n_k} > c > x_0$
     \[|x_{n_k} - x_0| > |c - x_0| > 0\]
-    Note that $c - x_0$ is a constant.
+    Note that $c - x_0$ is a constant, and so $x_{n_k} \not\to x_0$.
 
     Case 2: If the absolute value is negative
 
     \[f(x_0) - f(x_{n_k}) \geq \epsilon\]
     \[f(x_0) - \epsilon \geq f(x_{n_k})\]
     \[f(x_0) > f(x_0) - \frac{\epsilon}{2} > f(x_{n_k})\]
-    \[\vdots\]
+    \[\exists \ c_2 \in D \text{ such that } f(c_2) = f(x_0) - \frac{\epsilon}{2}\]
+    Since $f$ is strictly monotonically increasing, we know 
+    \[x_0 > c_2 > x_{n_k}\]
+    \[|x_{n_k} - x_0| > |x_0 - c_2| > 0\]
+    Therefore, combining the conclusions from the two cases:
+    \[x_{n_k} > \min(|x_0 - c|, |x_0 - c_2|) > 0\]
+    and so therefore, $|x_{n_k}| \not\to x_0$
+    which is a contradiction. Therefore, $f$ is continuous.
   \end{proof}
 \end{theorem}
 
 \begin{theorem}
   Suppose $I$ is an interval and $f: I \to \RR$ is monotone. Then $f$ is continuous
   if and only if its image is an interval.
+
+  \begin{proof}
+    Omitted. This proof follows from the IVT and the previous theorem.
+  \end{proof}
 \end{theorem}
 
 \begin{theorem}
@@ -1279,7 +1300,7 @@ Some quantifiers include $\forall, \exists, \exists!$ and some number sets inclu
     \item $x^n * x^m = x^{n + m}$
     \item $(x^n)^m) = x^{nm}$
   \end{itemize}
-  $y^{\frac{1}{n}} = f^{-1}(y) \ \forall \ y \geq 0$.
+  $y^{\frac{1}{n}} = f^{-1}(y^n) \ \forall \ y \geq 0$, "nth root of $y$".
 \end{example}
 
 \begin{definition}
@@ -1300,6 +1321,7 @@ Some quantifiers include $\forall, \exists, \exists!$ and some number sets inclu
 
 \begin{definition}
   We say $x_0 \in \RR$ is a \vocab{limit point} of $D$ if $\exists \ \{x_n\} \in (D - \{x_0\})$
+  and $\{x_n\} \to x_0$.
 \end{definition}
 
 \begin{example}
@@ -1323,8 +1345,8 @@ Some quantifiers include $\forall, \exists, \exists!$ and some number sets inclu
   \begin{proof}[Solution]
     Note that numerator and denominator are both continuous, and so the 
     quotient continuous as well because the denominator is also not $0$. 
-    Further note htat $\sqrt{x}$ is continuous because it is the inverse 
-    of a strictly monotone function. Compositions of continuous functions 
+    Further note that $\sqrt{x}$ is continuous because it is the inverse 
+    of a strictly monotone function (on the domain $[0, \infty)$). Compositions of continuous functions 
     are continuous at $x=2$. So 
     \[\lim_{x\to2} = \sqrt{\frac{3x+3}{x^3-4}} = \sqrt{\frac{3(2) + 3}{2^3-4}} = \sqrt{\frac{9}{4}} = \frac{3}{2}\]
   \end{proof}
@@ -1337,7 +1359,7 @@ Some quantifiers include $\forall, \exists, \exists!$ and some number sets inclu
   $x_n \neq 1$. 
   \[\frac{x_n^2 - 1}{x_n - 1} = \frac{(x_n-1)(x_n+1)}{x_n-1} = x_n + 1\]
   So therefore
-  \[\lim_{n\to1} \frac{x^2-1}{x-1} = \lim_{n\to\infty}\frac{x_n^2-1}{x_n-1} = \lim_{n\to\infty}x_n + 1 = 1 + 1 = 2\]
+  \[\lim_{x\to1} \frac{x^2-1}{x-1} = \lim_{n\to\infty}\frac{x_n^2-1}{x_n-1} = \lim_{n\to\infty}x_n + 1 = 1 + 1 = 2\]
 \end{example}
 
 \begin{theorem}
@@ -1350,15 +1372,17 @@ Some quantifiers include $\forall, \exists, \exists!$ and some number sets inclu
     \item $\underset{x\to x_0}{\lim}\frac{f(x)}{g(x)} = \frac{A}{B}, g(x) \neq 0, B \neq 0$
     \item $\underset{x\to x_0}{\lim}cf(x) = cA$
   \end{enumerate}
-  These follow directly from properties of compositions. Similarly for compositions.
+  These follow directly from properties of sequences. Similarly for compositions.
   $f: D \to \RR, g: U \to \RR, x_0$ is a limit point with $\underset{x\to x_0}{\lim}f(x) = y_0$
-  and $\underset{x\to x_0}{g(y)} = l$ and $f(D - \{x_0\}) \subset U - \{y_0\}$. 
+  and $\underset{y\to y_0}{\lim}g(y) = l$ and $f(D - \{x_0\}) \subset U - \{y_0\}$. 
   Then
   \[\lim_{x\to x_0} (g \circ f)(x) = l\]
   We will see limits later on in Differentiation.
 \end{theorem}
 
 \section{Differentiation}
+
+\subsection{Basic Differentiation Rules}
 
 \begin{remark}
   High level: to find the tangent line, take a sequence of secant lines closer and 
@@ -1429,33 +1453,37 @@ Some quantifiers include $\forall, \exists, \exists!$ and some number sets inclu
   If $f: I \to \RR, g: I \to \RR$, both differentiable at $x_0$ then 
   \begin{enumerate}[a.]
     \item $(f \pm g)'(x_0) = f'(x_0) +\pm g'(x_0)$
+  \[\lim_{x\to x_0}\frac{(f\pm g)(x_0) - (f\pm g)(x_0)}{x - x_0} = \lim_{x\to x_0} \frac{f(x) - f(x_0)}{x - x_0} \pm \lim_{x\to x_0}\frac{g(x) - g(x_0)}{x - x_0}\]
+  \[= f'(x_0) \pm g'(x_0)\]
+
     \item $(fg')(x_0) = f'(x_0)g(x_0) + f(x_0)g'(x_0)$
+    
+  \[\lim_{x\to x_0}\frac{(fg)(x) - (fg)(x_0)}{x - x_0} = \lim_{x\to x_0}\frac{f(x)g(x) - f(x_0)g(x_0)}{x - x_0}\]
+  \[= \lim_{x\to x_0}\frac{f(x)g(x) - f(x_0)g(x) + f(x_0)g(x) - f(x_0)g(x_0)}{x - x_0}\]
+  \[= \lim_{x\to x_0}g(x)\frac{f(x) - f(x_0)}{x - x_0} + \lim_{x\to x_0} f(x_0)\frac{g(x) - g(x_0)}{x-x_0}\]
+  Note that since $g$ is differentiable at $x_0$, $g$ is continuous at $x_0$, and 
+  so $\underset{x\to x_0}{\lim}g(x) = g(x_0)$. Therefore, we get 
+  \[= g(x_0)f'(x_0) + f(x_0)g'(x_0)\]
+
     \item $(\frac{f}{g})'(x_0) = \frac{f'(x_0)g(x_0) - f(x_0)g'(x_0)}{(g(x_0))^2}$
-  \end{enumerate}
-
-  \begin{proof}
-    Proof omitted, but these are relatively straight forward. Start with what you want
-    to show, and it's simple algebra and then substitution by the definition of derivatives.
-  \end{proof}
-\end{theorem}
-
-\begin{note}
+  
   Before quotient rule, we wil prove $(\frac{1}{g})' = -\frac{g'(x_0)}{(g(x_0))^2}$
-  \begin{proof}
-    \[\lim_{x\to x_0} \dfrac{(\frac{1}{g})(x) - (\frac{1}{g})(x_0)}{x-x_0} = \lim_{x\to x_0 }\dfrac{\frac{1}{g(x)} -  \frac{1}{g(x_0)}}{x-x_0}\]
+    \[\lim_{x\to x_0} \dfrac{(\frac{1}{g})(x) - (\frac{1}{g})(x_0)}{x-x_0} = \lim_{x\to x_0 }\dfrac{\frac{1}{g(x)} -  \frac{1}{g(x_0)}}{x-x_0} = \lim_{x\to x_0}\frac{\frac{g(x_0) - g(x)}{g(x_0)g(x)}}{x-x_0}\]
+    Note that $g$ is differentiable at $x_0$, so it is continuous at $x_0$, and so 
+    $\underset{x\to x_0}{\lim}g(x) = g(x_0)$
     \[\lim_{x\to x_0}-\frac{1}{g(x_0)g(x)}\frac{g(x) - g(x_0)}{x - x_0} = -\frac{1}{g(x_0)^2}g'(x_0)\]
-
-    Now for the quotient rule, 
-    \[(\frac{f(x_0)}{g(x_0)})' = (\frac{1}{g(x_0)} * f(x_0))'\]
-    Using above and the product rule, we will get the quotient rule.
-  \end{proof}
-\end{note}
+  Now for the quotient rule, observe that 
+  \[(\frac{f(x_0)}{g(x_0)})' = (\frac{1}{g(x_0)} \cdot f(x_0))'\]
+  Using above and the product rule, we get 
+  \[-\frac{1}{g(x_0)^2}g'(x_0) f(x_0) + f'(x_0)\frac{1}{g(x_0)} = \frac{f'(x_0)g(x_0) - g'(x_0)f(x_0)}{g(x_0)^2}\]
+  \end{enumerate}
+\end{theorem}
 
 \begin{note}
   Power rule works for negative powers too. We know thart $f(x) = x^n, n \in \NN$ s.t. $f'(x) = nx^{n-1}$.
 
   Let $g(x) = x^n = \frac{1}{x^{-n}}, n < 0$. So, 
-  \[(\frac{1}{x^{-n}})' \underset{(*)}{=} -\frac{(x^{-n})'}{(x^{-n})^2} = -\frac{(-n^{-n-1})}{x^{-n}x^{-n}} = nx^{n-1}\]
+  \[(\frac{1}{x^{-n}})' \underset{(*)}{=} -\frac{(x^{-n})'}{(x^{-n})^2} = -\frac{(-nx^{-n-1})}{x^{-n}x^{-n}} = nx^{n-1}\]
 \end{note}
 
 \subsection{Differentiating Inverses and Compositions}
@@ -1464,8 +1492,365 @@ Some quantifiers include $\forall, \exists, \exists!$ and some number sets inclu
   $f: [0, \infty) \to \RR$ such that $f(x) = x^2$ and therefore $f^{-1}(y) = \sqrt{y}$.
 
   Look at the point $x=3, y=9$, $f'(x) = 2x, f'(3) = 6$. Is the derivative of the 
-  inverse at $y=9$ equal to $\frac{1}{6}$.  
+  inverse at $y=9$ equal to $\frac{1}{6}$. Yes!  
+
+  \[\lim_{y \to 9} \frac{f^{-1}(y) - f^{-1}(y_0)}{y - y_0} = \lim_{y\to 9}\frac{\sqrt{y} - 3}{y - 9} = \lim_{y\to 9} \frac{1}{\sqrt{y} + 3} = \frac{1}{6}\]
+  as desired.
 \end{example}
+
+\begin{theorem}
+  Let $f: I \to \RR$ be strictly monotone and continuous. 
+  Suppose $f$ is differentiable at $x_0$ and $f'(x_0) \neq 0$. 
+  Define $J = f(I)$. Then $f^{-1}: J \to \RR$ is differentiable at $y_0 = f(x_0)$ 
+  and
+  \[(f^{-1})'(y_0) = \frac{1}{f'(x_0)}\]
+
+  \begin{proof}
+    Note that $J$ is also a neighborhood of $y_0 = f(x_0)$ by IVT.
+    For $y \in J, y \neq y_0$, define $f^{-1}(y) = x$. Then 
+    \[\frac{f^{-1}(y) - f^{-1}(y_0)}{y - y_0} = \frac{x-x_0}{f(x) - f(x_0)} = \frac{1}{\frac{f(x) - f(x_0)}{x-x_0}}\]
+    Note that $f^{-1}$ is differentiable, and so it is continuous, and so 
+    \[\lim_{y\to y_0}f^{-1}(y) = f^{-1}(y_0) = x_0\]
+    Now applying the limits, we get 
+    \[\lim_{y\to y_0}\frac{f^{-1}(y) - f^{-1}(y_0)}{y-y_0} = \lim_{y\to y_0}\frac{1}{\frac{f(x) - f(x_0)}{x-x_0}} = \frac{1}{f'(x_0)}\]
+    Therefore, $f^{-1}$ is differentiable at $y_0$ and
+    \[(f^{-1})'(y_0) = \frac{1}{f'(x_0)}\]
+  \end{proof}
+\end{theorem}
+
+\begin{corollary}
+  For functions in general, suppose $f: I \to \RR$ is strictly monotone and differentiable and 
+  $f'(x) \neq 0 \ \forall \ x$. Define $J = f(I)$. Then 
+  $f^{-1}: J \to \RR$ is differentiable and
+  \[(f^{-1})'(x) = \frac{1}{f'(f^{-1}(x))} \ \forall \ x \in J\] 
+  Take $x = f(f(^{-1})(x))$ and $f^{-1}(x) \to x_0$.
+\end{corollary}
+
+\begin{lemma}
+  For $n \in \NN, g(x) = x^{1/n}, g: (0, \infty) \to \RR$. Claim 
+  $g$ is differentiable and $g'(x) = \frac{1}{n}x^{1/n - 1}$.
+  \begin{proof}[Sketch of a Proof]
+    Suppose $f(x) = x^n$ and so we know the inverse is $g(x) = x^{1/n}$. We know 
+    $f'(x) = nx^{x-1}, n \in \NN$. From the corollary above, 
+    \[g'(x) = \frac{1}{f'(g(x))} = \frac{1}{n(x^{1/n})^{n-1}} = \frac{1}{n(x^{1-1/n})} = \frac{1}{n}x^{\frac{1}{n} - 1}\]
+    as desired.
+  \end{proof}
+\end{lemma}
+
+\begin{theorem}
+  The \vocab{Chain Rule}. Let $I$ be a neighborhood of $x_0$, 
+  $f: I \to \RR$ differentiable at $x_0$, $J$ is an open interval such that 
+  $f(I) \subset J$, $g: J \to \RR$ is differentiable at $f(x_0)$. Then 
+  \[(g \circ f): I \to \RR \text{ is differentiable at } x_0\] and 
+  \[(g \circ f)'(x_0) = g'(f(x_0))\ \cdot f'(x_0)\]
+  \begin{proof}
+    Proof omitted in class.
+  \end{proof}
+\end{theorem}
+
+\begin{example}
+  Let $r = \frac{m}{n}, m \in \ZZ, n \in \NN$ and define 
+  $f(x) = x^m$ and $g(x) = x^{1/n}$ and so 
+  $f'(x) = mx^{m-1}$ and $g'(x) = \frac{1}{n}x^{1/n - 1}$. Let 
+  $h(x) = f(g(x))$. Then using the Chain Rule, 
+  \[h'(x) = g'(f(x))f'(x) = \frac{1}{n}(x^m)^{1/n - 1} \cdot mx^{m-1}\]
+  \[= \frac{m}{n}x^{\frac{m}{n} - m + m - 1} = \frac{m}{n}x^{m/n - 1} = rx^{r- 1}\]
+  as needed.
+\end{example}
+
+\subsection{Rolle's Theorem and Mean Value Theorem}
+
+\begin{definition}
+  $x_0 \in D$ of $f: D \to \RR$ is said to be a \vocab{local max (min)} if $\ \exists$ a neighborhood 
+  $I$ of $x_0$ for which $f(x_0) \geq f(x) \ (f(x_0) \leq f(x)) \ \forall \ x \in I \cap D$
+\end{definition}
+
+\begin{lemma}
+  Suppose $f: I \to \RR$ is differentiable at $x_0$. If 
+  $x_0$ is either a max or min of $f$, then $f'(x_0) = 0$. 
+
+  \begin{proof}
+    Let $x_0$ be a max WLOG. Then $f(x) \leq f(x_0) \ \forall \ x$ by 
+    definition of max at $x$. Consider $x < x_0$ in $x \in I$. Then 
+    \[\frac{f(x) - f(x_0)}{x-x_0} \geq 0\]
+    Note that the numerator is negative and the denominator is negative. Therefore, the entire 
+    expression is positive. Now if $x > x_0$, then 
+    \[\frac{f(x) - f(x_0)}{x-x_0} \leq 0\]
+    But in order for the derivative (limit) to exist, then for all 
+    sequences, the image sequences must converge to the same value. Therefore, 
+    \[f'(x_0) = \lim_{x\to x_0, x < x_0} \frac{f(x) - f(x_0)}{x-x_0} \geq 0\]
+    \[ = \lim_{x\to x_0, x > x_0} \frac{f(x) - f(x_0)}{x -x_0} \leq 0\]
+    \[\implies f'(x_0) = 0\]
+    in order for the derivative to exist.
+  \end{proof}
+\end{lemma}
+
+\begin{theorem}
+  \vocab{Rolle's Theorem} says suppose there is a function $f: [a,b] \to \RR$ is 
+  continuous and $f: (a, b) \to \RR$ is differentiable, and $f(a) = f(b)$, then 
+  \[\exists \ x_0 \in (a,b) \text{ such that } f'(x_0) = 0\]
+
+  \begin{proof}
+    Let $f(a) = f(b)$. Since $f: [a,b] \to \RR$ is continuity, apply the 
+    EVT, so $f$ attains max and min value on $[a,b]$. If both the 
+    min/max occur at endpoints, then the function $f$ must be constant, and so 
+    $f'(x) = 0$ at every point $x$ in $(a,b)$. Otherwise, the 
+    min/max are in $I = (a,b)$ and apply the previous lemma. 
+  \end{proof}
+\end{theorem}
+
+\begin{theorem}
+  The \vocab{Mean Value Theorem (MVT)} states that suppose $f: [a,b]\to \RR$ is 
+  continuous and $f: (a,b)\to\RR$ is differentiable. Then 
+  \[\exists \ x_0 \in (a,b) \text{ such that } f'(x_0) = \frac{f(b) - f(a)}{b-a} \text{ (slope) }\]
+  \begin{proof}
+    Let $m = \frac{f(b) - f(a)}{b - a}$. For any $m$, apply 
+    Rolle's Theorem to $h: [a,b]\to\RR$ defined by $h(x) = f(x) -mx \implies h'(x) = f'(x) - m$. 
+    Note that $h$ is continuous on $[a,b]$ since $f(x)$ and 
+    $-mx$ are continuous (cont + cont = cont) from chapter 3. 
+    Similarly, $h$ is differnetiable on $(a,b)$ since 
+    $f$ and $-mx$ are diff (diff + diff = diff) from chapter 4. Now we need to check if 
+    $h(a) = h(b)$. 
+    \[h(a) = f(a) - ma = f(a) - (\frac{f(b) - f(a)}{b-a})a = \frac{f(a)(b-a) - f(b)a + f(a)a}{b-a}\]
+    \[= \frac{f(a)b - f(a)a - f(b)a + f(a)a}{b-a} = \frac{f(a)b - f(b)a}{b-a}\]
+    Similarly, $h(b) = \frac{f(a)b - f(b)a}{b-a}$, it is the same algebra. 
+    Therefore, $h(a) = h(b)$ and so we can apply Rolle's Theorem and 
+    so $\ \exists \ x_0 \in (a,b)$ with $h'(x_0) = 0$. Thus, 
+    \[f'(x_0) - m = 0 \implies f'(x_0) = m = \frac{f(b) - f(a)}{b-a}\]
+    as desired.
+  \end{proof}
+\end{theorem}
+
+\begin{example}
+  Prove that $x^3 + 3x + 1$ has a unique solution.
+
+  \begin{proof}[Solution]
+    Let $f(x) = x^3 + 3x + 1$. Note that $f$ is continuous because 
+    it is a polynomial, and $f$ is differentiable. Note that 
+    $f(0) = 1 > 0$ and $f(-1) = -3 < 0$. Since $0 \in (-3, 1)$, by the IVT, 
+    $\exists x_0 \in (-1, 0) \text{ such that } f(x) = 0$. Is it unique?
+    Assume not and assume there are $2$ solutions such that 
+    \[f(a) = 0 = f(b)\]
+    By Rolle's Theorem $\exists c \in (a,b) \text{ such that } f'(c) = 0$
+    But $f'(x) = 3x^2 + 3$ and so 
+    \[f'(c) = 3c^2 + 3 = 0 \implies 3c^2 = -3 \implies c^2 = -1\]
+    which is not a real number, so it is a contradiction and therefore there must 
+    only be one solution.
+  \end{proof}
+\end{example}
+
+\begin{remark}
+  The MVT is useful when you have information about a derivative. 
+\end{remark}
+
+\begin{definition}
+  \vocab{Identity Criterion}: a function $f: D \to \RR$ is said to be 
+  \vocab{constant} if $\ \exists c \in \RR$ s.t. $f(x) = c \ \forall \ x \in D$.  
+\end{definition}
+
+\begin{lemma}
+  Let $f: I \to \RR$ be differentiable. Then $f$ is constant if and only if 
+  $f'(x) = 0 \ \forall \ x \in D$. 
+  \begin{proof}
+    
+    \hfill
+
+    $\Longrightarrow$ Let $f$ be constant such that $f(x) = c, c \in \RR, \forall \ x \in I$ by definition. 
+    Then $f'(x) = 0 \ \forall \ x \in I$ by derivatve rules. Done. 
+
+    $\Longleftarrow$. Let $f'(x) = 0 \ \forall \ x \in I$. Choose 
+    $x_0 \in I$ and define $c := f(x_0)$. We WTS that $f(x) = c \ \forall \ x \in I$. 
+    Let $x \in I$ with $x < x_0$. Recall that differentiability implies continuity, so 
+    $f: [x, x_0] \to \RR$ is continuous and $f: (x, x_0) \to \RR$ is differentiable. 
+    By MVT, then $\ \exists \ z \in (x, x_0)$ with $f'(z) = \frac{f(x_0) - f(x)}{x_0 - x}$. But 
+    $f'(z) = 0$ since $f'(x)=0 \ \forall \ x \in I$ by assumption. 
+    \[f'(z) = 0 \implies f(x_0) - f(x) = 0 \implies c = f(x_0) = f(x)\]
+    \[\implies c = f(x) \ \forall \ x \in I, x < x_0\]
+    The same argument applies for $(x_0, x]$. Therefore, 
+    $f(x) = c \ \forall \ x \in I$.
+  \end{proof}
+\end{lemma}
+
+\begin{definition}
+  \vocab{The Identity Criterion (differ by a constant)}. Let $g: I \to \RR, h: I \to \RR$ 
+  both be differentiable. Then $g, h$ \vocab{differ by a constant} if and only if 
+  $g'(x) = f'(x) \forall \ x \in I$. 
+  \[\exists \ c \text{ s.t. } g(x) = h(x) + c\]
+
+  \begin{proof}
+    Define $f(x) = g(x) - h(x), f: I \to \RR$ and $f'(x) = g'(x) - g'(x)$. 
+    Using the previous lemma, 
+    \[f \text{ constant } \Longleftrightarrow f'(x) = 0\]
+    \[f(x) = c \ \forall \ x \in I \Longleftrightarrow g'(x) - h'(x) = 0\]
+    \[\Longleftrightarrow g(x) - h(x) = c \text{ by def'n of f}\]
+    \[\Longleftrightarrow g(x) = h(x) + c\]
+
+    Note that this gives us antiderivatives.
+  \end{proof}
+\end{definition}
+
+\begin{definition}
+  \vocab{The Criterion for Strict Monotonicity}. Let $f: I \to \RR$ 
+  be differentiable. Suppose $f'(x) > 0 \forall \ x \in I$. Then $f: I \to \RR$ 
+  is \vocab{strictly increasing}.
+  
+  \begin{proof}
+    Let $u < v$ with $u, v \in I$. We WTS that $f(u) < f(v)$.
+    Suppose $f'(x) > 0$. Apply the MVT to $f: [u, v] \to \RR$ and choose 
+    $x_0 \in (u, v)$ at which 
+    \[f'(x_0) = \frac{f(v) - f(u)}{v - u} > 0 \]
+    since $f'(x) > 0 \ \forall \ x$. Since $u < v \implies v-u > 0$, and 
+    so $f(v) - f(u) > 0 \implies f(u) < f(v)$ as needed. Similar process 
+    can be shown for $f'(x) < 0$ for $f$ strictly decreasing.
+  \end{proof}
+\end{definition}
+
+\begin{remark}
+  Knowing $f'(x_0) = 0$ does not guarantee a local min/max. Consider 
+  $f = x^3$ at $x=0$, $f'(0) = 0$ but it is not a local min/max.
+\end{remark}
+
+\begin{theorem}
+  Suppose $f: I \to \RR$ has 2 derivatives $f', f''$ and $f'(x_0) = 0$. Then if 
+  \begin{enumerate}[i.]
+    \item $f''(x_0) > 0 \implies$ concave up, so $x_0$ is a local min of $f$
+    \item $f''(x_0) < 0 \implies$ concave down, so $x_0$ is a local max of $f$
+  \end{enumerate}
+\end{theorem}
+
+\subsection{Cauchy Mean Value Theorem}
+
+\begin{theorem}
+  \vocab{Cauchy Mean Value Theorem (CMVT)}. Let $f: [a,b] \to \RR, g: [a,b] \to \RR$ continuous. 
+  Let $f: (a,b) \to \RR, g: (a,b) \to \RR$ be differentiable.
+  $g'(x) \neq 0 \ \forall \ x \in (a,b)$. Then 
+  \[\exists \ x_0 \in (a,b) \text{ s.t. } \frac{f'(x_0)}{g'(x_0)} = \frac{f(b) - f(a)}{g(b) - g(a)}\]
+  \begin{proof}
+    Let $m := \frac{f(b) - f(a)}{g(b) - g(a)}$. Define $h: [a,b]\to \RR$ as 
+    $h(x) = f(x) - mg(x)$. Note that $h$ is continuous on $[a,b]$ 
+    and differentiable on $(a,b)$ because $f$ and $g$ are. Let us 
+    check that $h(a) = h(b)$. 
+    \[h(a) = f(a) - mg(a) = f(a) - (\frac{f(b) - f(a)}{g(b) - g(a)})g(a)\]
+    \[= \frac{f(a)g(b) - f(a)g(a) - f(b)g(a) + f(a)g(a)}{g(b) - g(a)}\]
+    \[= \frac{f(a)g(b) - f(b)g(a)}{g(b) - g(a) = h(b)}\]
+    where you can do similar algebra for $g(b)$ to check.
+    Therefore, by Rolle's Theorem, $\exists \ x_0 \in (a,b) \text{ wtih } h'(x_0) = 0$
+    but
+    \[h'(x_0) = f'(x_0) - mg'(x_0) = 0\]
+    \[f'(x_0) = mg'(x_0)\]
+    \[\frac{f'(x_0)}{g'(x_0)} = m = \frac{f(b) - f(a)}{g(b) - g(a)}\]
+    This is useful for the approximation of $f$ using polynomials. Taylor series. 
+    We will see these after integrals.
+  \end{proof}
+\end{theorem}
+
+\begin{theorem}
+  This is an application of CMVT: Let $n \in \NN$ and $f: I \to \RR$ have 
+  $n$ derivatives. Suppose at some $x_0 \in I$, 
+  \[f(x_0) = f'(x_0) = f''(x_0) = \cdots = f^{(n-1)}(x_0) = 0\]
+  Then $\ \forall \ x \in I$ with $x \neq x_0 \ \exists \ z \in (x, x_0) \cup (x_0, x)$
+  such that 
+  \[f(x) = \frac{f^{(n)}(z)}{n!}(x-x_0)^n\]
+  \begin{proof}
+    Let $n \in \NN$ and $f: I \to \RR$ have $n$ derivatives.
+    Suppose at some $x_0 \in I$
+    \[f(x_0) = f'(x_0) = f''(x_0) = \cdots = f^{(n-1)}(x_0) = 0\]
+    Let $g(x) = (x-x_0)^n$. Note that 
+    \[g'(x) = n(x-x_0)^{n-1}\]
+    \[\vdots\]
+    \[g^{(n)}(x) = n(n-1)(n-2)\cdots 2 * 1 = n!\]
+    Using the CMVT for $f, g$ on $[x, x_0]$ (or $[x_0, x]$)
+    since $f$ is differentiable and therefore continuous, and 
+    $g(x) = (x-x_0)^n$ is polynomial so differentiable and continuous, 
+    \[\exists \ c_1 \in (x, x_0) \text{ s.t. } \frac{f(x) - f(x_0)}{g(x) - g(x_0)} = \frac{f'(c_1)}{g'(c_1)}\]
+    However, note that $f(x_0) = 0$ bu assumption and $g(x_0) = (x_0 - x_0)^n = 0$
+    by definition of $g$. So the above becomes 
+    \[\frac{f(x)}{g(x)} = \frac{f'(c_1)}{g'(c_1)}\]
+    Repeating the process
+    \[\frac{f(x)}{g(x)} = \frac{f'(c_1)}{g'(c_1)} = \frac{f'(c_1) - f'(x_0)}{g'(c_1) - g'(x_0)} = \frac{f''(c_2)}{g''(c_2)}\]
+    for some $c_2 \in [c_1, x_0]$ 
+    and then continue iterating such that 
+    \[\frac{f(x)}{g(x)} = \frac{f^{(n)}(c_n)}{n!} \implies f(x) = \frac{f^{(n)}(c_n)}{n!}g(x)\]
+  \end{proof}
+\end{theorem}
+
+\section{Differential Equations}
+
+Skip this section.
+
+\section{Integration}
+
+\begin{remark}
+  Unless stated otherwise, in this chapter, $I = [a,b]$ 
+  and $f: [a,b] \to \RR$ is bounded.
+\end{remark}
+
+\begin{definition}
+  Let $a < b, a, b \in \RR$ and 
+  \[a = x_0 < x_1 < x_2 < \cdots < x_{n-1} < x_n = b\]
+  Then $P = \{x_1, x_1, x_2, \ldots, x_n\}$ is called a 
+  \vocab{paritition} on $[a,b]$. For all $i \geq 0$, 
+  $x_i$ is called a \vocab{partition point} and $[x_{i-1}, x_i]$
+  is a \vocab{partition interval}.
+\end{definition}
+
+\includegraphics[width=10cm]{partition_darboux.png}
+
+\begin{definition}
+  Let
+  \[m_1 := \inf\{f(x) \ | \ x \in [x_{i-1}, x]\}\]
+  \[m_2 := \sup\{f(x) \ | \ x \in [x_{i-1}, x]\}\]
+  We define \vocab{Darboux Lower/Upper Sums} of $f$ on $P$ as 
+  \[L(f, P) = \sum_{i=1}^n m_i (x_i - x_{i-1}) \ \text{blue above}\]
+  \[U(f, P) = \sum_{i=1}^n M_i(x_i - x_{i-1}) \ \text{ green above }\]
+Note that these are jsut the sums of areas of rectangles.
+\end{definition}
+
+\begin{note}
+  Note that $m_i \leq M_i$ by definition of $\inf \leq \sup$. 
+  Therefore, $L(f, P) \leq U(f, P) \ \forall \ \text{parititions of } [a,b]$. 
+  The goal is to obtain 
+  \[L(f, P) \leq \int_a^b f \leq U(f, P)\]
+\end{note}
+
+\begin{note}
+  Given $P = \{x_0, \ldots, x_n\}$ on $[a,b]$, the 
+  length of $[a,b]$ is the sum of all of the lengths of partition 
+  intervals 
+  \[b-a = \sum_{i=1}^n (x_i - x_{i-1})\]
+\end{note}
+
+\begin{definition}
+  Given a partition of $P$ of $[a,b]$, another 
+  partition $P^*$ of $[a,b]$ is called a \vocab{refinement} of $P$
+  if each partition point of $P$ is also a partition point of $P^*$. $P \subseteq P^*$.
+\end{definition}
+
+\begin{lemma}
+  \vocab{The Refinement Lemma} states that given paritition $P$, 
+  if $P^*$ is a refinement of $P$, then 
+  \[L(f, P) \leq L(f, P^*) \text{ and } U(f, P^*) \leq U(f, P)\]
+  \begin{proof}
+    Let $P = \{x_0, \ldots, x_n\}$. Assume $P^*$ is a refinent with 
+    exactly one additional point compared to $P$ and label it $z$. 
+    Note that you can iterate this process for more additional points.
+    \[P^* = \{x_0, \ldots, x_{k-1}, z, z_k, \ldots, x_n\}, P^* = P \cup \{z\}\]
+    Let $m_i = \inf\{f(x) \ | \ x \in [x_{i-1}, x_i]\}$ and $L(f, P) = \sum_{i=1}^n m_i(x_i - x_{i-1})$ 
+    by definition. Observe that 
+    \[L(f, P^*) = \sum_{i=1}^{k-1} m_i(x_i - x_{i-1}) + A(z - x_{k-1}) + B(x_k - z) + \sum_{i=k+1}^n m_i(x_i - x_{i-1})\]
+    where $A = \inf\{f(x) \ | \ x \in [x_{k-1}, z]\}$ and 
+    $B = \inf\{f(x) \ | \ x \in [z, x_k]\}$. Then 
+    \[L(f, P^*) - L(f, P) = A(z - x_{k-1}) + B(x_k - z) - m_k(x_k - x_{k-1})\]
+    and we want to show that this is $\geq 0$. Note that if $x \in [x_{k-1}, z]$ or $x \in [z, x_k]$
+    then $x \in [x_{k-1}, x_k] \implies f(x) m_k$ by definition of $\inf$. 
+    Therefore, $m_k$ is a lower bound for $\{f(x) \ | \ x \in [x_{k-1}, z]\}$. Therefore, 
+    $m_k \leq A$ and $m_k \leq B$. 
+    \[L(f, P^*) - L(f, P) = A(z-x_{k-1}) + B(x_k - z) - m_k(x_k - x_{k-1})\]
+    \[\geq m_k(z-x_{k-1}) + m_k(x_k - z) - m_k(x_k - x_{k-1}) = 0\]
+    \[L(f, P^*) - L(f, P) \geq 0 \implies L(f, P^*) \geq L(f, P)\]
+    and similarly for Darboux Upper Sums.
+  \end{proof}
+\end{lemma}
 
 \end{document}
 
