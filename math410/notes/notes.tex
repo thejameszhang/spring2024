@@ -37,6 +37,8 @@
 \newcommand{\dint}{\displaystyle\int}
 \newcommand{\dt}{\ {\rm d }t}
 \newcommand{\PP}{\mathbb{P}}
+\newcommand{\lint}{\int_{\overset{a}{\_}}^{b}}
+\newcommand{\uint}{\int_a^{\bar{b}}}
 \newcommand{\horizontal}{\par\noindent\rule{\textwidth}{0.4pt}}
 \newcommand{\Lim}{\underset{n\to\infty}{\lim}}
 \usepackage[top=3cm,left=3cm,right=3cm,bottom=3cm]{geometry}
@@ -1780,6 +1782,8 @@ Skip this section.
 
 \section{Integration}
 
+\subsection{Darboux Sums and Refinement Lemma}
+
 \begin{remark}
   Unless stated otherwise, in this chapter, $I = [a,b]$ 
   and $f: [a,b] \to \RR$ is bounded.
@@ -1789,7 +1793,7 @@ Skip this section.
   Let $a < b, a, b \in \RR$ and 
   \[a = x_0 < x_1 < x_2 < \cdots < x_{n-1} < x_n = b\]
   Then $P = \{x_1, x_1, x_2, \ldots, x_n\}$ is called a 
-  \vocab{paritition} on $[a,b]$. For all $i \geq 0$, 
+  \vocab{partition} on $[a,b]$. For all $i \geq 0$, 
   $x_i$ is called a \vocab{partition point} and $[x_{i-1}, x_i]$
   is a \vocab{partition interval}.
 \end{definition}
@@ -1803,7 +1807,7 @@ Skip this section.
   We define \vocab{Darboux Lower/Upper Sums} of $f$ on $P$ as 
   \[L(f, P) = \sum_{i=1}^n m_i (x_i - x_{i-1}) \ \text{blue above}\]
   \[U(f, P) = \sum_{i=1}^n M_i(x_i - x_{i-1}) \ \text{ green above }\]
-Note that these are jsut the sums of areas of rectangles.
+Note that these are just the sums of areas of rectangles.
 \end{definition}
 
 \begin{note}
@@ -1851,6 +1855,779 @@ Note that these are jsut the sums of areas of rectangles.
     and similarly for Darboux Upper Sums.
   \end{proof}
 \end{lemma}
+
+\begin{corollary}
+  Let $P, Q$ be parititions of $[a,b]$ then 
+  $L(f, P) \leq U(f, Q)$. 
+
+  \begin{proof}
+  Consider $P \cup Q$ refinement. Then use the refinement lemma which gives us 
+  \[L(f, P) \leq L(f, P \cup Q) \leq U(f, P \cup Q) \leq U(f, Q)\]
+  Therefore, $L(f, P) \leq U(f, Q)$ as desired.
+  \end{proof}
+
+\end{corollary}
+
+\begin{definition}
+  For $f: [a,b] \to \RR$ such that $f$ is bounded, then 
+  the \vocab{Lower Integral} is defined as 
+  \[\int_{\overset{a}{\_}}^b f := \sup\{L(f, P) \ | \ \text{ P partition on } [a,b]\}\]
+  and the \vocab{Upper Intergral} is defined as 
+  \[\int_a^{\bar{b}} f := \inf\{U(f, P) \ | \ \text{P parition on } [a,b]\}\]
+\end{definition}
+
+\begin{lemma}
+  Note that $\int_{\overset{a}{\_}}^b f \leq \int_a^{\bar{b}} f$ using 
+  lower/upper sum properties.
+\end{lemma}
+
+\begin{example}
+  Let $f: [a,b] \to \RR$ such that $f(x) = c$.
+  Note that by geometry, the area is $c(b-a)$. Both upper 
+  and lower integrals $= c(b-a)$. Since by definition
+  $m_i = c, M_i = c \ \forall \ i$. So, by the sums formula, 
+  \[c(b-a) = c \sum_{i=1}^n (x_i - x_{i-1}) = \sum_{i=1}^n c(x_i - x_{i-1}) = L(f, P) = U(f,P)\] 
+  So
+  \[\int_{\overset{\_}{a}}^b f = c(b-a) = \int_a^{\bar{b}} f\]
+\end{example}
+
+\begin{example}
+  Let
+  \[f(x) = \begin{cases}
+    1, \ x \in \QQ\\
+    0, \ x \in \QQ^c
+  \end{cases}\]
+  Note that this is Dirichlet's function. Let $P = \{x_0, \ldots, x_n\}$. 
+  Since $\QQ$ and $\QQ^c$ are dense in each $[x_{i-1}, x_i]$, 
+  then $\exists \ $ rational and irrational number in each $[x_{i-1}, x_i]$
+  such that $m_i = 0, M_i = 1 \ \forall \ i$. Therefore, 
+  \[L(f, P) = \sum_{i=1}^n m_i(x_i - x_{i-1}) = 0\]
+  \[U(f, P) = \sum_{i=1}^n M_i (x_i - x_{i-1}) = \sum_{i=1}^n 1 (x_i - x_{i-1})\]
+  \[= (x_i - x_0) - (x_2 - x_1) \cdots + (x_n - x_{n-1}) = x_n - x_0 = b - a\]
+  Therefore, 
+  \[\int_a^{\bar{b}} f = \inf\{b-a\} = b-a \text{ and } \int_{\overset{a}{\_}}^b f = \sup\{0\} = 0\]
+\end{example}
+
+\subsection{Integrable and Archimedes-Riemann Theorem}
+
+\begin{definition}
+  Let $f: [a,b] \to \RR$ be bounded. Then we say $f$ is 
+  \vocab{integrable} on $[a,b]$ if $\lint f = \uint f$. 
+  We denote the \vocab{integral} of $f$ 
+  \[\int_{\overset{a}{\_}}^b f = \int_a^{\bar{b}} f = \int_a^b f\]
+  Recall that 
+  \[L(f, P) \leq \lint f \leq \uint f \leq U(f, P)\]
+  by definition of sup, properties of Darboux sums, and then by definition of inf. 
+  As a consequence, if we rearrange the above, then 
+  \[0 \leq \uint f - \lint f \leq U(f, P) - L(f, P)\]
+  \[0 \leq U(f, P) - \uint f \leq U(f, P) - L(f, P)\]
+  \[0 \leq \lint f - L(f,P) \leq U(f, P) - L(f, P)\]
+\end{definition}
+
+\begin{theorem}
+  The \vocab{Archimedes-Riemann Theorem} states that 
+  suppose $f: [a,b] \to \RR$ is bounded. Then $f$ is \vocab{integrable} on 
+  $[a,b]$ if and only if $\exists \ $ sequence $\{P_n\}$ of 
+  partition on $[a,b]$ such that 
+  \[\lim_{n\to\infty} (U(f, P) - L(f, P)) = 0\]
+  Moreover, for any sequence of partitions
+  \[\lim_{n\to\infty} L(f, P_n) = \int_a^b f = \lim_{n\to\infty}U(f, P_n)\]
+
+  \begin{proof}
+
+    \hfill
+
+    $\Longrightarrow$ Suppose $f$ is integrable. Therefore, 
+    $\lint f = \uint f = \int_a^b f \ \forall \ n \in N$.
+    Note that $(\lint f) - \frac{1}{n}$ is not an upper bound for 
+    $L(f, P)$ since 
+    
+    $\lint f = \sup\{L(f, P) \ | \ \text{P partition on [a,b]}\}$
+    Therefore, $\ \exists \ $ partition $Q_n$ of $[a,b]$ such that 
+    \[(\lint f) - \frac{1}{n} < L(f, Q_n)\]
+    Similarly, $\exists \ $ partition $R_n$ of $[a,b]$ such that 
+    \[(\uint f) + \frac{1}{n} > U(f, R_n)\]
+    Let $P_n = Q_n \cup R_n$ be a refinement. Then 
+    \[L(f, P_n) \geq L(f, Q_n) > \lint f - \frac{1}{n}\]
+    by the Refinement Lemma and then by our definition of $Q_n$. Similarly, 
+    Equivalently, if we multiply by $-1$, then see that $-L(f, P_n) \leq -(\uint f - \frac{1}{n})$
+    \[U(f, P_n) \leq U(f, R_n) < \uint f + \frac{1}{n}\] 
+    But, note that $f$ is integrable by assumption, which means 
+    $\lint f = \uint f = \int_a^b f$. So,
+    \[0 \leq U(f, P_n) - L(f, P_n) \leq \int_a^b f + \frac{1}{n} - (\int_a^b f - \frac{1}{n})\]
+    \[= \frac{2}{n} \to 0 \text{ as } n \to \infty\]
+    By The Comparison Lemma, $\underset{n\to\infty}{\lim}(U(f, P_n) - L(f, P_n)) = 0$. 
+  \end{proof}
+\end{theorem}
+
+\begin{theorem}
+  The \vocab{Archimedes-Riemann Theorem} left direction proof.
+
+  \begin{proof}
+    
+  \hfill
+
+  $\Longleftarrow$. Suppose $\underset{n\to\infty}{\lim} (U(f, P_n) - U(f, P_n)) = 0$
+  for some sequence of partitions $P_n$. We want to show that $f$ is integrable, 
+  which means showing $\lint f = \uint f$. But recall that 
+  \[0 \leq \uint f - \lint f \leq U(f, P_n) - L(f, P_n)\]
+  by the first consequence in the definition of integrable. By the Comparison Lemma, 
+  \[\uint f - \lint f = 0 \implies \uint f = \lint f \implies \text{f is integrable}\]
+  Moreover, 
+  \[0 \leq U(f, P_n) - \uint f \leq U(f, P_n) - L(f, P_n) \text{ by (2)}\]
+  \[\implies \lim_{n\to\infty} U(f, P_n) = \uint f = \int_a^b f\]
+  Similarly, using (3), 
+  \[\lim_{n\to\infty} L(f, P_n) = \lint f = \int_a^b\]
+  \end{proof}
+\end{theorem}
+
+\begin{definition}
+  $\{P_n\}$ is said to be an \vocab{Archimedian sequence of partitions (Asop)} for $f$
+  on $[a,b]$ if
+  \[\lim_{n\to\infty} (U(f, P_n) - L(f, P_n)) = 0\]
+\end{definition}
+
+\begin{example}
+  Prove $f(x) = x$ is integrable over $[0, 1]$. 
+  \begin{proof}
+    Let $P_n$ be the $nth$ regular partition. $P_n$ is regular is 
+    $x_i = a + i\frac{b-a}{n} = a + i\Delta x$. (This just means that each subinterval
+    is the same length). 
+    \[P_n = \{0, \frac{1}{n}, \frac{2}{n}, \ldots, 1\}\]
+    Note that $m_i = \inf\{f(x) \ | \ x \in [x_{i-1}, x_i]\} \implies m_i = \inf\{f(x) \ | \ x \in [\frac{i-1}{n}, \frac{i}{n}]\} = f(\frac{i-1}{n}) = \frac{i-1}{n}$, 
+    which is just the left endpoint of the subinterval. Simiarly, 
+    $M_i = \frac{1}{n}$, the right endpoint of the interval. Therefore, 
+    by definition of Darboux Upper and Lower Sums, 
+    \[U(f, P_n) - L(f, P_n) = \sum_{i=1}^n M_i(x_{i-1} - x_i) - \sum_{i=1}^n m_i(x_{i-1}, x_i)\]
+    \[= \sum_{i=1}^n (\frac{i}{n} * \frac{1}{n} - (\frac{i-1}{n} * \frac{1}{n}))=  \sum_{i=1}^n \frac{1}{n^2} = \frac{1}{n}\]
+    and it is known that $\underset{n\to\infty}{\lim}\frac{1}{n} = 0$. Therefore, 
+    \[\lim_{n\to\infty}(U(f, P_n) - L(f, P_n)) = 0\]
+    Thus, $P_n$ is an Asop and using the Archimedian Theorem, $f(x) = x$ is integrable. We can find the 
+    integral
+    \[\int_0^1 f(x) dx = \int_0^1 x \ dx\]
+    Using the "Moreover" part of the AR Theorem, 
+    \[\int_0^1 x dx = \lim_{n\to\infty} U(f, P_n) = \lim_{n\to\infty}\sum_{i=1}^n \frac{i}{n} * \frac{1}{n}\]
+    \[= \lim_{n\to\infty}\frac{1}{n^2}\sum_{i=1}^n i = \lim_{n\to\infty}\frac{1}{n^2}(\frac{n^2 + n}{2}) = \frac{1}{2}\]
+  \end{proof}
+\end{example}
+
+\begin{theorem}
+  Every monotone function $f: [a,b] \to \RR$ is integrable.
+  \begin{proof}
+    WLOG, suppose $f$ is monotone increasing. Let $P_n$ be a 
+    regular partition. Since $f$ is monotone increasing, 
+    \[m_i = f(x_{i-1}) \leq f(x) \leq f(x_i) = M_i, x \in [x_{i-1}, x_i]\]
+    Then, 
+    \[U(f, P_n) - L(f, P_n) = \sum_{i=1}^n (M_i - m_i) (x_i - x_{i-1})\]
+    \[= \frac{b-a}{n}\sum_{i=1}^n (f(x_i) - f(x_{i-1}))\]
+    Note that this is a telescope and so
+    \[= \frac{b-a}{n}(f(x_n) - f(x_0)) = \frac{b-a}{n}(f(b) - f(a))\]
+    Let $c = (b-a)(f(b) - f(a)) \in \RR$. Then 
+    \[\lim_{n\to\infty}(U(f, P_n) - L(f, P_n)) = \lim_{n\to\infty}\frac{1}{n}(c) = 0\]
+    Thus, $P_n$ is Asop and by the AR Theorem, $f$ is integrable.
+  \end{proof}
+\end{theorem}
+
+\begin{theorem}
+  Every step function $f: [a,b] \to \RR$ is integrable. 
+
+  \begin{proof}[Sketch]
+    For the partition points inside one region, $M_i = m_i$. 
+    For the subintervals at the gaps/jumps, there are finitely many and 
+    they can still be bounded using $M_i, m_i$. 
+  \end{proof}
+\end{theorem}
+
+\subsection{Additivity, Monotonicity, Linearity}
+
+\subsubsection{Additivity}
+
+\begin{theorem}
+  Suppose $f: [a,b] \to \RR$ is integrable and $c \in (a,b)$. Then 
+  $f$ is integrable on $[a,c]$ and $[c,b]$ and $\int_a^b f = \int_a^c f + \int_c^b f$.
+
+  \begin{proof}
+    Since $f$ is integrable on $[a,b]$ by the AR Theorem, there exists 
+    an Asop $\{P_n\}$ on $[a,b]$ for $f$. Let $Q_n = P_n \cup \{c\}$. We 
+    WTS that $Q_n$ is Asop. By the Refinement Lemma, 
+    \[L(f, P_n) \leq L(f, Q_n) \implies -L(f, P_n) \geq -L(f, Q_n)\]
+    \[U(f, P_n) \geq U(f, Q_n)\]
+    Therefore,
+    \[0 \leq U(f, Q_n) - L(f, Q_n) \leq U(f, P_n) - L(f, P_n)\]
+
+    Since $P_n$ is Asop, then $\underset{n\to\infty}{\lim}(U(f, P_n) - L(f, P_n)) = 0$
+    and so by Comparison Lemma, $\underset{n\to\infty}{\lim}(U(f, Q_n) - L(f, Q_n)) = 0$
+    and so $Q_n$ is an Asop for $f$ on $[a,b]$. Observe that
+    \[Q_n = \{x_0, \ldots, x_k, c, x_{k+1}, \ldots, x_n\}\]
+    Let $R_n = Q_n \cap [a,c]$ and let $S_n = Q_n \cap [c,b]$. Then, 
+    \[U(f, R_n) = \sum_{i=1}^k M_i(x_i - x_{i-1}) + A(c-x_k), \ A = \sup\{f(x) \ | \ x\in[x_k, c]\}\]
+    \[U(f, S_n) = B(x_{k+1} - c) + \sum_{i=k+1}^n M_i(x_i - x_{i-1}), B = \sup\{f(x) \:|\: x \in [c, x_{k+1}]\}\]
+    And so $U(f, Q_n) = U(f, R_n) + U(f, S_n)$ and similarly $L(f, Q_n) = L(f, R_n) + L(f, S_n)$.
+    \[0 \leq U(f, R_n) - L(f, R_n) \leq U(f, Q_n) - L(f, Q_n)\]
+    By CL, $\lim_{n\to\infty}(U(f, R_n) - L(f, R_n)) = 0$
+    and so $f$ is integrable on $[a,b]$ and similarly for $[c,b]$. 
+    and
+    \[\int_a^b f= \int_a^c f+ \int_c^b f\]
+  \end{proof}
+\end{theorem}
+
+\subsubsection{Monotonicity}
+
+\begin{proof}
+
+\hfill
+
+\begin{theorem}
+  If $f, g: [a,b] \to \RR$ are bounded with $f(x) \leq g(x) \ \forall \ x \in [a,b]$, 
+  then 
+  \[(1) \ \ \lint f \leq \lint g \text{ and } \uint f \leq \uint g\]
+  and if $f, g$ are integrable, then
+  \[(2) \ \ \int_a^b f \leq \int_a^b g\]
+  \begin{proof}[Sketch]
+      Sine $f, g$ are integrable, use AR Theorem and Refinement Lemma such that 
+      $\exists \ \{P_n\}$ on $[a,b]$ such that 
+      \begin{align*}
+        \lim_{n\to\infty} U(f, P_n) = \int_a^b f && \lim_{n\to\infty} U(g, P_n) = \int_a^b g
+      \end{align*}
+      Since $f(x) \leq g(x) \ \forall \ x \in [a,b]$ then 
+      $U(f, P_n) \leq U(f, P_n)$ by using sup. So
+      \[\int_a^b f = \underset{n\to\infty}{\lim}U(f, P_n) \leq \lim_{n\to\infty}U(g, P_n) = \int_a^b g \implies \int_a^b f \leq \int_a^b g\]
+      as desired.
+  \end{proof}
+\end{theorem}
+
+\end{proof}
+
+\subsubsection{Linearity}
+
+\begin{theorem}
+  
+Suppose $f, g: [a,b]\to\RR$ are both integrable. Let $\alpha, \beta \in \RR$. 
+Then $(\alpha f + \beta g): [a,b] \to \RR$ is integrable. and 
+\[\int_a^b (\alpha f + \beta g) = \alpha \int_a^b f + \beta\int_a^b g\]
+\begin{proof}
+
+\hfill
+  
+Let us first show that scalar multiplication is satisfied. Let $P = \{x_0, \ldots, x_n\}$ be a partition on $[a,b]$ and define 
+$M_i(f), M_i(g), m_i(f), m_i(g)$ as usual. 
+
+If $\alpha \geq 0, \alpha \in \RR$
+\begin{align*}
+  M_i(\alpha f) = \alpha M_i(f) && 
+  m_i(\alpha f) = \alpha m_i(f)
+\end{align*}
+by exercising the definition of sup, inf.
+
+If $\alpha < 0, \alpha \in \RR$
+\begin{align*}
+  M_i(\alpha f) = \alpha m_i(f) && 
+  m_i(\alpha f) = \alpha M_i(f)
+\end{align*}
+
+Let $\alpha \geq 0$. Then 
+\[U(\alpha f, P) - L(\alpha f, P) = \sum_{i=1}^n (M_i(\alpha f) - m_i(\alpha f))(x_i - x_{i-1})\]
+\[= \alpha \sum_{i=1}^n (M_i(f) - m_i(f))(x_i - x_{i-1})\]
+\[= \alpha (U(f, P) - L(f, P))\]
+Suppose $P_n$ is an ASOP for $f$ on $[a,b]$, since $f$ is integrable take the limit.
+\[\lim_{n\to\infty}(U(\alpha f, P_n) - L(\alpha f, P_n)) = \alpha \lim_{n\to\infty}(U(f, P_n) - L(f, P_n)) = 0\]
+and so therefore, $P_n$ is ASOP for $\alpha f$ and $\alpha f$ is integrable.
+
+If $\alpha < 0$ then it's similar.
+
+\end{proof}
+
+\end{theorem}
+
+\begin{theorem}
+
+Now we will show the second half of the proof, the additivity part.
+
+\begin{proof}
+
+\hfill
+
+Now for the second part, we WTS that $\int_a^b(f + g) = \int_a^b + \int_a^b g$. Consider 
+\[(f+g)(x_i) = f(x_i) + g(x_i) \leq M_i(f) + M_i(g) \ \forall \ x \in [x_{i-1}, x_i]\]
+Starting with 
+\[M_i(f + g) \leq M_i(f) + M_i(g)\]
+Multply by $(x_i - x_{i-1})$ and add all of the subintervals and similarly for Darboux Lower Sums to obtain 
+\begin{align*}
+U(f + g, P) \leq U(f, P) + U(g, P) && L(f + g, P) \geq L(f, P) + L(g, P)
+\end{align*}
+Take $\{P_n\}$ ASOP for $f$ on $[a,b]$ since $f, g$ are integrable by the AR Theorem. 
+Similarly take $\{R_n\}$ ASOP for $g$ on $[a,b]$. Let $Q_n = P_n \cup R_n$ (refinement).
+Now we want to show that $Q_n$ is an ASOP for both $f$ and $g$ individually. Then 
+\[ 0\leq U(f + g, Q_n) - L(f + g, Q_n)\]
+\[\leq U(f, Q_n) + U(g, Q_n) - \left( L(f, Q_n) - L(g, Q_n)\right)\]
+\[= U(f, Q_n) - L(f, Q_n) + U(g, Q_n) - L(g, Q_n)\]
+By CL, $\underset{n\to\infty}{\lim}\left(U(f + g, Q_n) - L(f + g, Q_n)\right) = 0 \implies f + g$
+is integrable and so 
+\[\int_a^b f + g = \underset{n\to\infty}{\lim}U(f + g, Q_n) \leq \lim_{n\to\infty} (U(f, Q_n) + U(g, Q_n)) = \int_a^b f + \int_a^b g\]
+But at the same time 
+\[\int_a^b f + g = \lim_{n\to\infty} L(f + g, Q_n) \geq \leq \lim_{n\to\infty} (L(f, Q_n) + L(g, Q_n)) = \int_a^b f + \int_a^b g\]
+which implies that $\int_a^b f + g = \int_a^b f + \int_a^b g$ and combining the result from the first part of the proof 
+we obtain $\int_a^b \alpha f + \beta g = \alpha \int_a^b f + \beta \int_a^b g$, as desired. 
+\end{proof}
+\end{theorem}
+
+\begin{corollary}
+  Suppose $f: [a,b] \to \RR, |f|: [a,b] \to \RR$ are integrable.
+  Then
+  \[|\int_a^b f| \leq \int_a^b |f|\]
+  \begin{proof}[Sketch]
+    $\forall \ x \in [a,b]$
+    \[- |f(x)| \leq f(x) \leq |f(x)|\]
+    Applying montonicity and linearity, 
+    \[-\int_a^b |f(x)| \leq \int_a^b f(x) \leq \int_a^b |f(x)|\]
+    which is $|\int_a^b f| \leq \int_a^b |f|$
+  \end{proof}
+\end{corollary}
+
+\subsection{Continuity and Integrability}
+
+So far we have only proven the following functions are integrable: $x, x^2$ 
+and monotone functions. 
+
+\begin{lemma}
+  Let $f: [a,b]\to\RR$ be continuous and $P$ partition on $[a,b]$. Then $\exists$ a partition interval of $P$ that contains two points $u, v$ with
+  \[0 \leq U(f, P) - L(f, P) \leq (f(u) - f(v))(b-a)\] 
+
+  \begin{proof}[Sketch]
+  
+  \hfill
+
+  Let $P = \{x_0, \ldots, x_n\}$ be a partition of $[a,b]$. 
+  \begin{itemize}
+    \item $f$ is continuous on $[a,b]$ so $f$ is continuous on all $[x_{i-1}, x_i] \ \forall \ i$
+    \item By EVT, max and min are attained (stronger than inf and sup)
+    \item Define the min and the max, $f(u_i) = m_i, f(v_i) = M_i$
+    \item Choose $i_0$ such that $M_{i_0} - m_{i_0} := \underset{1 \leq i \leq n}{\max}(M_i - m_i)$. Intuitively, 
+    this means to choose the largest difference betwen subinterval max - min. 
+    \item Let $u := u_{i_0}$, $v := v_{i_0}$. 
+    \item Then $M_i - m_i \leq M_{i_0} - m_{i_0} = f(v) - f(u)$ by definition of max.
+    \item Then $0 \leq U(f, P) - L(f, P) = \sum_{i=1}^n (M_i - m_i)(x_i - x_{i-1})$
+    \[\leq \sum_{i=1}^n (f(v) - f(u))(x_i - x_{i-1}) = (f(v) - f(u))(b-a)\]
+    So we have found $u, v \in [a,b]$ with 
+    \[ 0 \leq U - L \leq (f(v) - f(u))(b-a)\]
+  \end{itemize}
+
+  \end{proof}
+\end{lemma}
+
+\begin{remark}
+  Recall that continuity on $[a,b]$ implies uniform continuity. 
+  For any $\{u_n\}$ and $\{v_n\}$ in $D$ if $\underset{n\to\infty}{\lim}(u_n - v_n) = 0 \implies \underset{n\to\infty}{\lim}(f(u_n) - f(v_n)) = 0$.
+  Use the Lemma above for a sequence of partitions and sequence of points
+  $\{u_n\}$ and $\{v_n\}$ to prove that if $f$ is continuous on $[a,b]$ then $f$ is integrable.
+
+\end{remark}
+
+\begin{theorem}
+  A continuous function $f: [a,b] \to \RR$ is integrable.
+
+  \begin{proof}
+    
+    \hfill
+
+  Let $\{P_n\}$ be a sequence of regular partitions. For each $n$, apply the previous lemma: \[(*) \ \ \ 0 \leq U(f, P_n) - L(f, P_n) \leq (f(v_n) - f(u_n))(b-a)\]
+  Note that $|u_n - v_n| \leq \frac{b-a}{n}$ since $u_n, v_n \in [x_{i-1}, x_i]$.
+  Take the limit as $n\to\infty$, by CL $\underset{n\to\infty}{\lim}(u_n - v_n) = 0$ since 
+  $\underset{n\to\infty}{\lim}\frac{b-a}{n} = 0$.
+
+  Since $f$ is continuous on $[a,b]$, $f$ is uniformly continuous on $[a,b]$ 
+  \[\underset{n\to\infty}{\lim}(f(u_n) - f(v_n)) = 0 \ \ \ (1)\]
+  Take $(*)$ and apply a limit 
+  \[0 \leq \lim_{n\to\infty}(U(f, P_n) - L(f, P_n)) \leq \lim_{n\to\infty}(f(v_n) - f(u_n))(b-a)\]
+  By CL, $\underset{n\to\infty}{\lim}(U(f, P_n) - L(f, P_n)) = 0$ and so by AR Theorem, 
+  $f$ is integrable.
+  \end{proof}
+\end{theorem}
+
+\begin{theorem}
+  Suppose $f: [a,b] \to \RR$ is bounded and continuous on $(a,b)$. Then 
+  $f: [a,b]\to\RR$ is integrable and the value of the integral $\int_a^b f$ does not 
+  depend on the values of $f$ at the endpoints.
+
+  \begin{proof}[Sketch]
+    Look at the endpoints $a, b$ and take $a_n \to a, b_n \to b$ and measure how 
+    big the finite (because bounded) gap of the discontinuity is. Bound the difference of the gap and take 
+    $n\to\infty$ for $P_n$.
+    \[U(f, P_n) - L(f, P_n) \leq \text{usual } + \text{bound}(a_n-a) + \text{bound}(b_n - b)\]
+    Note that $f$ does not need continuity at the endponts to be integrable.
+  \end{proof}
+\end{theorem}
+
+\begin{example}
+  Consider
+  \[f(x) = \begin{cases}
+    \sin(\frac{1}{x}) \text{ if } 0 < x \leq 1\\
+    100 \text{  if } x = 0
+  \end{cases}\]
+  $f(x): [0,1] \to \RR$ is bounded since $|f(x)| \leq 100$ and $f: (0,1) \to\RR$ is continuous. So $f$ is 
+  integrable by the previous theorem.
+\end{example}
+
+\subsection{The First Fundamental Theoreom of Calculus (FTC1)}
+
+\begin{theorem}
+
+  Let $F: [a,b] \to \RR$ be continuous on $[a,b]$ and differnetiable on $(a,b)$ and $F': (a,b) \to \RR$
+  is continuous and bounded, then 
+  \[\int_a^b F'(x) dx = F(b) - F(a)\]
+
+  \begin{proof}
+    Assume $F': (a,b) \to \RR$ is continuous and bounded, then $F': [a,b] \to \RR$ is integrable 
+    (above, 6.4) since the integral does not depend on endpoints. Let $P$ be a partition of $[a,b]$. 
+    Then 
+    \[U(F', P) = \sum_{i=1}^n M_i(F')(x_i - x_{i-1})\]
+    Consider $[x_i, x_{i-1}]$, since $F$ is continuous on $[a,b]$, differentiable on $(a,b)$, we can 
+    apply MVT to the partition interval, $\exists \ c_i \in [x_i, x_{i-1}]$, with 
+    \[F'(c_i) = \frac{F(x_i) - F(x_{i-1})}{x_i - x_{i-1}} \ \forall \ i, 1 \leq i \leq n\]
+    Then use sup to get 
+    \[\frac{F(x_i) - F(x_{i-1})}{x_i - x_{i-1}} = F'(c_i) \leq M_i(F')\]
+    by the definition of sup. Then multiply by $(x_i - x_{i-1})$ to get 
+    \[\sum_{i=1}^n (F(x_i) - F(x_{i-1})) \leq \sum_{i=1}^n M_i(F')(x_i - x_{i-1}) = U(F', P)\]
+    Note that the left side is telescoping, and so we obtain that 
+    \[F(b) - F(a) \leq U(F', P)\]
+    By property of inf in Upper Integral
+    \[F(b) = F(a) \leq \int_a^{\bar{b}} F' = \int_a^b F'\]
+    because $F'$ is integral. 
+    Simiarly, it can be shown that $F(b) - F(a) \geq \int_a^b F'$ which implies that 
+    $F(b) - F(a) = \int_a^b F'$.
+  \end{proof}
+\end{theorem}
+
+\begin{note}
+  Notation: $f: [a,b] \to \mathbb{R}$ is continous and bounded on $(a,b)$, then 
+  FTC1 asserts if it possible to find an antiderivative $F: [a,b] \to \RR$ for $f$
+  then the integral is given by
+  \[\int_a^b f(x) dx = F(b) - F(a)\]
+  An antiderivatve continuous function $F$ having a derivative on $(a,b)$ such that 
+  \[F'(x) = f(x) \ \forall \ (a,b)\]
+  Note that FTC1 only gives us some (most) integrals. In order to 
+\end{note}
+
+\subsection{FTC2 and Differentiating Integrals}
+
+\begin{theorem}
+  The \vocab{Mean Value Theorem for Integrals} states that suppose $f: [a,b] \to \RR$ is continuous. 
+  Then $\exists \ x_0 \in (a,b)$ at which 
+  \[f(x_0) = \frac{1}{b-a}\int_a^b f(x) dx\]
+
+  \begin{proof}
+    Use EVT on $f: [a,b] \to \RR$ (cont). Therefore, $\exists \ x_m, x_M \in [a,b]$ with 
+    \[f(x_m) \leq f(x) \leq f(x_M) \ \forall \ x \in [a,b]\]
+    By monotonicity of $\int$: 
+    \[\int_a^b f(x_m) \leq \int_a^b f(x) \leq \int_a^b f(x_M)\]
+    \[f(x_m) \int_a^b 1 \leq \int_a^b f(x) \leq f(x_M) \int_a^b 1\]
+    \[f(x_m) (b-a) \leq \int_a^b f(x) \leq f(x_M) (b-a)\]
+    \[f(x_m) \leq \frac{1}{b-a}\int_a^b f(x) \leq f(x_M)\]
+    From here, apply the IVT, $\exists \ x_0 \in (x_m, X_M)$ such that 
+    \[\exists x_0 \in (a,b) \text{ s.t. } f(x_0) = \frac{1}{b-a}\int_a^b f\]
+  \end{proof}
+\end{theorem}
+
+\begin{definition}
+  Consider the \vocab{area function}
+  \[f(x) = \int_a^x f(t) dt\]
+  Input changes the upper bound. Lower bound is fixed. Tells you how much area is under $f(t)$ between 
+  $a$ and $x$.
+\end{definition}
+
+\begin{proposition}
+  Suppose $f: [a,b] \to \RR$ is integrable. (This could be discontinuous). Define $F(x) = \int_a^x f(t) dt \ \forall \ x \in [a,b]$. 
+  Then $F: [a,b] \to \RR$ is continuous. 
+
+  \begin{proof}
+    
+    \hfill
+
+    Let $u, v \in [a,b]$ with $u < v$ WLOG. Let $F(v) = \int_a^v f = \int_a^u f + \int_u^v f = F(u) + \int_u^v f$ by additivty.  Therefore, \[F(v) - F(u) = \int_u^v = f \ \ \ (*)\]
+    Since $f$ is integrable and bounded, choose $M > 0$, 
+    \[-M \leq f(x) \leq M \ \forall \ x \in [a,b]\]
+    \[-M \leq f(x) \leq M \ \text{ if } u \leq x \leq v\]
+    By monotone integral theorem, 
+    \[-\int_u^v M \leq \int_u^v f \leq \int_u^v M\]
+    \[-M(v-u) \leq \int_u^v f \leq M(v-u)\]
+    \[|F(v) - F(u)| \leq M|v-u| \ \forall \ u, v \in [a,b]\]
+    Recall this from Homework 4, if Lipschitz continuous, then it is also uniform continuous.
+    $F: [a,b] \to \RR$ is uniformly continuous, which implies continuous, and so we are done.
+  \end{proof}
+\end{proposition}
+
+\begin{remark}
+  The above proof is more broad than the FTC2, shown below.
+\end{remark}
+
+\begin{theorem}
+  The \vocab{Fundamental Theorem of Calculus 2} states that 
+  suppose $f: [a,b] \to \RR$ is continuous. Then, 
+  \[\frac{d}{dx} \Biggl(\int_a^x f(t) dt\Biggr) = f(x) \ \forall \ x \in (a,b)\]
+
+
+  \begin{proof}
+
+    \hfill
+
+    Note that $\int_a^b f = -\int_b^a f$. Define $F(x) = \int_a^x \ \forall \ x \in [a,b]$. 
+    $F$ is continuitous from the proposition above. Let $x_o \in (a,b)$. 
+
+    We WTS that
+    \[F'(x_0) = \lim_{x\to x_0}\frac{F(x) - F(x_0)}{x - x_0}\]
+    Let $x \in (a,b)$ with $x \neq x_0$.
+
+    Case 1: If $x > x_0$. Then 
+    \[F(x) - F(x_0) = \int_{x_0}^x f \implies \int_a^x f - \int_a^{x_0} f = -\int_x^a f - \int_a^{x_0} f\]
+    \[= -(\int_x^a f + \int_a^{x_0} f) \implies -\int_x^{x_0} f = \int_{x_0}^x f\]
+    Case 2: If $x < x_0$, then 
+    \[F(x) - F(x_0) = \int_{x_0}^x f = \int_a^x f - \int_a^{x_0} f = -\int_x^a f - \int_a^{x_0} f\]
+    \[- (\int_x^a f + \int_a^{x_0} f) = -\int_x^{x_0}f = \int_{x_0}^x f\]
+    In both cases, apply MVT for $\int$
+    \[\exists \ c \in (a,b) \text{ s.t. } f(c(x)) = \frac{1}{x-x_0}\int_{x_0}^x f\]
+    Rearranging and using what we have above,
+    \[= \frac{F(x) - F(x_0)}{x - x_0}\]
+    Applying the limit as $x\to x_0$,
+    \[\lim_{x\to x_0}\frac{F(x) - F(x_0)}{x - x_0} = \lim_{x\to x_0} f(c(x)) = F'(x_0)\]
+    by definition of derivative. Since $f$ is continuous at $x_0$, then $\underset{x\to x_0}{\lim} {f(c(x))} = f(x_0)$
+    as desired.
+  \end{proof}
+\end{theorem}
+
+\begin{corollary}
+  Some corollary results from FTC2. 
+
+  \begin{enumerate}
+    \item $f: [a,b] \to\RR$ is continuous then $\frac{d}{dx} \int_a^x f= \frac{d}{dx}(-\int_a^x f) = -f(x)$
+    \item $I, J$ open intervals, $h(I) \subseteq J$. Then,
+    \begin{align*}
+      f: I \to \mathbb{R} \text{cont} && h: J \to \mathbb{R} \text{ diff }
+    \end{align*}
+    Fix $a$: then $\frac{d}{dx}\int_a^{h(x)} = f(h(x)) * h'(x)$ using the chain rule
+
+    \[\int_{x^2}^{-3} \cos(1-5t)dt = F(x) \implies F'(x) = -ex^{2x^2}\cos(1-5x^2) * 2x\]
+  \end{enumerate}
+\end{corollary}
+
+\section{Integration Techniques}
+
+Skip this section.
+
+\section{Approximation by Taylor Polynomials}
+
+\subsection{Taylor Polynomials}
+
+\begin{note}
+  Note that $(e^x)^1 = e^x$.
+\end{note}
+
+\begin{definition}
+  Let $I$ be a neighborhood of $x_0$, and so we say $f: I \to \RR$ and $g: I \to \RR$
+  are said to have \vocab{contact of order $0$ at $x_0$} if $f(x_0) = g(x_0)$. 
+  \[\vdots\]
+  They are said to have \vocab{contact of order $n$ at $x_0$} oif $f^{(k)}(x_0) = g^{(k)}(x_0) \ \forall \ k \in [0, n]$.
+\end{definition}
+
+\begin{note}
+  Note that in this chapter, $0 \in \NN$ because for the above definition, it means just the functional values.
+\end{note}
+
+\begin{theorem}
+  Let $I$ be a neighborhood of $x_0$. Suppose $f: I \to \RR$ has $n$ derivatives, $n \in \NN$. 
+  Then there is a unique polynomial of degree at most $n$ that has contact of order $n$ with 
+  $f$ at $x_0$. The polynomial is defined as 
+  \[P_{n}(x) = f(x_0) + \frac{f'(x_0)}{1!}(x - x_0) + \cdots + \frac{f^{(n)}(x_0)}{n!}(x - x_0)^n\]
+
+  \begin{proof}
+    
+  \hfill
+
+  Suppose $P_n(x)$ is a general polynomial.
+  \[P_n = a_0 + a_1(x - x_0) + a_2(x - x_0)^2 + a_3(x-x_0)^3 + \cdots + a_n(x - x_0)^n\]
+  $P_n(x)$ has degree $n$. Now let us work to get contact of order at least $n$ with $f$ at $x=x_0$.
+  \[n = 0 \implies P_0(x) = a_0 \implies p(x_0) = a_0\]
+  Since we want contact of order $0$ with $f$ at $x_0$, then 
+  \[f(x_0) = p(x_0) = a_0 \implies f(x_0) = a_0\]
+  \[n = 1 \implies P_n'(x_0) = a_1 + 2a_2(x-x_0) + 3a_3(x-x_0)^2 + \cdots + na_n(x-x_0)^{n-1}\]
+  \[\implies P_n'(x_0) = a_1 = f'(x_0) \text{ in order to have contact of order 1}\]
+  \[n = 2 \implies P_n''(x) = 2a_2 + 6a_3(x-x_0) + \cdots + n(n-1)a_n x^{n-2}\]
+  Now plugging in $x=x_0$, we get
+  \[\implies P_n''(x) = 2a_2 = f''(x_0) \implies a_2 = \frac{f''(x_0)}{2!}\]
+  and we start to see the pattern.
+  \[a_3 = \frac{f^{(3)}(x_0)}{3!}\]
+  \[\text{Pattern: } a_k = \frac{f^{(k)}(x_0)}{k!}\]
+  So putting coefficients $a_k$ into $P_n(x)$:
+  \[P_n(x) = \sum_{k=0}^n \frac{f^{(k)}(x_0)}{k!}(x-x_0)^k\]
+  \end{proof}
+\end{theorem}
+
+\begin{note}
+  Note that this was only created for a single point $x_0$. The construction says nothing about 
+  how the polynomial behaves away from $x_0$. 
+\end{note}
+
+\begin{example}
+  Find the nth Taylor Polynomial for $f(x) = e^x$ at $x=0$
+  \[P_n(x) = \sum_{k=0}^n \frac{f^{(k)}(x_0)}{k!}(x-x_0)^k\]
+
+  \begin{proof}[Solution]
+    Note that $f^{(k)}(0) = 1 \ \forall \ k$. Thus, 
+    \[P_n(x) = \sum_{i=0}^n \frac{1}{k!}(x-0)^k = \sum_{i=0}^n \frac{x^k}{k!}\]
+  \end{proof}
+\end{example}
+
+\subsection{Lagrange Remainder (Error) Theorem}
+
+How close is $P_n(x)$ to $f(x)$? What is the error?
+
+\begin{definition}
+  Define $R_n := f(x) - P_n(x)$ where $R_n: I \to \RR$ is the \vocab{nth remainder}
+\end{definition}
+
+\begin{note}
+  Recall this Corollary from Cauchy MVT in Chapter 4. 
+  Suppose $f: I \to \RR$ has $n$ derivatives for $f^{(k)}(x_0) = 0 \ \forall \ k, 0 \leq k \leq n-1$. 
+  Then $\ \forall \ x \neq x_0, \ \exists z \in (x, x_0)$ with 
+  \[f(x) = \frac{f^{(n)}(z)}{n!}(x-x_0)^n\]
+\end{note}
+
+\begin{theorem}
+  Let $I$ be a neighborhood of $x_0$, and let $\NN$ include $0$. 
+  Suppose $f: I \to \RR$ has $n + 1$ derivatives. Then for each point $x \neq x_0$ in $I$, $\exists \ c \in (x, x_0)$
+  \[f(x) = \sum_{k=1}^n \frac{f^{(k)}(x_0)}{k!}(x-x_0)^k + \frac{f^{(n+1)}(c)}{(n+1)!}(x-x_0)^{n+1}\]
+  where the summation is the Taylor polynomial and the second term is the $R_n(x)$ remainder.
+
+  \begin{proof}
+    Let $P_n(x)$ be the nth Taylor Polynomial for $f(x)$ at $x_0$. 
+    \[P_n(x) = \sum_{k=0}^n \frac{f^{(k)}(x_0)}{k!}(x-x_0)^k\]
+    Define $R_n(x) := f(x) - P_n(x) \ \forall \ x \in I$. By construction in 8.1, 
+    $f(x)$ and $p_n(x)$ have a contact of order $n$ at $x_0$
+    so $R_n^{(k)} = 0 \ \forall \ k \in [0, n]$. Thus, we can apply the Corollary from the CMVT on $R$:
+    \[\ \forall \ x \neq x_0, \ \exists \ c \text{ between } x_0, x \text{ w/ } R_n(x) = \frac{R^{(n+1)(c)}}{(n+1)!}(x-x_0)^{n+1}\]
+    But $R^{(n+1)}(c) = f^{(n+1)}(c) - P_n^{(n+1)}(c)$ by definition of $R$. 
+    Note that the second term is the Polynomial degree $n$ so $(n+1)$th derivative is $0$.
+    \[R^{(n+1)}(c) = f^{(n+1)}(c) - 0\]
+    By substitution into the corollary from CMVT, 
+    \[R_n(x) = \frac{f^{(n+1)}(c)}{(n+1)!}(x-x_0)^{n+1}\]
+    where $R_n := f - P_n \implies f = P_n + R_n$
+    \[f(x) = \sum_{k=0}^n \frac{f^{(k)}(x_0)}{k!}(x-x_0)^k + \frac{f^{(n+1)}(c)}{(n+1)!}(x-x_0)^{n+1}\]
+  \end{proof}
+\end{theorem}
+
+\subsection{Convergence of Taylor Polynomials (n to infty)}
+
+\begin{definition}
+  $\{S_n\}$ is a \vocab{sequence of partial sums} when $S_n = \sum_{k=0}^n a_k$ for a given $a_k$. 
+  \[\sum_{k=0}^\infty a_k = \lim_{n\to\infty} = \lim_{n\to\infty} \sum_{k=0}^n a_k \text{ if } \{s_n\} \text{ converges}\]
+  Note that if $\{S_n\}$ does not converge, then $\sum_{k=0}^\infty a_k$ diverges. 
+\end{definition}
+
+\begin{definition}
+  Let $P_n(x)$ be the nth Taylor Polynomial for $f: I \to \RR$ then 
+  \[\lim_{n\to\infty}P_n(x) = f(x) = \sum_{k=0}^\infty \frac{f^{(k)}(x_0)}{k!}(x-x_0)^k\]
+  is called the \vocab{Taylor Series Expansion of $f$ at $x_0$}
+\end{definition}
+
+\begin{note}
+  Note that we can assume that $\underset{n\to\infty}{\lim}r^n = 0$ if $|r| < 1$.
+\end{note}
+
+\begin{lemma}
+  $\underset{n\to\infty}{\lim}\frac{c^n}{n!} = 0, c \in \RR$
+
+  \begin{proof}
+    Let $c \in \RR$ be a constant and choose $k \in \NN$ such that $k \geq 2|c| \implies |c| \leq \frac{k}{2}$, which is doable by AP.
+    Apply absolute value for $n \geq K$, 
+    \[0 \leq |\frac{c^n}{n!}| = \frac{|c||c| \cdots |c|}{(1)(2) \cdots (n-1)(n)}\] 
+    \[= \left[ \frac{|c||c|\cdots|c|}{1 * 2 * \cdots * k} \right] \left[ \frac{|c|\cdots|c|}{(k+1)\cdots n}\right] = \frac{|c|^k}{k!}\frac{|c|^{n-k}}{(k+1)\cdots n} \leq \frac{|c|^k}{k!}\frac{|c|^{n-k}}{k^{n-k}}\]
+    \[\leq \frac{|c|^k}{k!}\frac{(k/2)^{n-k}}{k^{n-k}} = \frac{|c|^k}{k! 2^{n-k}} \leq |c|^k (\frac{1}{2})^{n-k}\]
+    \[= |c|^k \frac{(1/2)^n}{(1/2)^k} = |c|^k * 2^k * (\frac{1}{2})^n\]
+    Note that $|c|^k * 2^k$ is a constant wrt $n$ and $(\frac{1}{2})^n \to \infty, n \to \infty$
+    \[\lim_{n\to\infty}(\frac{1}{2})^n = 0\] and so since that term is a constant
+    then by CL, $\underset{n\to\infty}{\lim}\frac{c^n}{n!} = 0$.
+  \end{proof}
+\end{lemma}
+
+\begin{theorem}
+  Let $I$ be a neighborhood of $x_0$ and $f: I \to \RR$ have derivative of all orders. 
+  Suppose $r, M \in \RR^+$ such that $[x_0 -r, x_0 + r] \subseteq I$ and $\ \forall \ n$ with $x \in [x_0 - r, x_0 + r]$, 
+  $|f^{(n)} (x)| \leq M^n$ then 
+  \[f(x) = \sum_{k=0}^\infty \frac{f^{(k)}(x_0)}{k!}(x-x_0)^k \text{ if } |x-x_0| \leq r\]
+
+  \begin{proof}
+    Let $P_n(x)$ be the nth Taylor Polynomial of $f$ at $x_0$. We WTS that
+    \[f(x) = \sum_{k=0}^\infty \frac{f^{(k)}(x_0)}{k!}(x-x_0)^k \leftrightarrow \lim_{n\to\infty}P_n \leftrightarrow \lim_{n\to\infty}(f(x) - P_n(x)) \leftrightarrow \lim_{n\to\infty}R_n(x)\]
+    \[ = 0 \leftrightarrow \lim_{n\to\infty}\frac{f^{(n+1)}(z)}{(n+1)!}(x-x_0)^{n+1}\]
+    by the Lagrange Remainder Theorem, $z$ is strictly between $x$ and $x_0$. 
+    By assumption, $|f^{(n+1)}| \leq M^{n+1}$ and from the given 
+    $|x-x_0| \leq r$
+    \[\left| \frac{f^{(n+1)}(z)}{(n+1)!}(x-x_0)^{n+1} \right| \leq \left| \frac{M^{n+1}r^{n+1}}{(n+1)!}\right| = \left| \frac{(Mr)^{n+1}}{(n+1)!} \right|\]
+    Note that $\underset{n\to\infty}{\lim}\left|\frac{(Mr)^{n+1}}{(n+1)!}\right| = 0$ and so by CL
+    \[\lim_{n\to\infty}\frac{f^{(n+1)}(z)}{(n+1)!}(x-x_0)^{n+1} = \lim_{n\to\infty}R_n(x) = 0 \implies \]
+    the Taylor Series expension of $f$ at $x_0$ converges to $f(x)$
+  \end{proof}
+\end{theorem}
+
+\subsection{Skip (Thanks Eileen)}
+
+\subsection{Cauchy Integral Remainder Theorem}
+
+Previously, $f(x) = P_n(x) + R_n(x)$, where the $R_n(x)$ was the formula using the Lagrange Remainder using unknown $c, z$. 
+Now, we will use $R_n(x)$ as an integral and approximate it using sums.
+
+\begin{theorem}
+  \vocab{Integration by Parts}: Suppose $f, g: [a,b] \to \RR$
+  are continuous and have continuous bounded derivatives on $(a,b)$. Then 
+  \[\int_a^b fg' = fg|_a^b - \int_a^b f'g\]
+  \[u dv = uv - \int vdu\]
+  \begin{proof}
+    From product rule, 
+    \[(fg)' = f'g + fg' \implies fg' = (fg') - f'g\]
+    \[\int_a^b fg' = \int_a^b (fg)' - \int_a^b f'g\]
+    Now by FTC1
+    \[\int_a^b fg' = (fg)|_a^b - \int_a^b f'g\]
+  \end{proof}
+\end{theorem}
+
+\begin{theorem}
+  \vocab{Cauchy Integral Remainder Theorem}: Let $I$ be a neighborhood of $x_0 \in \RR$, and 
+  let $n \in \NN \cup \{0\}$. Suppose $f: I \to \RR$ has $n + 1$ derivatives and that 
+  $f^{(n+1)}: I \to \RR$ is continuous. Then for each $x \in I$
+  \[f(x) = \sum_{k=0}^n \frac{f^{(k)}(x_0)}{k!}(x-x_0)^k + \frac{1}{n!}\int_{x_0}^x f^{(n+1)}(t)(x-t)^n dt\]
+  where the first term is the nth Taylor Polynomial and the second term is the \vocab{Cauchy Integral Remainder}.
+
+  \begin{proof}
+    Basis step: $n=0$
+    \[f(x_0) + \frac{1}{0!}\int_{x_0}^x f'(t)(x-t)^0 dt = f(x_0) + \int_{x_0}^x f'(t) dt = f(x_0) + f(x) - f(x_0) = f(x)\]
+    Now for $n=1$ by FTC1: $\int_{x_0}^x f'(t) dt = f(x) - f(x_0) \implies f(x) = f(x_0) + \int_{x_0}^x f'(t) dt$
+    and 
+    \[\int_{x_0}^x f'(t) dt = \int_{x_0}^x -f'(t) \frac{d}{dt}(x-t) dt\]
+    Let $u = -f'(t)$ and let $du = \frac{d}{dt}(x-t) \implies u = (x-t)$
+    and so by Integration by Parts 
+    \[= -f'(t) (x-t)\Bigg|_{t=x_0}^{t=x} - \int_{x_0}^x -f''(t) (x-t) dt = \]
+    \[= -f'(x)(x-x) - (-f'(x_0)(x-x_0)) + \int_{x_0}^x f''(t) (x-t) dt\]
+    Plugging this in for $\int_{x_0}^x f'(t) dt$
+    \[f(x) = f(x_0) + f'(x_0)(x-x_0) + \frac{1}{1!}\int_{x_0}^x f''(t) (x-t) dt\]
+    Note that the first two terms are terms of $P_n(x)$ and the last term is $R_1(x)$
+    
+    Inductive hypothesis: $f(x) = P_n(x) + \frac{1}{n!}\int_{x_0}^x f^{(n+1)}(t) (x-t)^n dt$
+
+    Inductive step: Observe that 
+    \[\frac{1}{n!}\int_{x_0}^x f^{(n+1)}(t) (x-t)^n dt = \frac{1}{n} \int_{x_0}^x f^{(n+1)}(t) \left[ \frac{d}{dt} -\frac{1}{n+1}(x-t)^{n+1}\right] dt\]
+    \[= -\frac{1}{(n+1)!}\int_{x_0}^x f^{(n+1)}(t) \frac{d}{dt}(x-t)^{n+1} dt\]
+    and using IBP, let $u = f^{(n+1)}(t)$ and $g' = \frac{d}{dt}(x-t)^{n+1} \implies g = (x-t)^{n+1}$
+    \[= (-\frac{1}{(n+1)!}) f^{(n+1)}(t) (x-t)^{n+1}\Bigg|_{x_0}^x - \int_{x_0}^x f^{(n+2)} (x-t) dt\]
+    \[\frac{f^{(n+1)}(x_0)}{(n+1)!}(x-x_0)^{n+1} + \frac{1}{(n+1)!}\int_{x_0}^x f^{(n+2)}(x-t) dt \implies P_{n+1}(x) + R_{n+1}(x)\]
+  \end{proof}
+\end{theorem}
+
+\subsection{Skip 8.6}
+
+\subsection{}
+
+\begin{definition}
+  
+\end{definition}
 
 \end{document}
 
