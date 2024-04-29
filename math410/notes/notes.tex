@@ -2514,7 +2514,7 @@ How close is $P_n(x)$ to $f(x)$? What is the error?
   \end{proof}
 \end{theorem}
 
-\subsection{Convergence of Taylor Polynomials (n to infty)}
+\subsection{Convergence of Taylor Polynomials (n to infinity)}
 
 \begin{definition}
   $\{S_n\}$ is a \vocab{sequence of partial sums} when $S_n = \sum_{k=0}^n a_k$ for a given $a_k$. 
@@ -2536,9 +2536,7 @@ How close is $P_n(x)$ to $f(x)$? What is the error?
   $\underset{n\to\infty}{\lim}\frac{c^n}{n!} = 0, c \in \RR$
 
   \begin{proof}
-    Let $c \in \RR$ be a constant and choose $k \in \NN$ such that $k \geq 2|c| \implies |c| \leq \frac{k}{2}$, which is doable by AP.
-    Apply absolute value for $n \geq K$, 
-    \[0 \leq |\frac{c^n}{n!}| = \frac{|c||c| \cdots |c|}{(1)(2) \cdots (n-1)(n)}\] 
+    Let $c \in \RR$ be a constant and choose $k \in \NN$ such that $k \geq 2|c| \implies |c| \leq \frac{k}{2}$, which is doable by AP.  Apply absolute value for $n \geq K$, \[0 \leq |\frac{c^n}{n!}| = \frac{|c||c| \cdots |c|}{(1)(2) \cdots (n-1)(n)}\] 
     \[= \left[ \frac{|c||c|\cdots|c|}{1 * 2 * \cdots * k} \right] \left[ \frac{|c|\cdots|c|}{(k+1)\cdots n}\right] = \frac{|c|^k}{k!}\frac{|c|^{n-k}}{(k+1)\cdots n} \leq \frac{|c|^k}{k!}\frac{|c|^{n-k}}{k^{n-k}}\]
     \[\leq \frac{|c|^k}{k!}\frac{(k/2)^{n-k}}{k^{n-k}} = \frac{|c|^k}{k! 2^{n-k}} \leq |c|^k (\frac{1}{2})^{n-k}\]
     \[= |c|^k \frac{(1/2)^n}{(1/2)^k} = |c|^k * 2^k * (\frac{1}{2})^n\]
@@ -2549,8 +2547,7 @@ How close is $P_n(x)$ to $f(x)$? What is the error?
 \end{lemma}
 
 \begin{theorem}
-  Let $I$ be a neighborhood of $x_0$ and $f: I \to \RR$ have derivative of all orders. 
-  Suppose $r, M \in \RR^+$ such that $[x_0 -r, x_0 + r] \subseteq I$ and $\ \forall \ n$ with $x \in [x_0 - r, x_0 + r]$, 
+  Let $I$ be a neighborhood of $x_0$ and $f: I \to \RR$ have derivative of all orders.  Suppose $r, M \in \RR^+$ such that $[x_0 -r, x_0 + r] \subseteq I$ and $\ \forall \ n$ with $x \in [x_0 - r, x_0 + r]$, 
   $|f^{(n)} (x)| \leq M^n$ then 
   \[f(x) = \sum_{k=0}^\infty \frac{f^{(k)}(x_0)}{k!}(x-x_0)^k \text{ if } |x-x_0| \leq r\]
 
@@ -2623,11 +2620,98 @@ Now, we will use $R_n(x)$ as an integral and approximate it using sums.
 
 \subsection{Skip 8.6}
 
-\subsection{}
+\subsection{The Weierstrass Approximation Theorem}
+
+\begin{theorem}
+  \vocab{Weierstrass Approximation Theorem} states that suppose $f: [a,b] \to \RR$ is continous. Then for all $\epsilon > 0$, 
+  there is a polynomial $p: \RR \to \RR$ such that $\ \forall \ x \in [a,b]$, we have 
+  \[|f(x) - p(x)| < \epsilon\]
+  Note that $p(x)$ may not be a Taylor Polynomial. This works for all $x$, 
+  not just a small neighborhood around $x_0$. 
+  \begin{proof}
+    Omitted. Not expected to know for the exam.
+  \end{proof}
+\end{theorem}
+
+\section{Sequences and Series of Functions}
+
+\subsection{Sequences and Series of Numbers}
+
+\begin{note}
+  Note that previously a sequence of numbers is convergent if 
+  \[\ \forall \ \epsilon > 0, \ \exists N \in \NN \text{ s.t. } \ \forall n \geq N, |a_n - a| < \epsilon\]
+  However, we needed to know the limit $a$ beforehand in order to use the definition.
+  Some tools we have to determine convergence 
+  \begin{enumerate}
+    \item Monotone Convergence Theorem: bounded monotone sequence $\implies$ converge
+  \end{enumerate}
+\end{note}
 
 \begin{definition}
-  
+  A sqeuence $\{a_n\}$ is called a \vocab{Cauchy Sequence} if 
+  \[\forall \ \epsilon > 0, \ \exists \ N \in \NN \text{ s.t. } n, m \in \NN \implies |a_n - a_m| < \epsilon\]
+  Essentially, the terms of the sqeuence get closer to each other after $N$ and we do not need to know $\underset{n\to\infty}{\lim}a_n = a$.
 \end{definition}
+
+\begin{theorem}
+  If a sequence converges, then it is a Cauchy Sequence. 
+
+  \begin{proof}
+    Let $\epsilon > 0$. Then $\ \exists \ N \in \NN$ such that $\forall \ n \in NN, |a_n 0 a| < \frac{\epsilon}{2}$
+    by definition of convergent sequence, since it works for all $\epsilon$. Thus if $n, m \in \NN$, we have 
+    \[|a_n - a_m| = |a_n - a + a - a_m| \leq |a_n - a| + |a - a_m| < \frac{\epsilon}{2} + \frac{\epsilon}{2} = \epsilon\]
+  \end{proof}
+\end{theorem}
+
+\begin{lemma}
+  If $\{a_n\}$ is Cauchy, then $\{a_n\}$ is bounded. 
+
+  \begin{proof}
+    Since $\{a_n\}$ is Cauchy, $\ \forall \ \epsilon > 0, \ \exists \ N \in \NN$ such that 
+    $\forall \ m, n \geq NN, |a_n - a_m| < \epsilon$. Let $\epsilon = 1$. So 
+    \[|a_n - a_m| < 1 \ \forall \ m, n \in N\]
+    In particular, $|a_n - a_N| < 1 \ \forall \ n \geq N$. Therefore, 
+    \[|a_n| = |a_n - a_N + a_N| \leq |a_n - a_N| + |a_N| < 1 + |a_N| \ \forall \ n \geq N\]
+    Let $M =\max\{|a_1|, \ldots, |a_{N+1}|, 1 + |a_N|\}$
+    Then $|a_n| \leq M \ \forall \ n \in \NN$, and so $\{a_n\}$ is bounded, as desired.
+  \end{proof}
+\end{lemma}
+
+\begin{theorem}
+  If $\{a_n\}$ is Cauchy, then $\{a_n\}$ converges. 
+
+  \begin{proof}
+    If $\{a_n\}$ is Cauchy, then it is bounded by the Lemma above. Since it is bounded, by Sequential Compactness, 
+    $\exists \ a_{n_k} \to a, a \in \RR$ and $a_{n_k}$ is a monotone convergent subsequence. We 
+    WTS that $|a_n - a| < \epsilon$. Let $\epsilon > 0$. Since $\{a_n\}$ is Cauchy, then $\ \exists \ N \in \NN$ such that 
+    $\ \forall \ m,n \geq N$, then 
+    \[|a_n - a_m| < \frac{\epsilon}{2}\]
+    Since $\underset{n\to\infty}{\lim} a_{n_k} = a, \ \exists \ N_2 \in \NN$ such that $n_K \geq N_2$
+    \[|a_{n_k} - a| < \frac{\epsilon}{2}\]
+    Choose $n, k \geq \max\{N_1, N_2\}$, then 
+    \[|a_n - a| \leq |a_n - a_{n_k}| + |a_{n_k - a}| < \frac{\epsilon}{2} + \frac{\epsilon}{2} = \epsilon\]
+  \end{proof}
+\end{theorem}
+
+\begin{definition}
+  Given a sequence $\{a_n\}$, we can construct the series (infinite sum) by $\sum_{k=1}^\infty a_k$. We define the 
+  \vocab{nth partial sum} as $S_n = \sum_{k=1}^n a_k$.
+\end{definition}
+
+\begin{theorem}
+  Suppose $\sum_{k=1}^\infty a_k$ converges to $a$, and $\sum_{k=1}^\infty b_k$ converges to $b$. 
+  Then 
+  \[\sum_{k=1}^\infty (\alpha a_k + \beta b_k) \to \alpha a + \beta b, \alpha, \beta \in |RR\]
+  \begin{proof}
+    See Chapter 2, just working with sequences on $\{S_n\}$ partial sums.
+  \end{proof}
+\end{theorem}
+
+\begin{theorem}
+  The \vocab{Cauchy Convergence Criterion for Series}. A series $\sum_{n=0}^\infty a_n$ converges 
+  if and only if $\ \forall \ \epsilon > 0, \ \exists \ N \in \NN, \text{ s.t. } \ \forall \ n \geq m \geq N, n,m \in \NN$, then 
+  \[|a_{m+1} + \cdots + a_n| < \epsilon\]
+\end{theorem}
 
 \end{document}
 
