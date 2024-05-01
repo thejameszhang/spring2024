@@ -2371,7 +2371,7 @@ and monotone functions.
     \hfill
 
     Note that $\int_a^b f = -\int_b^a f$. Define $F(x) = \int_a^x \ \forall \ x \in [a,b]$. 
-    $F$ is continuitous from the proposition above. Let $x_o \in (a,b)$. 
+    $F$ is continuous from the proposition above. Let $x_o \in (a,b)$. 
 
     We WTS that
     \[F'(x_0) = \lim_{x\to x_0}\frac{F(x) - F(x_0)}{x - x_0}\]
@@ -2657,7 +2657,7 @@ Now, we will use $R_n(x)$ as an integral and approximate it using sums.
   If a sequence converges, then it is a Cauchy Sequence. 
 
   \begin{proof}
-    Let $\epsilon > 0$. Then $\ \exists \ N \in \NN$ such that $\forall \ n \in NN, |a_n 0 a| < \frac{\epsilon}{2}$
+    Let $\epsilon > 0$. Then $\ \exists \ N \in \NN$ such that $\forall \ n \in \NN, |a_n - a| < \frac{\epsilon}{2}$
     by definition of convergent sequence, since it works for all $\epsilon$. Thus if $n, m \in \NN$, we have 
     \[|a_n - a_m| = |a_n - a + a - a_m| \leq |a_n - a| + |a - a_m| < \frac{\epsilon}{2} + \frac{\epsilon}{2} = \epsilon\]
   \end{proof}
@@ -2711,6 +2711,84 @@ Now, we will use $R_n(x)$ as an integral and approximate it using sums.
   The \vocab{Cauchy Convergence Criterion for Series}. A series $\sum_{n=0}^\infty a_n$ converges 
   if and only if $\ \forall \ \epsilon > 0, \ \exists \ N \in \NN, \text{ s.t. } \ \forall \ n \geq m \geq N, n,m \in \NN$, then 
   \[|a_{m+1} + \cdots + a_n| < \epsilon\]
+  \begin{proof}
+    $S_n \text{conv} \leftrightarrow S_n \text{is Cauchy}$
+
+    Proof in May 1 Notes.
+  \end{proof}
+\end{theorem}
+
+\begin{theorem}
+  If $\sum_{n = 0}^\infty a_n$ converges, then $\underset{n\to\infty}{\lim}a_n = 0$. Note that the contrapositive of this is 
+  if $\underset{n\to\infty}{\lim}a_n \neq 0 \implies \sum_{n=0}^\infty a_n$ diverges is known as the \vocab{Test for Divergence}.
+  We will prove this in the standard way (not the contrapositive).
+
+  \begin{proof}
+    Suppose $\sum_{n=0}^\infty a_n$ converges to $a \in \RR$. By definition of partial sums, $s_n \to a$.
+    Note that $a_n = s_n - s_{n-1} \ \forall \ n \geq 1$.
+    \begin{align*}
+      \lim_{n\to\infty} s_n = a && \lim_{n\to\infty} s_{n-1} = a
+    \end{align*}
+    And so $\underset{n\to\infty}{\lim}a_n = a - a = 0$
+  \end{proof}
+\end{theorem}
+
+\begin{note}
+  Note that the finite geometric sum formula is 
+  \[\sum_{k=0}^n r^k = 1 + r + \cdots + r^k = \frac{1-r^{n-1}}{1 - r}\]
+  and 
+  \[\lim_{n\to\infty} r^n = 0 \text{ if } |r| < 1\]
+\end{note}
+
+
+\begin{proposition}
+  For $r \in \RR$ with $|r| < 1$ then 
+  \[\sum_{k=0}^\infty r^k = \frac{1}{1-r}\]
+  \begin{proof}
+    Consider 
+    \[\underset{n\to\infty}{\lim}\sum_{k=0}^n r^k = \underset{n\to\infty}{\lim}(\frac{1-r^{n-1}}{1-r}) = \frac{1}{1-r}(1-0) = \frac{1}{1-r}\]
+  \end{proof}
+\end{proposition}
+
+\begin{theorem}
+  $\{a_k\}$ where $a_k \geq 0 \ \forall \ k$, then $\sum_{k=1}^\infty a_k$ converges $\Longleftrightarrow$ partial sums sequence is bounded.
+  \begin{proof}
+    Since $a_k \geq 0 \ \forall \ k, \sum_{k=1}^\infty a_k$ is nonnegative, and thus $\{s_n\}$ is monotonically increasing. 
+    \[\sum_{k=1}^\infty a_k \text{ conv } \Longleftrightarrow \{s_n\} \text{ conv } \Longleftrightarrow \{s_n\} \text{ is bounded}\]
+    by definition of partial sums, monotone convergence theorem, and then convergent sequences are bounded.
+  \end{proof}
+\end{theorem}
+
+\begin{corollary}
+  \vocab{Comparison Test}. $\{a_n\}, \{b_n\}$ sequences with $0 \leq a_k \leq b_k \ \forall \ k$. 
+  \begin{itemize}
+    \item If $\sum_{k=1}^\infty b_k$ converges then $\sum_{k=1}^\infty a_k$ also converges. 
+    \item If $\sum_{k=1}^\infty a_k$ diverges, then $\sum_{k=1}^\infty b_k$ also diverges.
+  \end{itemize}
+  \begin{proof}
+    $\ \forall \ n \sum_{k=1}^\infty a_k \leq \sum_{k=1}^\infty b_k$ since $a_k \leq b_k \ \forall \ k$. 
+    \begin{itemize}
+      \item If $\sum_{k=1}^\infty b_k$ converges, say to $b$, then 
+      \[\sum_{k=1}^n a_k \leq \sum_{k=1}^n b_k \leq \sum_{k=1}^\infty b_k = b\]
+      So $\sum_{k=1}^n a_k$ (partial sums) are bounded by $b$. So $\sum_{k=1}^\infty a_k$ converges by 
+      previous lemma. 
+      \item Similar.
+    \end{itemize}
+  \end{proof}
+\end{corollary}
+
+\begin{theorem}
+  \vocab{Integral Test}. Let $\{a_k\}$ be a sequence of nonnegative numbers and suppose $f: [1, \infty) \to \RR$
+  is continuous and monotonic decreasing, and $f(k) = a_k \ \forall \ k$.
+  Then the series $\sum_{k=1}^\infty a_k$ converges if and only if $\{\int_a^n f(x) dx\}_{n=1}^\infty$ is bounded.
+  \begin{proof}
+    $f$ is continuous and thus on each bounded interval, it is integrable. Since $f$ is monotonically decreasing, 
+    then $\forall \ k \in \NN, \ \forall \ x \in [k, k + 1]$, we have 
+    \[a_k = f(k) \geq f(x) \geq f(k + 1) = a_{k+1}\]
+    Integrate from $k$ to $k+1$, such that 
+    \[\int_k^{k + 1} a_k \geq \int_k^{k+1} f(x) dx \geq \int_k^{k+1}a_{k+1}\]
+    \[a_k \geq \int_k^{k+1} f(x) dx \geq a_{k+1}\]
+  \end{proof}
 \end{theorem}
 
 \end{document}
