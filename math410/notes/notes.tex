@@ -31,6 +31,7 @@
 \newcommand{\eqdef}{=\vcentcolon}
 \newcommand{\tr}{{\rm tr\ }}
 \newcommand{\im}{{\rm Im\ }}
+\newcommand{\pw}{\overset{\text{p.w.}}{\longrightarrow}}
 \newcommand{\spann}{{\rm span\ }}
 \newcommand{\Col}{{\rm Col\ }}
 \newcommand{\Row}{{\rm Row\ }}
@@ -2683,8 +2684,8 @@ Now, we will use $R_n(x)$ as an integral and approximate it using sums.
   \begin{proof}
     If $\{a_n\}$ is Cauchy, then it is bounded by the Lemma above. Since it is bounded, by Sequential Compactness, 
     $\exists \ a_{n_k} \to a, a \in \RR$ and $a_{n_k}$ is a monotone convergent subsequence. We 
-    WTS that $|a_n - a| < \epsilon$. Let $\epsilon > 0$. Since $\{a_n\}$ is Cauchy, then $\ \exists \ N \in \NN$ such that 
-    $\ \forall \ m,n \geq N$, then 
+    WTS that $|a_n - a| < \epsilon$. Let $\epsilon > 0$. Since $\{a_n\}$ is Cauchy, then $\ \exists \ N_1 \in \NN$ such that 
+    $\ \forall \ m,n \geq N_1$, then 
     \[|a_n - a_m| < \frac{\epsilon}{2}\]
     Since $\underset{n\to\infty}{\lim} a_{n_k} = a, \ \exists \ N_2 \in \NN$ such that $n_K \geq N_2$
     \[|a_{n_k} - a| < \frac{\epsilon}{2}\]
@@ -2696,12 +2697,13 @@ Now, we will use $R_n(x)$ as an integral and approximate it using sums.
 \begin{definition}
   Given a sequence $\{a_n\}$, we can construct the series (infinite sum) by $\sum_{k=1}^\infty a_k$. We define the 
   \vocab{nth partial sum} as $S_n = \sum_{k=1}^n a_k$.
+  We say that the the series converges when the sequence of partial sums $\{s_n\}$ converges. 
+  \[\lim_{n\to\infty} S_n = s \implies \sum_{k=1}^\infty a_k = s\]
 \end{definition}
 
 \begin{theorem}
-  Suppose $\sum_{k=1}^\infty a_k$ converges to $a$, and $\sum_{k=1}^\infty b_k$ converges to $b$. 
-  Then 
-  \[\sum_{k=1}^\infty (\alpha a_k + \beta b_k) \to \alpha a + \beta b, \alpha, \beta \in |RR\]
+  Suppose $\sum_{k=1}^\infty a_k$ converges to $a$, and $\sum_{k=1}^\infty b_k$ converges to $b$.  Then 
+  \[\sum_{k=1}^\infty (\alpha a_k + \beta b_k) \to \alpha a + \beta b, \alpha, \beta \in \RR\]
   \begin{proof}
     See Chapter 2, just working with sequences on $\{S_n\}$ partial sums.
   \end{proof}
@@ -2712,9 +2714,10 @@ Now, we will use $R_n(x)$ as an integral and approximate it using sums.
   if and only if $\ \forall \ \epsilon > 0, \ \exists \ N \in \NN, \text{ s.t. } \ \forall \ n \geq m \geq N, n,m \in \NN$, then 
   \[|a_{m+1} + \cdots + a_n| < \epsilon\]
   \begin{proof}
-    $S_n \text{conv} \leftrightarrow S_n \text{is Cauchy}$
-
-    Proof in May 1 Notes.
+    Recall that if a sequence converges if and only if it is Cauchy. If the sequences are partial sums then 
+    \[S_n - S_m = \sum_{k=0}^n a_k - \sum_{k=0}^m a_k = \sum_{k=m+1}^n a_k\]
+    So, since $S_n$ converges, it is Cauchy, and so 
+    \[|S_n - S_n| = |\sum_{k=m+1}^n a_k| < \epsilon\]
   \end{proof}
 \end{theorem}
 
@@ -2724,8 +2727,7 @@ Now, we will use $R_n(x)$ as an integral and approximate it using sums.
   We will prove this in the standard way (not the contrapositive).
 
   \begin{proof}
-    Suppose $\sum_{n=0}^\infty a_n$ converges to $a \in \RR$. By definition of partial sums, $s_n \to a$.
-    Note that $a_n = s_n - s_{n-1} \ \forall \ n \geq 1$.
+    Note that $a_n = s_n - s_{n-1} \ \forall \ n \geq 1$. Suppose $\sum_{n=0}^\infty a_n$ converges to $a \in \RR$. By definition of partial sums, $s_n \to a$.
     \begin{align*}
       \lim_{n\to\infty} s_n = a && \lim_{n\to\infty} s_{n-1} = a
     \end{align*}
@@ -2740,7 +2742,6 @@ Now, we will use $R_n(x)$ as an integral and approximate it using sums.
   \[\lim_{n\to\infty} r^n = 0 \text{ if } |r| < 1\]
 \end{note}
 
-
 \begin{proposition}
   For $r \in \RR$ with $|r| < 1$ then 
   \[\sum_{k=0}^\infty r^k = \frac{1}{1-r}\]
@@ -2750,18 +2751,18 @@ Now, we will use $R_n(x)$ as an integral and approximate it using sums.
   \end{proof}
 \end{proposition}
 
-\begin{theorem}
-  $\{a_k\}$ where $a_k \geq 0 \ \forall \ k$, then $\sum_{k=1}^\infty a_k$ converges $\Longleftrightarrow$ partial sums sequence is bounded.
+\begin{lemma}
+  \vocab{Lemma for Comparison Test Proof}. $\{a_k\}$ where $a_k \geq 0 \ \forall \ k$, then $\sum_{k=1}^\infty a_k$ converges $\Longleftrightarrow$ partial sums sequence is bounded.
   \begin{proof}
     Since $a_k \geq 0 \ \forall \ k, \sum_{k=1}^\infty a_k$ is nonnegative, and thus $\{s_n\}$ is monotonically increasing. 
     \[\sum_{k=1}^\infty a_k \text{ conv } \Longleftrightarrow \{s_n\} \text{ conv } \Longleftrightarrow \{s_n\} \text{ is bounded}\]
-    by definition of partial sums, monotone convergence theorem, and then convergent sequences are bounded.
+    by definition of partial sums, and then convergent sequences are bounded. In the reverse direction, use 
+    Monotone Convergence Theorem.
   \end{proof}
-\end{theorem}
+\end{lemma}
 
-\begin{corollary}
-  \vocab{Comparison Test}. $\{a_n\}, \{b_n\}$ sequences with $0 \leq a_k \leq b_k \ \forall \ k$. 
-  \begin{itemize}
+\begin{theorem}
+  \vocab{Comparison Test}. $\{a_n\}, \{b_n\}$ sequences with $0 \leq a_k \leq b_k \ \forall \ k$.  \begin{itemize}
     \item If $\sum_{k=1}^\infty b_k$ converges then $\sum_{k=1}^\infty a_k$ also converges. 
     \item If $\sum_{k=1}^\infty a_k$ diverges, then $\sum_{k=1}^\infty b_k$ also diverges.
   \end{itemize}
@@ -2775,11 +2776,10 @@ Now, we will use $R_n(x)$ as an integral and approximate it using sums.
       \item Similar.
     \end{itemize}
   \end{proof}
-\end{corollary}
+\end{theorem}
 
 \begin{theorem}
-  \vocab{Integral Test}. Let $\{a_k\}$ be a sequence of nonnegative numbers and suppose $f: [1, \infty) \to \RR$
-  is continuous and monotonic decreasing, and $f(k) = a_k \ \forall \ k$.
+  \vocab{Integral Test}. Let $\{a_k\}$ be a sequence of nonnegative numbers and suppose $f: [1, \infty) \to \RR$ is continuous and monotonic decreasing, and $f(k) = a_k \ \forall \ k$.
   Then the series $\sum_{k=1}^\infty a_k$ converges if and only if $\{\int_a^n f(x) dx\}_{n=1}^\infty$ is bounded.
   \begin{proof}
     $f$ is continuous and thus on each bounded interval, it is integrable. Since $f$ is monotonically decreasing, 
@@ -2788,6 +2788,220 @@ Now, we will use $R_n(x)$ as an integral and approximate it using sums.
     Integrate from $k$ to $k+1$, such that 
     \[\int_k^{k + 1} a_k \geq \int_k^{k+1} f(x) dx \geq \int_k^{k+1}a_{k+1}\]
     \[a_k \geq \int_k^{k+1} f(x) dx \geq a_{k+1}\]
+    Sum up all $k$ such that 
+    \[\sum_{k=1}^n a_k \geq \sum_{k=1}^n \int_k^{k+1} f \geq \sum_{k=2}^{n+1}a_{k+1}\]
+    \[\sum_{k=1}^n a_k \geq \int_1^{n+1} f \geq \sum_{k=2}^{n+1}a_{k+1}\]
+    Note that $\int_1^n f$ is bounded above and below by partial sums of $\sum_{k=1}^\infty a_k$. Then use Comparison Test 
+    and note that $f$ is monotonically decreasing. 
+    \[\sum_{k=1}^\infty a_k \text{ conv } \Longleftrightarrow \{\int_1^n f\} \text{ bdd }\]
+  \end{proof}
+\end{theorem}
+
+\begin{theorem}
+  \vocab{Alternating Series Test}. Let $\{a_k\}$ be monotonically decreasing sequence 
+  of nonnegative numbers that converges to $0$. Then the series 
+  \[\sum_{k=1}^\infty (-1)^k a_k \text{ converges }\]
+  \begin{proof}
+    Proof omitted.
+  \end{proof}
+\end{theorem}
+
+\begin{definition}
+  $\sum_{k=1}^\infty a_k$ \vocab{absolutely converges} if $\sum_{k=1}^\infty |a_k|$ converges.
+\end{definition}
+
+\begin{theorem}
+  \vocab{Absolute Convergence Test}. If $\sum_{k=1}^\infty |a_k|$ converges then $\sum_{k=1}^\infty a_k$ also converges.
+
+  \begin{proof}
+    Assume $\sum_{k=1}^\infty |a_k|$ converges. We WTS that $\sum_{k=1}^\infty a_k$ converges. 
+    Note that 
+    \[a_k + |a_k| = \begin{cases}
+      2|a_k| \text{ if } a_k \geq 0\\
+      0 \text{ else }
+    \end{cases}\]
+    and further note that 
+    \[0 \leq a_k + |a_k| \leq 2|a_k| \ \forall \ k\]
+    Since $\sum_{k=1}^\infty |a_k|$ converges, then $\sum_{k=1}^\infty 2|a_k|$ also converges. So by 
+    $(*)$, $\sum (a_k + |a_k|) \leq 2 \sum |a_k|$. The latter converges, so by 
+    Comparison Test, $\sum (a_k + |a_k|)$ also converges. 
+    Combining, 
+    \[\sum a_k = \sum(a_k + |a_k| - |a_k|) = \sum(a_k + |a_k|) - \sum |a_k|\]
+    and the first term converges by CT and the second term converges by assumption, so by Linearity, $\sum_{k=1}^\infty a_k$ 
+    converges as well.
+  \end{proof}
+\end{theorem}
+
+\begin{lemma}
+  \vocab{Lemma for Ratio Test Proof}. For $\sum_{k=1}^\infty a_k$, suppose $\ \exists \ r \in \RR$ with $0 \leq r < 1$, 
+  and $\ \exists \ N \in \NN$ such that $|a_{n+1}| \leq r|a_n| \ \forall \ n \geq N$. Then 
+  $\sum_{k=1}^\infty a_k$ absolutely converges. 
+
+  \begin{proof}
+    Apply the given iteratively, 
+    \[|a_{N + K}| \leq r^k|a_N|\]
+    Then the partial sums of $\sum |a_n|$
+    \[|a_1| + |a_2| + \cdots + |a_{N + K}| \leq |a_1| + |a_2| + \cdots |a_N|(1 + r + r^2 + \cdots + r^k)\]
+    by factoring out $|a_N|$. Note that 
+    \[\leq |a_1| + \cdots + |a_N| \left( \frac{1 - r^{k+1}}{1-r}\right)\]
+    Taking the limit as $k\to\infty$, we get that the partial sums of $\sum |a_n|$ is 
+    \[\leq |a_1| + \cdots + |a_n| \left( \frac{1}{1-r}\right)\]
+    Note that the above has no dependence on $K$, so set it to $M$. The sequence of partial sums of $\sum |a_k|$ is 
+    bounded $\implies \sum_{k=1}^\infty |a_k|$ converges.
+  \end{proof}
+\end{lemma}
+
+\begin{theorem}
+  \vocab{Ratio Test}. For $\sum_{k=1}^\infty a_k$ suppose $\lim_{n\to\infty} \frac{|a_{n+1}|}{|a_n|} = l$. Then \begin{enumerate} \item If $l < 1$, then $\sum^\infty a_k$ converges absolutely.
+    \item If $l > 1$, then $\sum^\infty$ diverges.
+  \end{enumerate}
+
+  \begin{proof}
+
+    \hfill
+
+    \begin{enumerate}
+      \item Consider the case of $l < 1$. Choose $N$ such that $\ \forall \ n\geq N, \frac{|a_{n+1}|}{|a_n|} < l$.
+      $|a_{n+1}| < l|a_n|$, and note that $l < 1$ and so by the previous theorem 
+      $\sum^n |a_k|$ converges.
+      \item The other case is similar.
+    \end{enumerate}
+  \end{proof}
+\end{theorem}
+
+\subsection{Pointwise Convergence of Sequence of Functions}
+
+\begin{definition}
+  From now on, let $D \subseteq \RR$. Given $f: D \to \RR$ and a sequence 
+  of functions $\{f_n: D \to \RR\}$, we say $\{f_n\}$ \vocab{converges pointwise} to $f$
+  \[\ \forall \ x \in D, \lim_{n\to\infty} f_n(x) = f(x)\]
+  We write $f_n \pw f$. 
+\end{definition}
+
+\begin{example}
+  $f_n = x^n$ for $0 \leq x \leq 1, n \in \NN$. 
+  \begin{align*}
+    f_1(x) = x && f_2(x) = x^2 && f_3(x) = x^3 && \cdots
+  \end{align*}
+  Note that when $x=1 \implies \underset{n\to\infty}{\lim}f_n(1) = \underset{n\to\infty}{1} = 1$. 
+  But for $0 \leq x < 1 \implies \underset{n\to\infty}{f_n(x)} = \underset{n\to\infty}{\lim}x^n = 0$
+  Thus, $\{f_n\}$ converges pointwise to $f$ on $[0, 1]$ where 
+  \[f(x) = \begin{cases}
+    1, x = 1\\
+    0, 0 \leq x < 1
+  \end{cases}\]
+\end{example}
+
+\begin{example}
+  Let the sequence of functions be $f_n(x) = e^{-x^2} \ \forall \ n \in \mathbb{N}$. What does this 
+  sequence of functions converge to?
+
+  \begin{proof}[Solution]
+    When $x=0 \implies \underset{n\to\infty}{\lim}e^{-n(0)^2} = 1$
+
+    For when $x \neq 0 \implies \underset{n\to\infty}{\lim}e^{-nx^2} = 0$ and so
+    \[\{f_n(x)\} \overset{\text{p.w.}}{\longrightarrow} f(x) = \begin{cases} 0, x \neq 0, \\ 1, x = 0 \end{cases} \] 
+    Note that limits do not preserve properties (cont, diff, integrable) of sequences of functions.
+  \end{proof}
+\end{example}
+
+\subsection{Uniform Convergence of a Sequence of Functions}
+
+\begin{definition}
+  We say $f_n: D \to \mathbb{R}$ \vocab{converges uniformly} to $f: D \to \mathbb{R}$ 
+  if
+  \[\epsilon > 0 \ \exists \ N \in \mathbb{N} \text{ s.t } \ \forall \ n \geq N \text{ and } \forall \ x \in D \implies |f(x) - f_n(x)| < \epsilon\]
+  We write $f_n \overset{u}{\longrightarrow} f$.
+
+\end{definition}
+
+\begin{example}
+  From above, $f_n(x) = x^n$ on $[0, 1]$. We found that
+  \[f_n \pw f = \begin{cases} 1, x = 1\\ 0, 0 \leq x < 1\end{cases}\]
+  Now we will show that $f_n \overset{u}{\not\longrightarrow} f$. 
+
+  \begin{proof}
+    By contradiction, assume that $f_n \overset{u}{\longrightarrow} f$ on $[0, 1]$. Let 
+    $\epsilon = \frac{1}{2}$, so by def'n of uniform convergence, $\exists \ N \in \NN$ such that 
+    $\forall \ n \geq N \text{ and } \ \forall \ x \in [0, 1]$, we have 
+    \[|f_n - f| < \frac{1}{2}\]
+    so $x \in [0, 1) \implies |f_n - f| = |x^n - f| < \frac{1}{2}$. But take a sequence of points 
+    $x \to 1, x_m = 1 - \frac{1}{m}$ then 
+    \[|x_m^n - 0| < \frac{1}{2}\]
+    \[|1^n - 0| < \frac{1}{2} \implies |1| < \frac{1}{2}\]
+    is a contradiction. 
+  \end{proof}
+\end{example}
+
+\begin{example}
+  Suppose $f_n(x) = e^{-nx^2}, D = \mathbb{R}$. We claim 
+  \[f_n \overset{u}{\not\longrightarrow}f = \begin{cases}
+    0, x \neq 0\\
+    1, x = 0
+  \end{cases}\]
+  \begin{proof}
+    By contradiction, assume $f_n \overset{u}{\longrightarrow} f$. Let $\epsilon = \frac{1}{2}$. 
+    $\exists \ N \in \mathbb{N}$ such that $\forall \ n \geq N, \ \forall \ x \in \mathbb{R}$, 
+    \[|f_n(x) - f(x)| < \frac{1}{2}\]
+    \[|e^{-nx^2} -0| < \frac{1}{2}\]
+    For $x \neq 0$, take $x_m = \frac{1}{m}$, so the sequence approaches $0$ as $m \to \infty$
+    Now plugging in $x_m$ we get 
+    \[|e^{-nx_m^2} - 0| < \frac{1}{2} \implies e^{-x_m^2} < \frac{1}{2}\]
+    Take the limit as $m \to \infty$
+    \[e^{-\frac{n}{m^2}} < \frac{1}{2} \implies e^0 < \frac{1}{2}\]
+    which is a contradiction and so $f_n \overset{u}{\not\longrightarrow} f$
+  \end{proof}
+\end{example}
+
+\begin{example}
+  Let $f_n: [-\frac{1}{2}, \frac{1}{2}] \to \mathbb{R}$ where $f_n = x^n$. 
+  Prove that $f_n \overset{u}{\longrightarrow}f$ for $f(x) = 0$.
+
+  \begin{proof}[Solution]
+    Let $\epsilon > 0$. We WTS that $|x^n - 0| = |x^n| < \epsilon \ \forall \ x \in [-\frac{1}{2}, \frac{1}{2}]$
+    
+    Note that $|x^n| < (\frac{1}{2})^n$ since $x \in [-\frac{1}{2}, \frac{1}{2}]$ and $|x| \in [0, \frac{1}{2}]$. However, 
+    as
+    \[n\to\infty, (\frac{1}{2})^n \to 0, \ \exists \ N \in \mathbb{N} \text{ s.t. } \ \forall \ n \geq N, (\frac{1}{2})^n < \epsilon\]
+    by definition of convergence. So if $n \geq N$ and $\forall \ x \in [-\frac{1}{2}, \frac{1}{2}]$ then 
+    \[|f_n(x) - f(x)| = |x^n - 0| = |x^n| \leq (\frac{1}{2})^n < \epsilon\]
+    and so therefore, $f_n(x) \overset{u}{\longrightarrow} 0$ on $[-\frac{1}{2}, \frac{1}{2}]$
+    both pointwise and uniformly. 
+  \end{proof}
+\end{example}
+
+\begin{definition}
+  A sequence of functions $\{f_n\}, f_n: D \to \mathbb{R}$ is said to be 
+  \vocab{uniformly Cauchy} if 
+  \[\forall \ \epsilon > 0, \ \exists \ N \in \mathbb{N} \text{ s.t. } \ \forall \ n, m \geq N, \ \forall \ x \in D \implies |f_m(x) - f_n(x)| < \epsilon\]
+\end{definition}
+
+\begin{theorem}
+  \vocab{Weierstrass Uniform Convergence Theorem} states that 
+  $\{f_n: D \to \mathbb{R}\}$ is uniformly convergent if and only if $\{f_n\}$ is uniformly Cauchy.
+
+  \begin{proof}
+    
+    \hfill
+
+    $\Longrightarrow$ Assume $\{f_n\}$ is uniformly convergent. We WTS that $\{f_n\}$ is uniformly Cauchy. 
+    Let $\epsilon > 0$. Since $f_n \overset{u}{\longrightarrow} f, \ \exists \ N \in \mathbb{N}$ such that $\ \forall \ n \geq N$ and $\forall \ x \in D$, 
+    $|f_n(x) - f(x)| < \frac{\epsilon}{2}$. If $m, n \geq N$, then 
+    \[|f_n(x) - f_m(x)| = |f_n - f + f - f_m| \leq |f_n - f| + |f_m - f| < \frac{\epsilon}{2} + \frac{\epsilon}{2} = \epsilon\]
+
+    $\Longleftarrow$ Assume $\{f_n\}$ is uniformly Cauchy. Let $x \in D$. Then 
+    \[\forall \ \epsilon > 0, \ \exists \ N \in \mathbb{N} \text{ s.t.}  \forall \ m, n \geq N, |f_n(x) - f_m(x)| < \epsilon\]
+    Note that $\{f_n(x)\}$ is a sequence of $y$-vlaues for each $x$. Cauchy implies convergent for all 
+    sequences of numbers. Define $f: D \to \mathbb{R}$ such that $\underset{n\to\infty}{f_n(x)} = f(x)$ (pointwise?). 
+    Since $\{f_n\}$ is uniformly Cauchy, $\exists N_2 \in \mathbb{N}$ such that $\forall k, l \geq N_2, \ \forall \ x \in D$
+    \[|f_k(x) - f_l(x)| < \frac{\epsilon}{2}\]
+    We WTS that $f_l \overset{u}{\longrightarrow} f$
+    \[-\frac{\epsilon}{2} < f_k(x) - f_l(x) < \frac{\epsilon}{2}\]
+    \[f_l - \frac{\epsilon}{2} < f_k < \frac{\epsilon}{2} + f_l + \frac{\epsilon}{2}\]
+    Take the limit $\underset{n\to\infty}{f_k} = f$
+    \[f_l - \frac{\epsilon}{2} \leq f \leq \frac{\epsilon}{2} + f_l\]
+    \[|f-f_l| \leq \frac{\epsilon}{2} < \epsilon\]
+    Therefore, $f_l \overset{u}{\longrightarrow} f$ as needed.
   \end{proof}
 \end{theorem}
 
