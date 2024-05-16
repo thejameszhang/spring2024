@@ -1,0 +1,950 @@
+\documentclass[12pt]{scrartcl}
+\usepackage[sexy]{james}
+\usepackage[noend]{algpseudocode}
+\setlength{\marginparwidth}{2cm}
+\usepackage{answers}
+\usepackage{array}
+\usepackage{tikz}
+\usepackage{graphicx}
+\newenvironment{allintypewriter}{\ttfamily}{\par}
+\usepackage{listings}
+\usepackage{xcolor}
+\usetikzlibrary{arrows.meta}
+\usepackage{color}
+\usepackage{mathtools}
+\newcommand{\U}{\mathcal{U}}
+\newcommand{\E}{\mathbb{E}}
+\usetikzlibrary{arrows}
+\Newassociation{hint}{hintitem}{all-hints}
+\renewcommand{\solutionextension}{out}
+\renewenvironment{hintitem}[1]{\item[\bfseries #1.]}{}
+\renewcommand{\O}{\mathcal{O}}
+\declaretheorem[style=thmbluebox,name={Chinese Remainder Theorem}]{CRT}
+\renewcommand{\theCRT}{\Alph{CRT}}
+\setlength\parindent{0pt}
+\usepackage{sansmath}
+\usepackage{pgfplots}
+
+\usetikzlibrary{automata}
+\usetikzlibrary{positioning}  %                 ...positioning nodes
+\usetikzlibrary{arrows}       %                 ...customizing arrows
+\newcommand{\eqdef}{=\vcentcolon}
+\newcommand{\lint}{\int_{\overset{a}{\_}}^b}
+\newcommand{\uint}{\int_a^{\bar{b}}}
+\newcommand{\tr}{{\rm tr\ }}
+\newcommand{\im}{{\rm Im\ }}
+\newcommand{\spann}{{\rm span\ }}
+\newcommand{\Col}{{\rm Col\ }}
+\newcommand{\Row}{{\rm Row\ }}
+\newcommand{\dint}{\displaystyle\int}
+\newcommand{\dt}{\ {\rm d }t}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\horizontal}{\par\noindent\rule{\textwidth}{0.4pt}}
+\usepackage[top=3cm,left=3cm,right=3cm,bottom=3cm]{geometry}
+\newcommand{\mref}[3][red]{\hypersetup{linkcolor=#1}\cref{#2}{#3}\hypersetup{linkcolor=blue}}%<<<changed
+
+\tikzset{node distance=4.5cm, % Minimum distance between two nodes. Change if necessary.
+         every state/.style={ % Sets the properties for each state
+           semithick,
+           fill=cyan!40},
+         initial text={},     % No label on start arrow
+         double distance=4pt, % Adjust appearance of accept states
+         every edge/.style={  % Sets the properties for each transition
+         draw,
+           ->,>=stealth',     % Makes edges directed with bold arrowheads
+           auto,
+           semithick}}
+
+
+% Start of document.
+\newcommand{\sep}{\hspace*{.5em}}
+
+\pgfplotsset{compat=1.18}
+\begin{document}
+\title{CMSC320 Exam 2: Study Guide}
+\author{James Zhang\thanks{Email: \mailto{jzhang72@terpmail.umd.edu}}}
+\date{\today}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+\maketitle
+
+\tableofcontents
+
+\section{Lecture 13: Introduction to Machine Learning}
+
+\begin{definition}
+  \vocab{Machine learning} is a subfield of AI that focuses on algorithms and 
+  statistical models to enable computer systmes to learn without being explicitly programmed.
+  Decisions are based on patterns and insights derived from data. Traditional 
+  programs are explicitly programmed with rules.
+\end{definition}
+
+\begin{note}
+
+\hfill
+
+\begin{itemize}
+  \item Supervised learning works with labeled data, used for classification and regression
+  \item Unsupervised learning works with unlabeled data, trying to learn patterns or structures within the data, used for clustering or dimensionality 
+  reduction
+  \item Reinforcement learning is when an agent learns in an environment to maximize some reward
+\end{itemize}
+\end{note}
+
+\begin{note}
+  In supervised learning, the model is a learned fucntion mapping inputs to outputs.
+  In unsupervised learning, learn patterns in input. In reinforcement learning, model-based or model-free methods (policy gradient).
+\end{note}
+
+\subsection{K-Nearest Neighbors}
+
+\begin{definition}
+  \vocab{K-Nearest Neighbors (KNN)} works based on the proximity between data points. Note that 
+  $K$ is usually odd to avoid ties. Label the point based on the labels of the $K$ closest points.
+
+\end{definition}
+  
+\begin{note}
+  Intuition behind \vocab{weighted KNN} is to give more weight to points nearby and less 
+  weight to points far away.
+  \[y = \sum_{k \in K} \frac{1}{\text{dist}(k, p)} * k_{\text{label}}\]
+\end{note}
+
+
+\begin{definition}
+  \vocab{Euclidean distance} is the most common distance metric, 
+  measures the straight line distance. Suitable for continuous numeric data.
+  \[d(x,y) = \sqrt{\sum_{i=1}^n (x_i - y_i)^2}\]
+\end{definition}
+
+\begin{note}
+  The other types of distance functions are 
+  \begin{itemize}
+    \item \vocab{Manhattan (L1) distance}: $d= \sum_{i=1}^n |x_i - y_i|$. Good for high dimensional spaces, and cateogorical features
+    since it ignores magnitude and only focuses on directional changes. 
+    \item \vocab{Hamming distance}: given two binary strings, count the number of different bits
+    \item \vocab{Cosine Similarity}: Used for checking if vectors are pointing the same direction, used in text data, recommender systems
+  \end{itemize}
+\end{note}
+
+\begin{definition}
+  \vocab{Spherical K-Nearest Neighbors} is a variation of KNN specifically desgiend for datasets
+  where the underlying data distribution is spherical. You can also predine sphere sizes, and then ket 
+  everything within the sphere vote $\implies$ faster at test time.
+\end{definition}
+
+\begin{note}
+  How to choose $K$? Try multiple $K$'s and graph the error rate, pick the lowest. This is 
+  known as \vocab{the elbow method}.
+\end{note}
+
+\begin{note}
+  If $K = 1$, then the models only considers the nearest neighbor when making predictions. Thus, the mdoel won't be able to generalize,
+  and leads to overfitting. If $K = 1$, then we consider all points in the data, and we end up just choosing the mode $\implies$ underfitting.
+\end{note}
+
+\begin{note}
+  Strengths and weaknesses of KNN
+
+  \begin{itemize}
+    \item Strengths: accurate, few hyperparameters, easy to implement
+    \item Weaknesses: no training step so it's a "lazy learner," slow at test time, does not work well with high dimensionality, sensitive to missing/noisy data, memory intensive, $K$ must be chosen correctly
+  \end{itemize}
+\end{note}
+
+\section{Lecture 14: Feature Engineering and ML Evaluation}
+
+\subsection{Feature Engineering}
+
+\begin{definition}
+  \vocab{Feature Engineering} is when you transform raw data into features 
+  that are suitable for ML models. Selection involves choosing the most relevant features with most 
+  predictive power. Transformation (scaling, normalization, binning, mathematical transformations) to make features 
+  more suitable for transformations. Creation involves generating new faetures (combining, interaction terms, extracting other useful info).
+\end{definition}
+
+Transformations (You need to memorize equations for below three for how to apply them using their equation)
+
+\begin{definition}
+  \vocab{Normalization / Min-max Scaling} scales all values in a fixed range between $0$ and $1$. 
+  \[x_{scaled} = \frac{x-x_{\min}}{x_{\max} - x_{\min}}\]
+  Does not significantly alter distribution of the feature, and ensures no single feature dominates stats.
+\end{definition}
+
+\begin{definition}
+  \vocab{Standardization (Z-score Normalization)} is 
+  \[z = \frac{x_i - \mu}{\sigma}\]
+  such that the feature now has mean $0$ and standard deviation $1$. More robust to 
+  outliers, and in many cases, preferable to max-min normalization.
+\end{definition}
+
+\begin{definition}
+  \vocab{Log Transforms} helps handle skewed data and after the transformation, the data
+  becomes more like approximate to normal.
+  \[x = \log(x)\]
+\end{definition}
+
+\begin{definition}
+  \vocab{One-Hot Encoding} is a data preprocessing technique that converts categorical variables
+  into binary vectors. Uses pandas get dummies function.
+\end{definition}
+
+\subsection{Cross Validation}
+
+\begin{definition}
+  \vocab{Training data} is the subset of the data used to train the data. \vocab{Testing data}
+  is the subset of data set used to evaluate the model's performance. Train test split is risky if the 
+  split isn't random. 
+\end{definition}
+
+\begin{definition}
+  \vocab{Validation set} is a subset of the training data used iteratively for model development.
+  The model is not trained on this data, helps make decisions about fine-tuning hyperparameters
+  or model architecture.
+\end{definition}
+
+\begin{definition}
+  \vocab{Cross validation} is a technique that makes sure the model gets to learn from 
+  different parts of the data in a more balanced way. The data is divided into subsets, called
+  "folds". The model is trained on different folds, and one fold is used for validation set. 
+  Repeat the process using each fold as a validation set. Evaluates the model across all folds, which ensures 
+  that the model generalizes better to new data and avoid overfitting.
+\end{definition}
+
+\begin{note}
+  There are different types of cross validation
+  \begin{itemize}
+    \item \vocab{K-Fold Cross Validation}: the process described above
+    \item \vocab{Leave One Out Cross Validation (LOOCV)}: each data point is held out as the validation set 
+    while model trains on the rest of the data. Repeat this process for each data point. Useful if 
+    dataset is small but cen be computationally expensive for larger datasets.
+  \end{itemize}
+\end{note}
+
+\subsection{Evaluation Metrics}
+
+\begin{note}
+  Accuracy may not be able to show the full model performance, 
+  especially when classes are imbalanced. For example, a hihg accuracy might be achieved 
+  by always predicting the majority class, even if the model is performing poorly on the minority class.
+\end{note}
+
+\begin{definition}
+  \vocab{Confusion Matrix}: matrix that summarizes performance of a model on test data, 
+  shows true positives, true negatives, false positives, false negatives
+  \begin{itemize}
+    \item FP: model predicts positive, actually negative
+    \item FN: model predicts negative, actually positive
+  \end{itemize}
+\end{definition}
+
+\begin{definition}
+  The Confusion Matrix allows us to calculate various evaluation metrics.
+  \begin{itemize}
+    \item Sensitivity (recall) $= \frac{TP}{TP + FN}$. How many positves your model is able to recall from the data? The proportion of true positives to the total actual positives.
+    Focuses on minimizing false positives in predictions.
+    \item Precision $= \frac{TP}{TP + FP}$. Out of all predicted positives, how many are actually positive? 
+    Focuses on minimizing false negatives in predictions.
+    \item Accuracy $= \frac{TP + TN}{TP + TN + FP + FN}$
+  \end{itemize}
+\end{definition}
+
+\begin{definition}
+  \vocab{F1-Score} is used when you seek a balance between precision and recall, combines them into one score.
+  \[\text{F1 Score} = 
+  \frac{2}{\frac{1}{\text{Precision}} + \frac{1}{\text{Recall}}} = \frac{2 \times \text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}\]
+\end{definition}
+
+\begin{note}
+  Precision vs. Recall:
+
+  \begin{itemize}
+    \item Testing for cancer $\implies$ recall; don't want to be wrong
+    \item Legal system $\implies$ depends. Precision if the aim is to reduce fall accusations or arrests. Recall if priority is to capture all crimes.
+    \item Fraud alerts $\implies$ recall, better to deny some good transactions than pay for the fraudulent ones
+    \item Loans $\implies$ precision, only want to loan to people who will pay it back
+  \end{itemize}
+\end{note}
+
+\section{Lecture 15: Decision Trees}
+
+\begin{definition}
+  \vocab{Decision Tree} is a hierarchical data structure that represents data using a 
+  divide-and-conquer strategy. A decision tree is a set of questions that check if a condition is met and 
+  then flow from one into the other to make a decision.
+\end{definition}
+
+Difference between root node, decision node, and terminal/child node
+
+\begin{definition}
+
+  \hfill
+
+  \begin{itemize}
+    \item \vocab{Decision node}: where a specific feature of data is tested
+    \item \vocab{Root node}: the first decision at the top of the tree
+    \item \vocab{Branch/sub-tree}
+    \item \vocab{Layer}
+    \item \vocab{Leaf/Terminal node}: a node that does not test a feature and so is where a decision is made
+    \item \vocab{Depth}: the number of layers in a decision tree
+  \end{itemize}
+\end{definition}
+
+\begin{note}
+  Each internal node tests an attribute, and each branch corresponds to an attribute value. 
+  Each leaf node is assiged a classification. Also note that decision trees divide feature spaces 
+  into axis-parallel hyper-rectangles $\implies$ decision boundaries.
+\end{note}
+
+\begin{note}
+  Decision trees can represent any boolean function of the inputs. 
+  In the worst case, the tree will require exponentially many nodes.
+\end{note}
+
+\begin{definition}
+  \vocab{Pure node}: node wherein all datapoints belong to the same class
+\end{definition}
+
+\begin{note}
+  Choosing the best attribute:
+
+  \begin{itemize}
+    \item Random: select any attribute at random
+    \item Least-values: choose the attribute with the smallest number of possible values
+    \item Most-values: choose the attribute with the largest number of values
+    \item Max-gain: choose the attribute that has the largest expected information gain
+  \end{itemize}
+\end{note}
+
+\begin{definition}
+  \vocab{Impurity/entropy} measures the level of impurity in a group of examples.
+  A split is a good split if we are more certain about classification after the split, so deterministic is 
+  good and uniform distributions are bad.
+  \begin{itemize}
+    \item When entropy $ = 0$, the set is absolutely pure $\implies$ absolute certainty
+    \item When entropy $ = 1$, the state of absolute confusion
+  \end{itemize}
+  \[H(X) = -\sum_{i=1}^n \PP(X = i) \log_2 \PP(X = i)\]
+  From entropy to information gain, consider 
+  \[\text{Gain}(s, a) = \text{Entropy}(p) - (\sum_{i=1}^k \frac{n_i}{n}\text{Entropy}(i))\]
+  where the parent node $p$ is split into $k$ partitions, and $n_i$ is the number of records in partition $i$
+  At each node of the decision tree, choose the attribute that maximizes information gain as the splitting criterion. 
+\end{definition}
+
+\begin{center}
+  \includegraphics[width=13cm]{purity.png}
+\end{center}
+
+\begin{note}
+  How do you determine when to stop splitting?
+
+  \begin{itemize}
+    \item Reaching a maximum depth - prevents the model from becoming overly complex
+    \item Having a minimum number of samples per leaf - splitting stops of a leaf node would contain fewer samples than a specified threshold
+    \item Encountering pure nodes - nodes containing only one class
+  \end{itemize}
+\end{note}
+
+If a decision tree is given, for new test data predict the output/label using the given decision tree, slide 13
+
+If a decision tree is given, what boolean function $(using and (^), or (V) )$ can be represented, slides 15, 16
+
+Don't forget to see the Cylinder example, where the boolean function for output GOOD is $cyl=3 V cyl 4  etc.$
+
+\section{Lecture 16: Classifications}
+
+\subsection{Naive Bayes}
+
+\begin{definition}
+  \vocab{Naive Bayes} is a classification algorithm that uses probability 
+  theory and Bayes' Theorem
+  \[\PP(A | B) = \frac{\PP(B | A) \times \PP(A)}{\PP(B)}\]
+\end{definition}
+
+\begin{example}
+  Does "A very close game" belong to "Sports" or "Not sports"?
+
+  \begin{proof}[Solution]
+    We want to compare $\PP(\text{Sports | a very close game})$ 
+    
+    and $\PP(\text{Not sports a very close game})$. Applying Bayes' Theorem, observe that 
+    \[\PP(\text{sports | close game}) = \frac{\PP(\text{close game | sports}) \times \PP(\text{sports})}{\PP(\text{close game})}\]
+    \[\PP(\text{not sports | close game}) = \frac{\PP(\text{close game | not sports}) \times \PP(\text{not sports})}{\PP(\text{close game})}\]
+    If "a very close game" doesn't appear in training, this probability is $0$. Naive Bayes'
+    assumes that every word in a sentence is conditionally independent of other ones
+    \[\PP(\text{a very close game} | \text{sports}) = \PP(\text{a} | \text{sports}) * \PP(\text{very} | \text{sports})\]
+    \[ * \PP(\text{close} | \text{sports}) * \PP(\text{game} | \text{sports})\]
+    Instead of multiplying by $0$ if at any time a word doesn't appear, add $1$ to every count so it's never $0$. 
+    This is called \vocab{Laplace Smoothing}.
+    \[\PP(w_i | \text{class}) = \frac{\text{freq}(w_i, \text{class}) + 1}{N_{\text{class}} + V}\]
+    where $N_{\text{class}}$ is the frequency of all words in the class and $V$ is the number 
+    of unique words.
+  \end{proof}
+\end{example}
+
+
+\subsection{Support Vector Machines}
+
+\begin{definition}
+  \vocab{SVM} is an algorithm used for both regression and classification by defining 
+  the best decision boundary (hyperplane) that separates data points into different classes based 
+  on maximum margin.
+\end{definition}
+
+\begin{definition}
+  A \vocab{hyperplane} is a flat surface that is one dimension lower than the input feature space.
+\end{definition}
+
+\begin{definition}
+  Objective: find a plane that has \vocab{maximum margin}: maximum distance between data points 
+  of both classes $\implies$ larger buffer zone between categories
+\end{definition}
+
+\begin{definition}
+  \vocab{Support vectors}: the closest data points to the hyperplane, has a big impact 
+  in deciding the hyperplane. Moving a support vector moves the decision boundary. 
+  Moving the other vectors has no effect.
+\end{definition}
+
+\begin{definition}
+  \vocab{Kernel Trick} is used when data in the input feature space is not linearly separable. The Kernel Trick projects 
+  our data points into higher dimensional spaces by implicitly computing a dot product in higher dimensional space 
+  without explicitly transforming the data. In this higher dimensional space, the data could be linearly separable.
+  Popular kernels include polynomial kernel, Gaussian kernel, and sigmoid kernel.
+\end{definition}
+
+\begin{note}
+  We do not need to know the SVM loss function.
+\end{note}
+
+\subsection{Overfitting and Underfitting}
+
+What is Overfitting and Underfitting
+
+\begin{definition}
+  \vocab{Overfitting} is when the model becomes too tuned on the training set 
+  and is unable to generalize. This model is overly cokmplex and performs poorly on unseen data. Can 
+  be caused by noisy data, training set is too small, use KFCV or regularization techniques
+\end{definition}
+
+\begin{definition}
+  \vocab{Underfitting} is when the model is too general, not complex enough. To do this, add 
+  more layers, more features, more epochs. 
+\end{definition}
+
+Know the concept of overfitting, and underfitting with respect to KNN, decision trees.
+K=1, K=N 
+
+\begin{example}
+  KNN with $K =1$ overfits because highly sensitive to noise and outliers. KNN with 
+  $K = N$ underfits because it over generalizes and does not capture local patterns.
+  Find optimal $K$ using the elbow method.
+\end{example}
+
+\begin{example}
+  Decision trees have a big overfitting problem --- they can create overly-complex trees that 
+  do not generalize to new data well. Apply a depth limit. Apply pruning where we just chop everything off after 
+  four levels. Or use ensembles of different trees $\implies$ random forests, which we cover next
+\end{example}
+
+\subsection{Random Forest}
+
+\begin{definition}
+  \vocab{Ensemble methods} such as bagging and boosting can also mitigate overfitting. These techniques 
+  combine multiple models to make predictions, reducing the impact of individual model's biases and errors. 
+  Enhance generalization and minimize overfitting.
+\end{definition}
+
+\begin{definition}
+  \vocab{Random Forest} creates $N$ different decision trees, each trained on a bootstrapped sample of training data generated 
+  randomly and with replacement.
+\end{definition}
+
+\section{Lecture 17: Regressions}
+
+\begin{definition}
+  Classification predicts discrete labels, \vocab{regression} predicts a continuous feature.
+\end{definition}
+
+\begin{definition}
+  The goal of \vocab{linear regression} is to predict output value 
+  using linear combination of input features. Find a function that represents the 
+  relationship between input variables (independent variables) and the output variable (dependent variable)
+  \[y = \beta_0 + \beta_1 x_1 + \cdots + \beta_n x_n\]
+\end{definition}
+
+\begin{definition}
+  \vocab{The line of best fit} is the one that minimizes error.
+  \[MSE = \frac{1}{n}\sum_{i=1}^n (y - \beta_0 - \beta_1^T x)^2\]
+  \[RSS = \sum_{i=1}^n (y - \beta_0 - \beta_1^T x)^2\]
+\end{definition}
+
+\begin{definition}
+  \vocab{Gradient Descent} is an iterative optimization algorithm 
+  to find the minimum of a function. In LR, can be used to minimuze RSS. 
+  \[w_{new} \leftarrow \eta \frac{\partial J}{\partial w_{old}}\]
+\end{definition}
+
+\begin{definition}
+  \vocab{Learning rate} determines the size of the steps taken in gradient descent. Big LR 
+  risks overshooting, small LR may converge slowly.
+\end{definition}
+
+Evaluation methods $R^2$
+
+\begin{definition}
+  \vocab{$R^2$} is the coefficient of determination, a statistical method that determines the goodness of fit
+  \[R^2 = 1 - \frac{SSE}{SST}\]
+  Typically between $0$ and $1$ where $1$ is a perfect fit and $0$ means the model doesn't capture any variance.
+\end{definition}
+
+\begin{note}
+  L.I.N.E, lasso, ridge, elastic net, not on exam.
+\end{note}
+
+\section{Lecture 18: Unsupervised Learning}
+
+What is unsupervised learning, when to apply it
+
+\begin{definition}
+  \vocab{Unsupervised learning} analyzes and clusters unlabeled datasets.
+\end{definition}
+
+\begin{definition}
+  \vocab{Clustering} groups data without the need for human intervention. Some applications are 
+  cluster analysis, dimensionality reduction, anomaly detection.
+
+  \begin{itemize}
+    \item Intra-cluster distances are minimized (similar objects should be put in the same cluster)
+    \item Inter-cluster distances are maximimzed (observations in different clusters should be different)
+  \end{itemize}
+\end{definition}
+
+\subsection{K-Means}
+
+\begin{definition}
+  \vocab{K-Means} is a clustering algorithm designed to create $K$ clusters.
+  \begin{enumerate}
+    \item Specify the number of clusters $k$
+    \item Initialize the centroids
+    \item Assign each data point to the closest cluster center by calculating Euclidean distance and choosing the minimum.
+    \item Recompute centroids as cluster means
+    \[C(x, y) = ((x_1 + \cdots + x_n) / n, (y_1 + \cdots + y_n) / n)\]
+    \item Repeat 3 and 4 until the cluster centroids don't change
+  \end{enumerate}
+\end{definition}
+
+\begin{note}
+  If $K$ is large, may defeat the point of clustering if clusters are so small. If $K= 1 $ then one big cluster for the entire data set.
+\end{note}
+
+\begin{note}
+  \vocab{WCSS} is the sum of squares of the distances of each data point in all clusters to their 
+  respective centroids
+  \[J = \sum_{j=1}^k \sum_{i=1}^n ||x_i^{(j)} - c_k||^2\]
+  Variation within each cluster is minimized. As the value of $K$ increases, 
+  the WCSS decreases rapidly. Choose the value of $K$ at the elbow of this graph.
+\end{note}
+
+\begin{note}
+  The time complexity of K-Means is $\mathcal{O}(KNL)$ where $K$ is the number of clusters, 
+  $N$ is the number of examples, $L$ is the number of iterations. $K$ is a hyperparameter. 
+  Different initializations yield different results. 
+\end{note}
+
+\begin{note}
+  The stopping criteria for $K$-Means is when the centroids of newly formed 
+  clusters do not change, not learning any new pattern. Points remain in the same cluster. Or max iterations reached.
+\end{note}
+
+\subsection{Principal Component Analysis}
+
+What is Dimensionality Reduction
+
+\begin{definition}
+  \vocab{Dimensionality reduction} is the process of reducing the number of 
+  features in a dataset while preserving its essential information.
+\end{definition}
+
+\begin{definition}
+  \vocab{Curse of dimensionality} is when the available data becomes sparser and fewer points relative to the size of the 
+  space. Increased computational complexity, risk of overfitting. 
+\end{definition}
+
+\begin{definition}
+  \vocab{PCA} attempts to account for the variance of data in as few dimensions as possible $\implies$ 
+  the new axes are principal components. The first PC is the axis that maximizes variance of the 
+  data. Second PC is orthogonal to the first and captures second highest variance after the first PC.
+\end{definition}
+
+\begin{note}
+  Mean center the data. Compute the covariance matrix $\Sigma$. Eigendecompose the covariance matrix, and 
+  eigenvector with eigenvalue $\lambda_1$ is the first PC, etc
+\end{note}
+
+\begin{note}
+  To choose PCs, rank eigenvectors in order of eigenvalues. The kth eigenvalue captures the variance determined by its 
+  eigenvalue divided by the sum of all of the eigenvalues. Finally project the original data 
+  into the selected PC to obtain reduced-dimension representation of the dataset.
+  \[\text{FinalDataset} = \text{FeatureVector}^T * \text{StandardizedOrigDataset}^T\]
+\end{note}
+
+\begin{note}
+
+  \hfill
+  
+  \begin{itemize}
+    \item Benefits: noise reduction, reduces number of features, indirectly helps feature selection
+    \item Downsides: assumes linear relationships in data which isn't always true, PCs are hard to interpret, PCA doesn't generate new features
+  \end{itemize}
+\end{note}
+
+\begin{note}
+  Don't need to know how to perform PCA, calculate covariances, eigenvalues, or eigenvectors. 
+\end{note}
+
+\section{Lecture 19: Neural Networks}
+
+What is logistic regression, when we use it
+
+\begin{definition}
+  \vocab{Logistic Regression} is mainly used for binary classification. Note that it uses a \vocab{Sigmoid} 
+  layer as its last layer to squish output between $0$ and $1$
+  \[f(x) = \frac{1}{1 + e^{-x}}\]
+\end{definition}
+
+What is a Neural Network, its different layers
+
+
+
+Perceptron algorithm
+Forward Pass
+Calculations: How to calculate for each node using weight, input, bias, and apply an activation function
+Activation Function
+Sigmoid, how to apply it
+Backpropagation, no math needed
+What is multi-layer feedforward
+NN Fundamental basic mechanics
+
+\section{Lecture 20: Image Processing}
+
+What is CNN
+
+Difference between Traditional NN and CNN
+
+Understand the basic mechanics 
+
+Know the different types of image classification tasks 
+
+Image Recognition Tasks
+
+Calculations: Apply the convolution operation by multiplying the input image with the given kernel to create a 2D activation map. 
+
+
+Clearly show the steps involved in the convolution process, and provide the resulting activation map. 
+
+Check how stride values can affect the resulting output.
+
+Calculations: Apply different pooling operations (max, average, sum poolings) to the given 2D activation map with the given filter and stride size. 
+
+You need to clearly show the steps. 
+
+Check how stride values can affect the resulting output.
+
+Knowing what type of information people might lie about
+
+\section{Natural Language Processing}
+
+\begin{definition}
+  \vocab{Syntax} is the structure of what makes the sentence valid, whereas 
+  \vocab{Semantics} is what the sentence actually means.
+\end{definition}
+
+\begin{note}
+  Some of the following are problems in NLP: summarization, sentiment analysis, topic modeling, 
+  auto complete, question answering, translating.
+\end{note}
+
+\begin{definition}
+  \vocab{Sentiment analysis}: the process of classifying the emotional intent of text.
+\end{definition}
+
+\begin{definition}
+  \vocab{Topic modeling} is an ML technique used to identify topics or themes present in a collection 
+  of text documents. Note that a document is a collection of words, and a corpus is a collection of documents.
+\end{definition}
+
+\begin{definition}
+  Topic modeling is just supervised learning, but note that we have to make every word a vector. We have previously done 
+  so using one-hot encoding. The next natural approach is the \vocab{Bag of Words or Unigram Approach} - a representation 
+  of text that describes the occurrence of words within a document. This approach involves 
+  \begin{enumerate}
+    \item A vocab of known words.
+    \item A measure of the presence of the words.
+  \end{enumerate}
+  It's called a "bag" of words because order is discarded, and we only care 
+  about whether known words appear in the document. Create a table where columns are unique words 
+  and rows are document number, then the element is occurence.
+
+  Pros: easy to implement and Understand, efficient, applicable to any language
+
+  Cons: loss of word order, no context, vocab size could be large which could cause memory issues.
+\end{definition}
+
+\begin{definition}
+  \vocab{N-Grams} is the more-sophisticated approach to creating vocab of grouped words. 
+  If we want more meaning, we can one-hot encode groups of words. \vocab{Bi-grams} is creating a vocabulary of 
+  two-word pairs. To get document vectors, have documents as rows, bi-grams as columns, and occurrences as 
+  elements of this matrix
+\end{definition}
+
+\begin{definition}
+  First step of tokenization is to break text into chunks.
+  \begin{itemize}
+    \item Stemming - reducing words to thier root form (removes suffixes)
+    \item Lemmatization - convert verb to infinitive form (running to run)
+    \item Typo correction
+    \item Stop words - the, and, etc
+  \end{itemize}
+\end{definition}
+
+\begin{definition}
+  \vocab{TF-IDF (Term Frequency-Inverse Document Frequency)} is a way of measuring how relevant a word 
+  is to a document in a collection of documents.
+  \begin{itemize}
+    \item \vocab{Term Frequency (TF)} is how many times a term/word appears in a given document.
+    \item \vocab{Document Frequency (DF)} - number of documents in which a word is present 
+  \end{itemize}
+  We want to downweight words with high document frequency. The 
+  \vocab{IDF (the inverse document frequency)} of the word across a set of documents, such that 
+  rare words have high scores and common words have low scores.
+  \[TF-IDF = TF(t, d) \times IDF(t) = T(t, d) + (\log(\frac{N}{df(x)}))\]
+  the term frequency times the log of the number of docs / number of docs containing the word.
+
+  or way 2
+  \[IDF = \log\frac{1 + N}{1 + df_x} + 1\]
+  or way 3
+  \[IDF = \log\frac{1 + N}{1 + df_x}\]
+\end{definition}
+
+\begin{note}
+  After done with vectorization with TF-IDF, apply cosine similarity.
+\end{note}
+
+\begin{definition}
+  \vocab{Cosine similarity} is a measure of the angles between two vectors, emphasizes 
+  direction not magnitude
+  \[\cos(\theta) = \frac{A \cdot B}{||A|| \ ||B||}= \frac{\sum_{i=1}^n A_i B_i}{\sqrt{\sum_{i=1}^n A_i^2} \sqrt{\sum_{i=1}^n B_i^2}}\]
+  and note that this outputs values from $-1$ to $1$. Smaller angles indicate greater 
+  similarity, even if different magnitude, the documents are probably the same topic.
+  
+  Different from other distance measures because magnitude is not considered, only direction.
+\end{definition}
+
+\section{Graph Theory}
+
+\begin{definition}
+  A graph $G = (V, E)$ is a set of vertices $V$ and edges $E$, where edges can be 
+  undirected or directed, unweighted or weighted
+\end{definition}
+
+\begin{definition}
+  Basic graph vocab like degree, directed vs. undirected graph, weighted graph
+  
+  In-degree is number of incoming edges to node, out-degree is number of outgoing edges to node
+\end{definition}
+
+\begin{definition}
+  \vocab{Adjacency matrix} is a graph representation where rows and columns denote vertices. 
+  Also adjacency lists, adjacency dictionaries.
+\end{definition}
+
+\subsection{Importance of Vertices}
+
+\begin{definition}
+  \vocab{Centrality analysis}: find out most important nodes in one network, 
+  there are 4 commonly-used measures
+  \begin{itemize}
+    \item Degree centrality - quantifies the number of connections a node has in a graph, $C_d(v_i) = \sum_j A_{ij}$
+    \item Closeness centrality - importance here is measured by how close (central) a vertex is to other vertices. Look at 
+    average distances to all other nodes. Low average distance indicates higher centrality, more importance.
+    \[D_{avg}(v_i) = \frac{1}{n-1}\sum_{j\neq i}^n g(v_i, v_j)\]
+    \[C_c(v_i) = \frac{n-1}{\sum_{j\neq i}^n g(v_i, v_j)}\]
+    where $g(\cdot)$ is the shortest path between two nodes
+    \item Betweeness - counts the number of shortest oaths that pass thorugh the node, equation not needed. This identifies nodes 
+    that act as \vocab{bridges} along the shortest paths between pairs of nodes in a network
+    \[C_B(v_i) = \sum_{v_j \neq v_i \neq v_t} \frac{\sigma_{st}(v_i)}{\sigma_{st}}\]
+    where $\sigma_{st}$ is the number of shortest paths between $s$ and $t$, and $\sigma_{st}(v_i)$ 
+    is the number of shortest paths between $s$ and $t$ that pass through $v_i$.
+  \end{itemize}
+\end{definition}
+
+\begin{definition}
+  \vocab{Bridge} connecting 2 different communities is a "weak tie". Bridges are rare 
+  in real networks. Relax the definition to be "an edge is bridge if the distance between 2
+  terminal veritices increases if the edge is removed". 
+\end{definition}
+
+\begin{note}
+  The larger the distance, the weaker the tie is. The larger the 
+  neighborhood overlap, the stronger the tie.
+\end{note}
+
+\begin{definition}
+  Nodes in a graph are probably in communities, which share common properties. Informally, a 
+  tightly-knit region of the network. 
+\end{definition}
+
+
+\begin{example}
+  \includegraphics[width=11cm]{edge_betweeness.png}
+  The edge betweeness of the edge $7-8$ is $49$ because there are 
+  $49$ shortest paths that flow through this edge.
+\end{example}
+
+\begin{definition}
+  \vocab{Girvan-Newman Algorithm} is an algorithm for detection and analysis 
+  of community structure that relies on \vocab{iterative elimination of edges that have the highest number of shortest paths between nodes passing through them}. 
+  By removing edges one by one, we create communities.
+
+  Iteratively calculating edge betweeness for all edges, removing edge with highest edge betweeness, 
+  until all edges have edge betweenenss of $1$
+
+  The method gives us only a succession of splits of the network into smaller and smaller communities, but 
+  doesn't tell us which split is best.
+\end{definition}
+
+\begin{definition}
+  To find the best split, use \vocab{modularity}, measure of the strength of division of a network into modules or communities.
+  \vocab{Modularity Score Q}. Identifying communties by maximizing modularity
+\end{definition}
+
+\section{Recommendation Systems}
+
+\begin{definition}
+  \vocab{Recommendation Engines} are another common form of supervised learning, 
+  recommends the most relevant items to user
+\end{definition}
+
+\subsection{Content Based Filtering}
+
+\begin{definition}
+  Content-based systems provide personalized recommendations to users. The main idea 
+  is that a user's preferences can be predicted based on previous interactions 
+  with items. Goal: recommend items to a user that are similar to items that they have 
+  previously interacted with. A content-based system works on similarities between products and so we need 
+  to 
+  \begin{itemize}
+    \item Featurize each item, make a vector representing all product features
+    \item Calculate similarities between vectors (euclidean, manhattan, jaccard, COSINE SIMILARITY)
+    \item Build a model of user preferences, captures taste profile
+    \item Identify potential recommendations
+    \item Present curated recommendations
+  \end{itemize}
+
+  Pros: no need for other users, personalized, suggestions are not limited by popularity, easily 
+  understandable recommendations
+
+  Cons: feature selection challenging, building user profiles is otugh, content profile constraints, 
+  missed opportunities because can't recommend something the user has never encountered, periodic retraining needed
+\end{definition}
+
+\subsection{Collaborative Filtering}
+
+\begin{note}
+  The main idea is that people who are similar may enjoy similar things. 
+  Furthermore, unlike content based, collaborative filtering does NOT require any information/features 
+  about the items
+\end{note}
+
+\begin{definition}
+  \vocab{Collaborative filtering} recommends users products on the basis of prefernces 
+  of the other users with similar tastes.
+\end{definition}
+
+\subsubsection{User-Based Nearest Neighbor Collaborative Filtering}
+
+\begin{definition}
+  \vocab{User-based}, recommendations are based on preferences and behaviors of similar 
+  users. 
+  \begin{enumerate}
+    \item User data collection - collect data on user preferences and interactions with the site
+    \item Create a user-item matrix
+    \item Similarity calculation, measure similarity between users based on their preferences
+    \item Neighborhood selection - identify subset of users (neighborhood) who are most similar to target user
+    \item Predict target user's rating for unseen items
+    \item Recommend the top N items
+  \end{enumerate}
+\end{definition}
+
+\begin{definition}
+  \vocab{Jaccard Similarity}: rating values do not matter, just count 
+  \[\frac{|r_a \cap r_b|}{|r_s \cup r_b|}\]
+  problem is that rating values don't matter
+\end{definition}
+
+\begin{definition}
+  Cosine similarity is back
+  \[sim(xx,y) = \frac{r_x \cdot r_y}{||r_x|| ||r_y||}\]
+  problem is that missing ratings are essentially negatives
+\end{definition}
+
+\begin{definition}
+  \vocab{Centered cosine}: normalize ratings by centering row means,  and 
+  then perform cosine similarity. Pearson correlation coefficient works well too. 
+\end{definition}
+
+\begin{example}
+  Let's work through an example. Here's a user-item matrix
+
+  \includegraphics[width=11cm]{user-item.png}
+
+  From here, vectorize users by taking rows and the key idea: two users are similar 
+  if their vectors are similar! Usually do centered cosine similarity here. 
+
+  Now KNN comes back. Given a user, find their k nearest neighbors. Predict the user's rating based 
+  on weighted average of those users. 
+
+  For user $x$ and product $i$, the predicted rating that $x$ would give $i$ is 
+  \[r_{xi} = \frac{\sum_y s_{xy} r_{yi}}{\sum_y s_{xy}}\]
+  is the rate-weighted sum of similarities over sum of all user similarities.
+
+  \includegraphics[width=11cm]{predict-recommend.png}
+
+\end{example}
+\subsubsection{Item-Based Collaborative Filtering}
+
+\begin{note}
+  A user is likely to have the same opinion for similar items. Here, instead of focusing 
+  on similariteis between users, we focus on similarites between items
+\end{note}
+
+\subsection{Evaluations}
+
+\section{Association Rules}
+
+\section{Ethics}
+
+
+\end{document}
+
